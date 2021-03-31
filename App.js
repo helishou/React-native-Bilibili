@@ -1,79 +1,24 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <View>
+      <View>
+        <Text>Wxy打码</Text>
+      </View>
+      <View style={{marginTop: 8, padding: 8, backgroundColor: 'blue'}}>
+        <Text style={{color: 'white'}}>Wxy打码1</Text>
+      </View>
+      <View
+        style={{marginTop: 8, padding: 8, width: 200, backgroundColor: 'blue'}}>
+        <Text style={{color: 'white'}}>Wxy打码2</Text>
+      </View>
+      <View>
+        <Text style={{color: 'black'}}>Wxy打码3</Text>
+      </View>
+    </View>        
   );
 };
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <>
-    <View style={styles.view}>
-      <Text>Hello world</Text>
-    </View>
-    </>
-  );
-};
-
-const styles = StyleSheet.create({
-  view:{
-    height:200,
-    width:200,
-    backgroundColor:'rgba(200,255,0,0.5)'
-  }
-});
 
 export default App;
