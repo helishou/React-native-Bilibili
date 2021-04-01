@@ -61,9 +61,9 @@ const App: () => Node = () => {
 
   return (
     <>
-    <View>
-      <Text>Hello world</Text>
-    </View>
+      <View>
+        <Text>Hello world</Text>
+      </View>
     </>
   );
 };

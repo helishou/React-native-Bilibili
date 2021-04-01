@@ -82,28 +82,28 @@ export default function app8() {
       <TouchableOpacity
         style={styles.submitButton}
         onPress={() => register(email, password, intro)}>
-        <Text style={{color:'white'}}>注册</Text>
+        <Text style={{color: 'white'}}>注册</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    input:{
-        // fontSize:20,
-        margin:15,
-        height:40,
-        borderColor:'#eeeeee' ,
-        borderRadius:1,
-        borderWidth:1,
-        backgroundColor:'hsla(50, 33%, 25%, 0.3)',
-    },
-    submitButton:{
-        backgroundColor:'red',
-        padding:10,
-        alignItems:'center',
-        // alignSelf:'center',
-        margin:15 ,
-        height:40,
-    },
+  input: {
+    // fontSize:20,
+    margin: 15,
+    height: 40,
+    borderColor: '#eeeeee',
+    borderRadius: 1,
+    borderWidth: 1,
+    backgroundColor: 'hsla(50, 33%, 25%, 0.3)',
+  },
+  submitButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    alignItems: 'center',
+    // alignSelf:'center',
+    margin: 15,
+    height: 40,
+  },
 });

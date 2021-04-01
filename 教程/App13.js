@@ -14,40 +14,38 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 export default function App10() {
-  const [animatedStyle, setAnimatedStyle] = useState({})
+  const [animatedStyle, setAnimatedStyle] = useState({});
   useEffect(() => {
     animatedWidth = new Animated.Value(50);
     animatedHeight = new Animated.Value(100);
-    setAnimatedStyle ( {
-        width: animatedWidth,
-        height: animatedHeight,
-      })
+    setAnimatedStyle({
+      width: animatedWidth,
+      height: animatedHeight,
+    });
     return () => {};
   }, []);
   const animatedBox = () => {
     Animated.timing(animatedWidth, {
       toValue: 200,
       duration: 1000,
-      useNativeDriver:false
+      useNativeDriver: false,
     }).start();
     Animated.timing(animatedHeight, {
       toValue: 500,
       duration: 500,
-      useNativeDriver:false
+      useNativeDriver: false,
     }).start();
   };
   return (
-    <TouchableOpacity
-    style={styles.container}
-    onPress={animatedBox}>
-        <Animated.View style={[styles.box,animatedStyle]}/>
+    <TouchableOpacity style={styles.container} onPress={animatedBox}>
+      <Animated.View style={[styles.box, animatedStyle]} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  box:{
-    backgroundColor:'blue',
+  box: {
+    backgroundColor: 'blue',
     // width:50,
     // height:100,
   },
@@ -66,8 +64,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 10,
-    backgroundColor:'red',
-    justifyContent:'center',
-    alignItems:'center'
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

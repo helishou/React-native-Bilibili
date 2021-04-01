@@ -25,13 +25,16 @@ export default function App15() {
     setBarStyle(barStyle == 'light-content' ? 'dark-content' : 'light-content');
   };
   return (
-    <ScrollView contentContainerStyle = {{flex:1}}>
-    <View style={styles.container}>
-      <StatusBar barStyle={barStyle} hidden={hidden}></StatusBar>
-      <TouchableOpacity style={styles.button} onPress={changeHidden} ><Text>显示或者隐藏</Text></TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={changeBarstyle} ><Text>改变主题色</Text></TouchableOpacity>
-
-    </View>
+    <ScrollView contentContainerStyle={{flex: 1}}>
+      <View style={styles.container}>
+        <StatusBar barStyle={barStyle} hidden={hidden} />
+        <TouchableOpacity style={styles.button} onPress={changeHidden}>
+          <Text>显示或者隐藏</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={changeBarstyle}>
+          <Text>改变主题色</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -44,11 +47,11 @@ const styles = StyleSheet.create({
   },
   button: {
     // flex: 1,
-    margin:20,
+    margin: 20,
     height: 40,
-    borderColor:'black',
-    borderRadius:50,
-   borderWidth:1,
+    borderColor: 'black',
+    borderRadius: 50,
+    borderWidth: 1,
     justifyContent: 'center',
     width: 100,
     backgroundColor: '#4ba37b',

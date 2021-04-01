@@ -4,17 +4,19 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Taptap
-      {/* 设置红色字体样式 */}
-      <Text style={styles.capitalLetter}>仿</Text>
-      <Text>打码</Text>
-      {/* 设置字体加粗 */}
-      <Text>
-        机器<Text style={styles.wordBold}>打代码</Text>就是牛!竟然1个也不错!
+      <Text style={styles.text}>
+        Taptap
+        {/* 设置红色字体样式 */}
+        <Text style={styles.capitalLetter}>仿</Text>
+        <Text>打码</Text>
+        {/* 设置字体加粗 */}
+        <Text>
+          机器<Text style={styles.wordBold}>打代码</Text>就是牛!竟然1个也不错!
+        </Text>
+        {/* 设置斜体 */}
+        <Text style={styles.italicText}>这都不打赏!</Text>
+        <Text style={styles.textShadow}>抹了油的键盘</Text>
       </Text>
-      {/* 设置斜体 */}
-      <Text style={styles.italicText}>这都不打赏!</Text>
-      <Text style={styles.textShadow}>抹了油的键盘</Text></Text>
     </View>
   );
 }

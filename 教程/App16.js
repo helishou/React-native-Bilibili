@@ -17,7 +17,7 @@ import {
 import {Picker} from '@react-native-picker/picker';
 export default function App15() {
   users = [
-    {label: '请选择性别', value:''},
+    {label: '请选择性别', value: ''},
     {label: '男', value: 'male'},
     {label: '女', value: 'female'},
     {label: '其他', value: 'other'},
@@ -30,10 +30,12 @@ export default function App15() {
     <ScrollView contentContainerStyle={{flex: 1}}>
       <View style={styles.container}>
         <Text style={styles.label}>请选择性别</Text>
-        <Picker selectedValue={user} onValueChange={updateUser} style={{width:200}}>
+        <Picker
+          selectedValue={user}
+          onValueChange={updateUser}
+          style={{width: 200}}>
           {users.map((o, index) => {
-
-            return <Picker.Item label={o.label} value={o.value} key={index}/>;
+            return <Picker.Item label={o.label} value={o.value} key={index} />;
           })}
         </Picker>
         <Text style={styles.label}>你的选择是</Text>

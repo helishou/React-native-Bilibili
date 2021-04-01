@@ -61,19 +61,19 @@ const App: () => Node = () => {
 
   return (
     <>
-    <View style={styles.view}>
-      <Text>Hello world</Text>
-    </View>
+      <View style={styles.view}>
+        <Text>Hello world</Text>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  view:{
-    height:200,
-    width:200,
-    backgroundColor:'rgba(200,255,0,0.5)'
-  }
+  view: {
+    height: 200,
+    width: 200,
+    backgroundColor: 'rgba(200,255,0,0.5)',
+  },
 });
 
 export default App;

@@ -31,14 +31,18 @@ export default function App10() {
   };
   const saveName = () => {
     AsyncStorage.setItem('name', inputText);
-    Alert.alert('保存成功',inputText);
+    Alert.alert('保存成功', inputText);
   };
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.textInput}
         autoCapitalize="none"
-        placeholder={inputText}  onChangeText={(text)=>{setInputText(text)}}></TextInput>
+        placeholder={inputText}
+        onChangeText={text => {
+          setInputText(text);
+        }}
+      />
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
           style={[styles.button, {marginRight: 8}]}
@@ -46,13 +50,13 @@ export default function App10() {
           <Text style={styles.buttonTxt}>保存</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor:'blue'}]}
+          style={[styles.button, {backgroundColor: 'blue'}]}
           onPress={readName}>
           <Text style={styles.buttonTxt}>读取</Text>
         </TouchableOpacity>
       </View>
-      <View style={{margin:9}}>
-          <Text style={styles.inputText}>当前的值:{name}</Text>
+      <View style={{margin: 9}}>
+        <Text style={styles.inputText}>当前的值:{name}</Text>
       </View>
       <Image
         style={{margin: 10, width: 200, height: 200, resizeMode: 'cover'}}
@@ -66,23 +70,24 @@ export default function App10() {
 }
 
 const styles = StyleSheet.create({
-    textInput:{
-        margin:5,
-        height:44,width:"100%",
-        borderWidth:1,
-        borderColor:'#dddddd'
-    },
-  button:{
-    flex:1,
-    height:44,
-    justifyContent:'center',
-    width:100,
-    backgroundColor:'red',
-    alignItems:'center'
+  textInput: {
+    margin: 5,
+    height: 44,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#dddddd',
   },
-  buttonTxt:{
-    justifyContent:'center',
-    color:'#ffffff'
+  button: {
+    flex: 1,
+    height: 44,
+    justifyContent: 'center',
+    width: 100,
+    backgroundColor: 'red',
+    alignItems: 'center',
+  },
+  buttonTxt: {
+    justifyContent: 'center',
+    color: '#ffffff',
   },
   container: {
     flex: 1,

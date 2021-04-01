@@ -11,31 +11,33 @@ import {
   TouchableOpacity,
   TextInput,
   Animated,
-  Switch
+  Switch,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 export default function App14() {
-  const label = {false:'关',true:'开'}
-  const [switchValue, setSwitchValue] = useState(true)
-  const toggleSwitch = (value) =>{
-    setSwitchValue(value)
-  }
-  
-  
+  const label = {false: '关', true: '开'};
+  const [switchValue, setSwitchValue] = useState(true);
+  const toggleSwitch = value => {
+    setSwitchValue(value);
+  };
+
   return (
-<View style={styles.container}>
-    <Switch 
-    onValueChange={toggleSwitch}
-    // style={{color:'yellow'}}
-    value={switchValue}></Switch>
-    <View><Text>switch 现在的状态是:{label[switchValue]}</Text></View>
-</View>
+    <View style={styles.container}>
+      <Switch
+        onValueChange={toggleSwitch}
+        // style={{color:'yellow'}}
+        value={switchValue}
+      />
+      <View>
+        <Text>switch 现在的状态是:{label[switchValue]}</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  box:{
-    backgroundColor:'blue',
+  box: {
+    backgroundColor: 'blue',
     // width:50,
     // height:100,
   },
@@ -54,9 +56,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // marginTop: 10,
-    paddingTop:100,
+    paddingTop: 100,
     // backgroundColor:'red',
     // justifyContent:'center',s
-    alignItems:'center'
+    alignItems: 'center',
   },
 });
