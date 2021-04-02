@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  ListView,
+  FlatList,
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
+  Button,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {api} from '../../config/api';
 
 // 计算左侧的外边距，使其居中显示
@@ -20,71 +22,46 @@ const card_width = Number.parseInt((width - (cols + 1) * marginLeft) / cols);
 const card_height = 120;
 const hMargin = 10;
 
-class Live extends Component {
-  static navigationOptions = {
-    // title: '视频分类',
-    header: null,
-  };
+function Live() {
+  const navigation = useNavigation();
+  // const navigationOptions = {
+  //   // title: '视频分类',
+  //   header: null,
+  // };
+  const [dataSource, setDataSource] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    fetchData();
+    return () => {};
+  }, []);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: null,
-      isLoaded: false,
-    };
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData() {
+  const fetchData = () => {
     fetch(api.live)
       .then(response => response.json())
       .then(data => {
         console.log(data);
         let dataList = data.data.feeds;
-        this.setState({
-          dataSource: new ListView.DataSource({
+        setDataSource(
+          new FlatList.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2,
           }).cloneWithRows(dataList),
-          isLoaded: true,
-        });
+        );
+        setIsLoaded(true);
       })
       .catch(err => {
         console.log(err);
-        this.setState({
-          dataSource: null,
-          isLoaded: false,
-        });
+        setDataSource('null');
+        setIsLoaded(false);
       })
       .done();
-  }
-
-  render() {
-    return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        {this.state.isLoaded ? (
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={rowData => this._renderRow(rowData)}
-            contentContainerStyle={styles.listViewStyle}
-          />
-        ) : (
-          <View style={styles.indicatorStyle}>
-            <ActivityIndicator size="large" color="#398DEE" />
-          </View>
-        )}
-      </View>
-    );
-  }
+  };
   // 注意TouchableOpacity和内层View容器的样式
-  _renderRow(rowData) {
+  const _renderRow = rowData => {
     return (
       <TouchableOpacity
         style={styles.wrapStyle}
         activeOpacity={0.5}
-        onPress={() => this.pushTo('LivePlayOnWebview', rowData)}>
+        onPress={() => pushTo('LivePlayOnWebview', rowData)}>
         <View style={styles.innerView}>
           <Image source={{uri: rowData.image}} style={styles.imgView} />
           <Text style={styles.categoryTitle}>
@@ -98,18 +75,38 @@ class Live extends Component {
         </View>
       </TouchableOpacity>
     );
-  }
+  };
 
-  pushTo(view, data) {
-    this.props.navigation.navigate(view, {
+  const pushTo = (view, data) => {
+    navigation.navigate(view, {
       relateid: data.relateid,
       title: data.title,
     });
-  }
+  };
+  return (
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <Button
+        onPress={() => {
+          return navigation.navigate('Suggest');
+        }}
+        title="点我跳转推荐"></Button>
+      {isLoaded ? (
+        <FlatList
+          dataSource={dataSource}
+          renderRow={rowData => _renderRow(rowData)}
+          contentContainerStyle={styles.FlatListStyle}
+        />
+      ) : (
+        <View style={styles.indicatorStyle}>
+          <ActivityIndicator size="large" color="#398DEE" />
+        </View>
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  listViewStyle: {
+  FlatListStyle: {
     // 改变主轴的方向
     flexDirection: 'row',
     // 多行显示

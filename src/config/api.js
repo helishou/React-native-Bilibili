@@ -1,7 +1,9 @@
 export const api = {
+  //bilibili推荐视频
+  suggest:'https://www.bilibili.com/index/ding.json',
   live:
     'https://activity.uc.cn/uclive2017/roomlist?__dt=1392&__t=1538401886632&uc_param_str=dsdnfrpfbivesscpgimibtbmnijblauputogpintnwchgd&tag=live&entry=zbyp&num=60',
-  suggest: 'http://baobab.kaiyanapp.com/api/v4/tabs/selected',
+  // suggest: 'http://baobab.kaiyanapp.com/api/v4/tabs/selected',
   hot: 'http://baobab.kaiyanapp.com/api/v4/discovery/hot',
   //分类
   category: 'http://baobab.kaiyanapp.com/api/v4/categories/',

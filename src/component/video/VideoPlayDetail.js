@@ -361,4 +361,5 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
+
 export default VideoPlayDetail;

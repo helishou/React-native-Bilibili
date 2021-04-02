@@ -3,7 +3,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
-  ListView,
+  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -68,7 +68,7 @@ class CategoryList extends Component {
           }
         }
         this.setState({
-          dataSource: new ListView.DataSource({
+          dataSource: new FlatList.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2,
           }).cloneWithRows(dataList),
           isLoaded: true,
@@ -88,10 +88,10 @@ class CategoryList extends Component {
     return (
       <View style={{flex: 1, backgroundColor: '#fff'}}>
         {this.state.isLoaded ? (
-          <ListView
+          <FlatList
             dataSource={this.state.dataSource}
             renderRow={rowData => this._renderRow(rowData)}
-            contentContainerStyle={styles.listViewStyle}
+            contentContainerStyle={styles.FlatListStyle}
           />
         ) : (
           <View style={styles.indicatorStyle}>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  listViewStyle: {
+  FlatListStyle: {
     // 改变主轴的方向
     flexDirection: 'row',
     // 多行显示

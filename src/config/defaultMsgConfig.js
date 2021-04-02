@@ -1,4 +1,4 @@
 export const config = {
-  appName: '昕视界',
-  communionDetailTitle: '昕视界用户社区',
+  appName: '哔哩哔哩',
+  communionDetailTitle: '哔哩哔哩用户社区',
 };

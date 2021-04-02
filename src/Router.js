@@ -7,18 +7,22 @@ import {
   Text,
   View,
   Button,
+  useWindowDimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Suggest from './component/suggest/Suggest';
 import Live from './component/live/Live';
 import Dance from './component/category/Dance';
 import Communion from './component/communion/Communion';
 import CommunionDetail from './component/communion/CommunionDetail';
-import mv from './component/movement';
+import Mv from './component/movement';
 import VideoPlayDetail from './component/video/VideoPlayDetail';
 import LivePlayOnWebview from './component/live/LivePlayOnWebview';
 import Category from './component/category/Category';
@@ -26,18 +30,22 @@ import CategoryList from './component/category/CategoryList';
 import Setting from './component/Setting';
 import Header from './component/header/Header';
 import Search from './component/header/Search';
-import {NavigationContainer} from '@react-navigation/native';
+import Me from './component/bottom/me';
+import Findings from './component/bottom/findings';
+import Message from './component/bottom/message';
+import Activitys from './component/bottom/activity';
+import {themeColor} from './style/CommStyle';
 const MaterialTopTab = createMaterialTopTabNavigator();
 function MaterialTopTabNavigator() {
   return (
-    <MaterialTopTab.Navigator
-      initialRouteName="Live"
-      screenOptions={{animationEnabled: true, scrollEnabled: true}}
-      lazy="true">
+    <MaterialTopTab.Navigator initialRouteName="Live" lazy="true">
       <MaterialTopTab.Screen
         name="Live"
         component={Live}
-        options={{title: '直播'}}
+        options={{
+          title: '直播',
+          // tabBarIcon: <Ionicons name="home" />
+        }}
       />
       <MaterialTopTab.Screen
         name="Suggest"
@@ -55,72 +63,109 @@ function MaterialTopTabNavigator() {
         options={{title: '交流'}}
       />
       <MaterialTopTab.Screen
-        name="movement"
-        component={mv}
-        options={{title: '动态'}}
+        name="CategoryList"
+        component={Category}
+        options={{title: '目录'}}
       />
     </MaterialTopTab.Navigator>
   );
 }
-const Tab = createStackNavigator();
+const Tab = createBottomTabNavigator();
 function TabNavigator() {
   return (
     <Tab.Navigator
-      // initialRouteName="tabs"
-      screenOptions={{
-        headerTitle: <Header />,
-        headerStyle: {
-          backgroundColor: '#3496f0',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-      <Tab.Screen name="tabs" component={MaterialTopTabNavigator} />
-      <Tab.Screen name="VideoPlayDetail" component={VideoPlayDetail} />
-      <Tab.Screen name="LivePlayOnWebview" component={LivePlayOnWebview} />
-      <Tab.Screen name="CategoryList" component={CategoryList} />
-      <Tab.Screen name="Dance" component={Dance} />
-      <Tab.Screen name="CommunionDetail" component={CommunionDetail} />
-      <Tab.Screen name="Search" component={Search} />
+      screenOptions={
+        ({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            // console.log('route', route);
+            return focused ? (
+              <Ionicons name={route.name} size={size} color={color} />
+            ) : (
+              <Ionicons
+                name={route.name + '-outline'}
+                size={size}
+                color={color}
+              />
+            );
+          },
+        })
+        // {animationEnabled: true, scrollEnabled: true}
+      }
+      tabBarOptions={{
+        activeTintcolor: '#23b8ff',
+        inactiveTintcolor: '#999',
+      }}
+      initialRouteName="home"
+      // screenOptions={{
+      //   headerTitle: <Header />,
+      //   headerStyle: {
+      //     backgroundColor: '#3496f0',
+      //   },
+      //   headerTintColor: '#fff',
+      //   headerTitleStyle: {
+      //     fontWeight: 'bold',
+      //   },
+      // }}
+    >
+      <Tab.Screen
+        name="home"
+        component={MaterialTopTabNavigator}
+        options={{title: '主页'}}
+      />
+      <Tab.Screen
+        name="infinite"
+        component={Findings}
+        options={{title: '发现'}}
+      />
+      <Tab.Screen name="fitness" component={Mv} options={{title: '动态'}} />
+      <Tab.Screen
+        name="chatbubble-ellipses"
+        component={Message}
+        options={{title: '消息'}}
+      />
+      <Tab.Screen name="tv" component={Me} options={{title: '我的'}} />
     </Tab.Navigator>
   );
 }
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
+  const isLargeScreen = false;
   return (
     <RootStack.Navigator
       initialRouteName="首页"
       overlayColor="transparent"
-      screenOptions={{
-        // drawerWidth:200,            //侧边栏的宽度
-        // drawerPosition:'right',     //定义侧边栏位置右边，默认left左边
-        // contentComponent:CustomDrawer,            //自定义侧边栏组件
-        drawerBackgroundColor: '#fff4f7', //侧边栏背景色
-        drawerContentOptions: {
-          //对侧边栏中的标签详细设置如下↓
-          activeTintColor: '#3496f0', //标签激活时的前景色
-          activeBackgroundColor: '#e7e1ea', //标签激活时的背景色
-          inactiveTintColor: '#3c3c3c', //标签未激活时的前景色
-          // inactiveBackgroundColor:'#c1e1ff',         //标签未激活时的背景色
-          // itemsContainerStyle:{                      //侧边栏整体样式
-          //     borderTopWidth:2,borderTopColor:'#5153ff'
-          // },
-          itemStyle: {
-            //单个标签样式
-            // borderBottomWidth:2,
-            // borderBottomColor:'#000',
-          },
-          labelStyle: {
-            //标签文字样式
-            fontSize: 16,
-            inactiveTintColor: '#3c3c3c',
-            activeTintColor: '#3496f0',
-          },
-          // iconContainerStyle:styles.icon,            //标签icon样式
-        },
-      }}>
+      drawerType={isLargeScreen ? 'permanent' : 'front'}
+      // drawerPosition='right'//定义侧边栏位置右边，默认left左边
+      // screenOptions={
+      //   ({router}) => {}
+      //   // {
+      //   //   // drawerWidth:200,            //侧边栏的宽度
+      //   //   // contentComponent:CustomDrawer,            //自定义侧边栏组件
+      //   //   drawerBackgroundColor: '#fff4f7', //侧边栏背景色
+      //   //   drawerContentOptions: {
+      //   //     //对侧边栏中的标签详细设置如下↓
+      //   //     activeTintColor: '#3496f0', //标签激活时的前景色
+      //   //     activeBackgroundColor: '#e7e1ea', //标签激活时的背景色
+      //   //     inactiveTintColor: '#3c3c3c', //标签未激活时的前景色
+      //   //     // inactiveBackgroundColor:'#c1e1ff',         //标签未激活时的背景色
+      //   //     // itemsContainerStyle:{                      //侧边栏整体样式
+      //   //     //     borderTopWidth:2,borderTopColor:'#5153ff'
+      //   //     // },
+      //   //     itemStyle: {
+      //   //       //单个标签样式
+      //   //       borderBottomWidth: 2,
+      //   //       borderBottomColor: '#000',
+      //   //     },
+      //   //     labelStyle: {
+      //   //       //标签文字样式
+      //   //       fontSize: 16,
+      //   //       inactiveTintColor: '#3c3c3c',
+      //   //       activeTintColor: '#3496f0',
+      //   //     },
+      //   //     // iconContainerStyle:styles.icon,            //标签icon样式
+      //   //   },}
+      // }
+    >
       <RootStack.Screen
         name="首页"
         component={TabNavigator}
@@ -223,13 +268,12 @@ function RootNavigation() {
     </RootStack.Navigator>
   );
 }
-export default class App extends Component {
-  render() {
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        <StatusBar backgroundColor="#3496f0" animated={true} />
-        <NavigationContainer>{RootNavigation()}</NavigationContainer>
-      </SafeAreaView>
-    );
-  }
+
+export default function App() {
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar backgroundColor={themeColor} textColor="black" animated={true} />
+      <NavigationContainer>{RootNavigation()}</NavigationContainer>
+    </SafeAreaView>
+  );
 }
