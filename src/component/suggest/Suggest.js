@@ -10,10 +10,13 @@ import {
   RefreshControl,
   Button,
   StyleSheet,
+  Touchable,
+  Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Banner from './Banner';
 import {api} from '../../config/api';
-import {styles} from '../../style/CommStyle';
+import {coles, styles} from '../../style/CommStyle';
 import data from './data';
 import {color} from 'react-native-reanimated';
 let dataHotList = [];
@@ -33,6 +36,7 @@ class Suggest extends Component {
       dataSource: null,
       isLoaded: false,
       refreshing: false,
+      modalVisible: false,
     };
   }
 
@@ -51,12 +55,29 @@ class Suggest extends Component {
       .then(response => response.json())
       .then(Soucedata => {
         let preDataList = [];
-        let data = Soucedata['douga'];
-        Object.keys(data).map((v, i) => {
+        // let data = Soucedata['douga'];
+        // Object.keys(data).map((v, i) => {
+        //   //加上kye={i}，控制台就不会报错
+
+        //   return preDataList.push(data[v]);
+        // });
+        Object.keys(Soucedata).map((data, i) => {
           //加上kye={i}，控制台就不会报错
-          return preDataList.push(data[v]);
+          console.log(data, Soucedata[data]);
+          Object.keys(Soucedata[data]).map((v, i) => {
+            //加上kye={i}，控制台就不会报错
+            console.log(v);
+            try {
+              if (Soucedata[data][v].videos) {
+                console.log('push', Soucedata[data][v]);
+                return preDataList.push(Soucedata[data][v]);
+              }
+            } catch {
+              return;
+            }
+          });
         });
-        console.log('object', preDataList);
+        // console.log('object', preDataList);
         this.setState({
           dataSource: preDataList,
           isLoaded: true,
@@ -129,10 +150,16 @@ class Suggest extends Component {
           title="点我跳转直播"></Button> */}
         {this.state.isLoaded ? (
           // {/* <Banner /> */}
-          <View style={{backgroundColor: '#f4f4f4'}}>
+          <View
+            style={{
+              backgroundColor: '#f4f4f4',
+              alignItem: 'center',
+              alignContent: 'center',
+            }}>
             <FlatList
               initialListSize={6}
               data={this.state.dataSource}
+              numColumns={coles}
               renderItem={({item}) => this._renderRow(item)}
               contentContainerStyle={styles.ListViewStyle}
               refreshing={!this.state.isLoaded}
@@ -153,40 +180,64 @@ class Suggest extends Component {
   // 注意TouchableOpacity和内层View容器的样式
   _renderRow(item) {
     return (
-      <TouchableOpacity
-        style={styles.wrapStyle}
-        activeOpacity={0.5}
-        onPress={() => this.pushToVideoDetail(item)}>
-        <View style={styles.innerView}>
-          <Image
-            source={{
-              uri: item.pic,
-            }}
-            style={styles.imgView}
-          />
-          <View style={{flexDirection:'row'}}>
-            <View style={styles.brief}>
-              <Text style={styles.ownerName}>{'UP主：' + item.owner.name}</Text>
-              <Text style={styles.categoryTitle}>
-                {item.title
-                  ? item.title.length > 15
-                    ? item.title.substr(0, 15) + '...'
-                    : item.title
-                  : ''}
-              </Text>
-              <Text style={styles.tname}>{item.tname}</Text>
-            </View>
-            <View style={styles.briefImage}>
-              <Image
-                source={{
-                  uri: item.owner.face,
-                }}
-                style={styles.face}
-              />
+      <View key={item.pic}>
+        <TouchableOpacity
+          style={styles.wrapStyle}
+          activeOpacity={0.7}
+          onPress={() => this.pushToVideoDetail(item)}>
+          <View style={styles.innerView}>
+            <Image
+              source={{
+                uri: item.pic,
+              }}
+              style={styles.imgView}
+            />
+            <View style={{flexDirection: 'row'}}>
+              <View style={styles.brief}>
+                <Text style={styles.ownerName}>
+                  {'UP主：' + item.owner.name}
+                </Text>
+                <Text style={styles.categoryTitle}>
+                  {item.title
+                    ? item.title.length > 25
+                      ? item.title.substr(0, 25) + '...'
+                      : item.title
+                    : ''}
+                </Text>
+                <Text style={styles.tname}>{item.tname}</Text>
+              </View>
+              <View style={styles.briefImage}>
+                <Image
+                  source={{
+                    uri: item.owner.face,
+                  }}
+                  style={styles.face}
+                />
+                <Text
+                  style={styles.notIntrest}
+                  onPress={() => {
+                    this.setState({modalVisible: true});
+                  }}>
+                  :
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              this.setState({modalVisible: false});
+            }}>
+            <View style={styles.fullScreen}>
+              <Text style={styles.notIntrestModal}>hello world</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </View>
     );
   }
   // _renderRow(item) {
