@@ -200,7 +200,7 @@ export const styles = StyleSheet.create({
   underline: {
     position: 'absolute',
     top: 80,
-    left: 7,
+    // left: 7,
     // width: 40,
     height: 3,
     backgroundColor: tapGreen,
