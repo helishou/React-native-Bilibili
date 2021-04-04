@@ -86,7 +86,7 @@ function MyTabBar({state, descriptors, navigation, position}) {
         });
         const left = Animated.interpolateNode(position, {
           inputRange,
-          outputRange: inputRange.map(i => (i === index ? 7 : 27)),
+          outputRange: inputRange.map(i => (i = 9 + index)),
         });
         const fontSize = Animated.interpolateNode(position, {
           inputRange,
@@ -122,7 +122,7 @@ function MyTabBar({state, descriptors, navigation, position}) {
             </Animated.Text>
             <Animated.View
               style={[
-                {opacity: lineOpacity, width:width},
+                {opacity: lineOpacity, left: 9 + index / 2, width: width},
                 styles.underline,
               ]}></Animated.View>
           </TouchableOpacity>
@@ -170,25 +170,25 @@ function MaterialTopTabNavigator() {
     </MaterialTopTab.Navigator>
   );
 }
-// const StackTab = createStackNavigator();
-// function StackNavigator() {
-//   return (
-//     <StackTab.Navigator>
-//       <StackTab.Screen
-//         name="bilibili"
-//         component={MaterialTopTabNavigator}
-//         options={{title: '哔哩哔哩'}}></StackTab.Screen>
-//       <StackTab.Screen
-//         name="search"
-//         component={Search}
-//         options={{title: '搜索'}}></StackTab.Screen>
-//       <StackTab.Screen
-//         name="me"
-//         component={Me}
-//         options={{title: '我的'}}></StackTab.Screen>
-//     </StackTab.Navigator>
-//   );
-// }
+const StackTab = createStackNavigator();
+function StackNavigator() {
+  return (
+    <StackTab.Navigator screenOptions={{hidden: true}}>
+      <StackTab.Screen
+        name="bilibili"
+        component={MaterialTopTabNavigator}
+        options={{title: '哔哩哔哩'}}></StackTab.Screen>
+      <StackTab.Screen
+        name="search"
+        component={Search}
+        options={{title: '搜索'}}></StackTab.Screen>
+      <StackTab.Screen
+        name="videoPlayDetail"
+        component={VideoPlayDetail}
+        options={{title: '视频播放'}}></StackTab.Screen>
+    </StackTab.Navigator>
+  );
+}
 const Tab = createBottomTabNavigator();
 function TabNavigator() {
   return (
@@ -219,7 +219,7 @@ function TabNavigator() {
       initialRouteName="home">
       <Tab.Screen
         name="home"
-        component={MaterialTopTabNavigator}
+        component={StackNavigator}
         options={{title: '主页'}}
       />
       <Tab.Screen
@@ -379,7 +379,7 @@ function RootNavigation() {
   );
 }
 
-export default function App() {
+export default function AppInner() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar

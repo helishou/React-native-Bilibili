@@ -680,7 +680,7 @@
     "pirates" "^4.0.0"
     "source-map-support" "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.8.4":
   "integrity" "sha1-R9QqV7YJX0Ro2kQDiP262L6/DX0="
   "resolved" "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.13.10.tgz?cache=0&sync_timestamp=1615243284383&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.13.10.tgz"
   "version" "7.13.10"
@@ -1328,6 +1328,14 @@
   "resolved" "https://registry.npm.taobao.org/@types/hammerjs/download/@types/hammerjs-2.0.39.tgz"
   "version" "2.0.39"
 
+"@types/hoist-non-react-statics@^3.3.0":
+  "integrity" "sha1-ESSq/lEYy1kZd66xzqrtEHDrA58="
+  "resolved" "https://registry.npm.taobao.org/@types/hoist-non-react-statics/download/@types/hoist-non-react-statics-3.3.1.tgz"
+  "version" "3.3.1"
+  dependencies:
+    "@types/react" "*"
+    "hoist-non-react-statics" "^3.3.0"
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   "integrity" "sha1-S6jdtyAiH0MuRDvV+RF/0iz9R2I="
   "resolved" "https://registry.npm.taobao.org/@types/istanbul-lib-coverage/download/@types/istanbul-lib-coverage-2.0.3.tgz"
@@ -1367,10 +1375,34 @@
   "resolved" "https://registry.npm.taobao.org/@types/prettier/download/@types/prettier-2.2.3.tgz?cache=0&sync_timestamp=1615835297466&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fprettier%2Fdownload%2F%40types%2Fprettier-2.2.3.tgz"
   "version" "2.2.3"
 
-"@types/prop-types@^15.5.5":
+"@types/prop-types@*", "@types/prop-types@^15.5.5":
   "integrity" "sha1-KrDV2i5YFflLC51LldHl8kOrLKc="
   "resolved" "https://registry.npm.taobao.org/@types/prop-types/download/@types/prop-types-15.7.3.tgz?cache=0&sync_timestamp=1613379633472&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fprop-types%2Fdownload%2F%40types%2Fprop-types-15.7.3.tgz"
   "version" "15.7.3"
+
+"@types/react-redux@^7.1.16":
+  "integrity" "sha1-D70EwlAMEhBUlMg9Sj5FwITjyyE="
+  "resolved" "https://registry.npm.taobao.org/@types/react-redux/download/@types/react-redux-7.1.16.tgz"
+  "version" "7.1.16"
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.0"
+    "@types/react" "*"
+    "hoist-non-react-statics" "^3.3.0"
+    "redux" "^4.0.0"
+
+"@types/react@*":
+  "integrity" "sha1-um4hU2hQGsOCaVHu8pBFdMJizHk="
+  "resolved" "https://registry.npm.taobao.org/@types/react/download/@types/react-17.0.3.tgz"
+  "version" "17.0.3"
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    "csstype" "^3.0.2"
+
+"@types/scheduler@*":
+  "integrity" "sha1-GIRSBehv8AOFF6q3oYpiprn3EnU="
+  "resolved" "https://registry.npm.taobao.org/@types/scheduler/download/@types/scheduler-0.16.1.tgz?cache=0&sync_timestamp=1613384878076&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fscheduler%2Fdownload%2F%40types%2Fscheduler-0.16.1.tgz"
+  "version" "0.16.1"
 
 "@types/stack-utils@^2.0.0":
   "integrity" "sha1-cDZkC04hzC8lmugmzoQ9J32tjP8="
@@ -2453,6 +2485,11 @@
   "version" "2.3.0"
   dependencies:
     "cssom" "~0.3.6"
+
+"csstype@^3.0.2":
+  "integrity" "sha1-Kl+3XhAV6E3RVpL3HomhRQKQlQs="
+  "resolved" "https://registry.npm.taobao.org/csstype/download/csstype-3.0.7.tgz"
+  "version" "3.0.7"
 
 "dashdash@^1.12.0":
   "integrity" "sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA="
@@ -5827,7 +5864,7 @@
   "resolved" "https://registry.npm.taobao.org/react-is/download/react-is-17.0.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-is%2Fdownload%2Freact-is-17.0.2.tgz"
   "version" "17.0.2"
 
-"react-is@^16.13.0", "react-is@^16.7.0", "react-is@^16.8.1":
+"react-is@^16.13.0", "react-is@^16.13.1", "react-is@^16.7.0", "react-is@^16.8.1":
   "integrity" "sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ="
   "resolved" "https://registry.npm.taobao.org/react-is/download/react-is-16.13.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-is%2Fdownload%2Freact-is-16.13.1.tgz"
   "version" "16.13.1"
@@ -6066,6 +6103,18 @@
     "@react-navigation/core" "^3.7.9"
     "@react-navigation/native" "^3.8.4"
 
+"react-redux@^7.2.3":
+  "integrity" "sha1-TAhGGGALsZkBJofankISPMo/C+k="
+  "resolved" "https://registry.npm.taobao.org/react-redux/download/react-redux-7.2.3.tgz?cache=0&sync_timestamp=1616458667150&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-redux%2Fdownload%2Freact-redux-7.2.3.tgz"
+  "version" "7.2.3"
+  dependencies:
+    "@babel/runtime" "^7.12.1"
+    "@types/react-redux" "^7.1.16"
+    "hoist-non-react-statics" "^3.3.2"
+    "loose-envify" "^1.4.0"
+    "prop-types" "^15.7.2"
+    "react-is" "^16.13.1"
+
 "react-refresh@^0.4.0":
   "integrity" "sha1-lm8XUMGRZy524Wwu+laRUMxzq1M="
   "resolved" "https://registry.npm.taobao.org/react-refresh/download/react-refresh-0.4.3.tgz"
@@ -6097,7 +6146,7 @@
     "raf" "^3.1.0"
     "tween-functions" "^1.0.1"
 
-"react@*", "react@^16.0", "react@^16.0.0 || ^17.0.0", "react@^16.8", "react@^16.8.0 || ^17.0.0", "react@>=16.0", "react@>16.0.0", "react@16 || 17", "react@16.x", "react@17.0.1":
+"react@*", "react@^16.0", "react@^16.0.0 || ^17.0.0", "react@^16.8", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@>=16.0", "react@>16.0.0", "react@16 || 17", "react@16.x", "react@17.0.1":
   "integrity" "sha1-bgYAQWvVdXTj+G2S7bo9kAhyYSc="
   "resolved" "https://registry.npm.taobao.org/react/download/react-17.0.1.tgz?cache=0&sync_timestamp=1617380945066&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-17.0.1.tgz"
   "version" "17.0.1"
@@ -6170,6 +6219,19 @@
   "version" "0.6.2"
   dependencies:
     "resolve" "^1.1.6"
+
+"redux-thunk@^2.3.0":
+  "integrity" "sha1-UcLBmhhe1Rh6qpotCLZm0NZGdiI="
+  "resolved" "https://registry.npm.taobao.org/redux-thunk/download/redux-thunk-2.3.0.tgz"
+  "version" "2.3.0"
+
+"redux@^2.0.0 || ^3.0.0 || ^4.0.0-0", "redux@^4.0.0", "redux@^4.0.5":
+  "integrity" "sha1-TbXeWBbheJHeioDEJCMtBvBR2T8="
+  "resolved" "https://registry.npm.taobao.org/redux/download/redux-4.0.5.tgz?cache=0&sync_timestamp=1617499842576&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fredux%2Fdownload%2Fredux-4.0.5.tgz"
+  "version" "4.0.5"
+  dependencies:
+    "loose-envify" "^1.4.0"
+    "symbol-observable" "^1.2.0"
 
 "regenerate-unicode-properties@^8.2.0":
   "integrity" "sha1-5d5xEdZV57pgwFfb6f83yH5lzew="
@@ -7022,6 +7084,11 @@
   dependencies:
     "has-flag" "^4.0.0"
     "supports-color" "^7.0.0"
+
+"symbol-observable@^1.2.0":
+  "integrity" "sha1-wiaIrtTqs83C3+rLtWFmBWCgCAQ="
+  "resolved" "https://registry.npm.taobao.org/symbol-observable/download/symbol-observable-1.2.0.tgz?cache=0&sync_timestamp=1604337940566&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsymbol-observable%2Fdownload%2Fsymbol-observable-1.2.0.tgz"
+  "version" "1.2.0"
 
 "symbol-tree@^3.2.4":
   "integrity" "sha1-QwY30ki6d+B4iDlR+5qg7tfGP6I="

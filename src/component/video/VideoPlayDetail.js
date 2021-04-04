@@ -47,7 +47,7 @@ class VideoPlayDetail extends Component {
     return {
       tabBarVisible,
       header,
-      title: navigation.getParam('title', '获取title失败'),
+      title: null | ('title', '获取title失败'),
     };
   };
 
@@ -64,8 +64,8 @@ class VideoPlayDetail extends Component {
 
   componentDidMount() {
     const {navigation} = this.props;
-    const id = navigation.getParam('id', 'NO-ID');
-    this.fetchData(id);
+    // const id = null|('id', 'NO-ID');
+    this.fetchData('1');
   }
 
   fetchData(id) {
@@ -106,142 +106,44 @@ class VideoPlayDetail extends Component {
     let collectionCount;
     let replyCount;
     const {navigation} = this.props;
-    const title = navigation.getParam('title', 'NO-title');
-    const url = navigation.getParam('playUrl', 'NO-playUrl');
-    const description = navigation.getParam('description', 'NO-ID');
-    const owner_nickname = navigation.getParam(
-      'owner_nickname',
-      'NO-owner_nickname',
-    );
-    const avatar = navigation.getParam('avatar', 'NO-avatar');
-    const updateTime = navigation.getParam('updateTime', 'NO-updateTime');
-    const placeholder = navigation.getParam('placeholder', 'NO-placeholder');
-    shareCount = navigation.getParam('shareCount', 'NO-shareCount');
-    collectionCount = navigation.getParam(
-      'collectionCount',
-      'NO-collectionCount',
-    );
-    replyCount = navigation.getParam('replyCount', 'NO-replyCount');
+    const title = null;
+    const url = null;
+    const description = null;
+    const owner_nickname = null;
+    const avatar = null;
+    const updateTime = null;
+    const placeholder = null;
+    shareCount = null;
+    collectionCount = null;
+    replyCount = null;
     const logo = 'null';
 
     return (
       (<StatusBar translucent={true} hidden={true} animated={true} />),
       (
         <ScrollView style={{flex: 1, backgroundColor: '#f2f0f1'}} ref="totop">
-          <View style={styles.container}>
-            <Video
-              autoPlay={false}
-              url={url}
-              logo={logo}
-              placeholder={placeholder}
-              onMorePress={() => this.onMorePress()}
-              onFullScreen={status => this.onFullScreen(status)}
-              rotateToFullScreen
-              playInBackground={false}
-              playWhenInactive={true}
-              scrollBounce={true}
-              lockPortraitOnFsExit={true}
-              theme={theme}
-            />
-
-            <View style={styles.bottomContainer}>
-              {/*视频标题和描述*/}
-              <View style={styles.video_header}>
-                <Text style={styles.videoTitle}>{title}</Text>
-                <Text style={styles.description}>{description}</Text>
-                <View
-                  style={{
-                    flex: 1,
-                    height: 20,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <Icon
-                    name="youtube-play"
-                    size={15}
-                    style={{color: '#bdbdbd'}}
-                  />
-                  <Text style={{fontSize: 12, marginLeft: 5}}>
-                    {this.state.videoViewsRandomNum}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  marginTop: 5,
-                  padding: 10,
-                  backgroundColor: '#fff',
-                }}>
-                <View style={{flex: 1}}>
-                  <Image
-                    source={{uri: avatar}}
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 50,
-                    }}
-                  />
-                </View>
-                <View style={{flex: 4}}>
-                  <Text>{owner_nickname}</Text>
-                  <Text>{getLocalTime(updateTime)}</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  marginTop: 1,
-                  padding: 10,
-                  paddingLeft: 30,
-                  paddingRight: 30,
-                  backgroundColor: '#fff',
-                  justifyContent: 'space-between',
-                }}>
-                <Icon name="share" size={15} onPress={() => showErrorMsg()}>
-                  <Text> {shareCount}</Text>
-                </Icon>
-                <Icon name="star" size={15} onPress={() => showErrorMsg()}>
-                  <Text> {collectionCount}</Text>
-                </Icon>
-                <Icon name="thumbs-up" size={15} onPress={() => showErrorMsg()}>
-                  <Text> {replyCount}</Text>
-                </Icon>
-                <Icon
-                  name="arrow-down"
-                  size={15}
-                  style={{color: '#3496f0'}}
-                  onPress={() => showErrorMsg()}>
-                  <Text> 缓存</Text>
-                </Icon>
-              </View>
-
-              {this.state.isLoaded ? (
-                <View style={styles.suggest_video_wrapper}>
-                  <Text style={{margin: 8, color: '#000', fontSize: 17}}>
-                    相关视频
-                  </Text>
-                  {/*<ListView*/}
-                  {/*dataSource={this.state.dataSource}*/}
-                  {/*renderRow={(rowData)=>this._renderRow(rowData)}*/}
-                  {/*contentContainerStyle={styles.listViewStyle}*/}
-                  {/*/>*/}
-                  <FlatList
-                    data={this.state.data}
-                    renderItem={this._renderRow.bind(this)}
-                    style={styles.list}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                </View>
-              ) : (
-                <View style={styles.indicatorStyle}>
-                  <ActivityIndicator size="large" color="#398DEE" />
-                </View>
-              )}
+          {this.state.isLoaded ? (
+            <View style={styles.suggest_video_wrapper}>
+              <Text style={{margin: 8, color: '#000', fontSize: 17}}>
+                相关视频
+              </Text>
+              {/*<ListView*/}
+              {/*dataSource={this.state.dataSource}*/}
+              {/*renderRow={(rowData)=>this._renderRow(rowData)}*/}
+              {/*contentContainerStyle={styles.listViewStyle}*/}
+              {/*/>*/}
+              <FlatList
+                data={this.state.data}
+                renderItem={this._renderRow.bind(this)}
+                style={styles.list}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </View>
-          </View>
+          ) : (
+            <View style={styles.indicatorStyle}>
+              <ActivityIndicator size="large" color="#398DEE" />
+            </View>
+          )}
         </ScrollView>
       )
     );

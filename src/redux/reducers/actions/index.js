@@ -1,0 +1,1 @@
+export const ACTION_LIST_GET_LIST = 'ACTION_LIST_GET_LIST';

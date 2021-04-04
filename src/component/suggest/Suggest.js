@@ -260,7 +260,8 @@ class Suggest extends Component {
   //   );
   // }
 
-  pushToVideoDetail(data) {
+  pushToVideoDetail(Item) {
+    const data={}
     let updateTime;
     let avatar;
     let owner_nickname;
@@ -275,22 +276,22 @@ class Suggest extends Component {
     //     updateTime = data.content.data.date
     // }
 
-    owner_nickname = data.author.name;
-    avatar = data.author.icon;
-    updateTime = data.releaseTime;
+    // owner_nickname = data.author.name;
+    // avatar = data.author.icon;
+    // updateTime = data.releaseTime;
 
-    this.props.navigation.navigate('VideoPlayDetail', {
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      playUrl: data.playUrl,
-      owner_nickname: owner_nickname,
-      avatar: avatar,
-      updateTime: updateTime,
-      placeholder: data.cover.feed,
-      shareCount: data.consumption.shareCount,
-      collectionCount: data.consumption.collectionCount,
-      replyCount: data.consumption.replyCount,
+    this.props.navigation.navigate('videoPlayDetail', {
+      // id: data.id,
+      // title: data.title,
+      // description: data.description,
+      // playUrl: data.playUrl,
+      // owner_nickname: owner_nickname,
+      // avatar: avatar,
+      // updateTime: updateTime,
+      // placeholder: data.cover.feed,
+      // shareCount: data.consumption.shareCount,
+      // collectionCount: data.consumption.collectionCount,
+      // replyCount: data.consumption.replyCount,
     });
   }
 
