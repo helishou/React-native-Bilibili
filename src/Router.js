@@ -173,7 +173,7 @@ function MaterialTopTabNavigator() {
 const StackTab = createStackNavigator();
 function StackNavigator() {
   return (
-    <StackTab.Navigator screenOptions={{hidden: true}}>
+    <StackTab.Navigator headerShown={false} screenOptions={{hidden: true,headerShown:false}}>
       <StackTab.Screen
         name="bilibili"
         component={MaterialTopTabNavigator}
