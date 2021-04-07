@@ -103,11 +103,12 @@ function MyTabBar({state, descriptors, navigation, position}) {
             opacity="1"
             onLongPress={onLongPress}
             style={{
-              flex: 1,
+              // flex: 1,
               height: 100,
               backgroundColor: themeColor,
               alignItems: 'flex-start',
               justifyContent: 'center',
+              marginRight:20,
             }}>
             <Animated.Text
               style={[
@@ -115,7 +116,9 @@ function MyTabBar({state, descriptors, navigation, position}) {
                   opacity,
                   fontWeight: isFocused ? 'bold' : 'normal',
                   fontSize,
-                  color: 'black',
+                  color: isFocused ?'#01BDC5':'black',
+                  textAlign:'left',
+
                 },
               ]}>
               {label}

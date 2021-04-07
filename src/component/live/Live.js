@@ -85,7 +85,7 @@ function Live() {
     });
   };
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#f4f4f4'}}>
       {/* <Button
         onPress={() => {
           return navigation.navigate('Suggest');
@@ -93,15 +93,15 @@ function Live() {
         title="点我跳转推荐"></Button> */}
           <WebView
             source={{ uri: 'https://player.bilibili.com/player.html?aid=927382529&cid=244002362&page=1' }}
-            style={{marginTop: 20}}
+            style={{marginBottom:20}}
           />
           <WebView
             source={{ uri: 'http://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
-            style={{marginTop: 20}}
+            style={{marginBottom:20}}
           />
           <WebView
             source={{ uri: 'http://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
-            style={{marginTop: 20}}
+            style={{marginBottom:20}}
           />
       {/* {isLoaded ? (
         <FlatList

@@ -23,7 +23,7 @@ console.log(wConffient);
 console.log(hConffient);
 const marginLeft = Number.parseInt(30 * wConffient);
 export const themeColor = '#f4f4f4';
-const tapGreen = '#01BDC5';
+export const tapGreen = '#01BDC5';
 // 开发分辨率为1260*540
 
 const card_width = Number.parseInt((width - (coles + 1) * marginLeft) / coles);
