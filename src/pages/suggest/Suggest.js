@@ -14,11 +14,12 @@ import {
   Modal,
   TouchableWithoutFeedback,
 } from 'react-native';
+import WebView from 'react-native-webview';
 import Banner from './Banner';
 import {api} from '../../config/api';
 import {coles, styles} from '../../style/CommStyle';
-import data from './data';
 import {color} from 'react-native-reanimated';
+import CardModal from '../../component/card-modal';
 let dataHotList = [];
 
 class Suggest extends Component {
@@ -27,6 +28,7 @@ class Suggest extends Component {
       header: null,
       // title: navigation.getParam('title', '获取title失败'),
       tabBarVisible: false,
+      pressed: false,
     };
   };
 
@@ -37,6 +39,7 @@ class Suggest extends Component {
       isLoaded: false,
       refreshing: false,
       modalVisible: false,
+      scroll: true,
     };
   }
 
@@ -50,6 +53,13 @@ class Suggest extends Component {
   //     console.log(data[key], 'item');
   //   }
   // }
+  disableScroll() {
+    this.setState({scroll: !this.state.scroll});
+  }
+  // disablePressed(state) {
+  //   this.setState({pressed: state});
+  // }
+
   fetchData() {
     fetch(api.suggest)
       .then(response => response.json())
@@ -113,32 +123,6 @@ class Suggest extends Component {
       .done();
   }
 
-  // fetchHotData() {
-  //   fetch(api.suggest)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       for (let i = 0; i < data.itemList.length; i++) {
-  //         if (data.itemList[i].type === 'video') {
-  //           if (data.itemList[i].data.title === '') {
-  //             data.itemList[i].data.title = data.itemList[i].data.description;
-  //           }
-
-  //           dataHotList.push(data.itemList[i]);
-  //         }
-  //       }
-  //       console.log(dataHotList);
-  //       console.log('----------')
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       this.setState({
-  //         dataSource: null,
-  //         isLoaded: false,
-  //       });
-  //     })
-  //     .done();
-  // }
-
   render() {
     const navigation = this.props.navigation;
     return (
@@ -148,6 +132,21 @@ class Suggest extends Component {
             return navigation.navigate('Live');
           }}
           title="点我跳转直播"></Button> */}
+         {/* <WebView
+              source={{
+                uri:
+                  'http://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1',
+              }}
+              style={{
+                marginTop: 20,
+                zIndex: 0,
+                position: 'absolute',
+                right: 5,
+                top: 5,
+                width: 500,
+                height: 500,
+              }}
+            /> */}
         {this.state.isLoaded ? (
           // {/* <Banner /> */}
           <View
@@ -156,9 +155,11 @@ class Suggest extends Component {
               alignItem: 'center',
               alignContent: 'center',
             }}>
+           
             <FlatList
               initialListSize={6}
               data={this.state.dataSource}
+              scrollEnabled={this.state.scroll}
               numColumns={coles}
               renderItem={({item}) => this._renderRow(item)}
               contentContainerStyle={styles.ListViewStyle}
@@ -180,64 +181,89 @@ class Suggest extends Component {
   // 注意TouchableOpacity和内层View容器的样式
   _renderRow(item) {
     return (
-      <View key={item.pic}>
-        <TouchableOpacity
-          style={styles.wrapStyle}
-          activeOpacity={0.7}
-          onPress={() => this.pushToVideoDetail(item)}>
-          <View style={styles.innerView}>
-            <Image
-              source={{
-                uri: item.pic,
-              }}
-              style={styles.imgView}
-            />
-            <View style={{flexDirection: 'row'}}>
-              <View style={styles.brief}>
-                <Text style={styles.ownerName}>
-                  {'UP主：' + item.owner.name}
-                </Text>
-                <Text style={styles.categoryTitle}>
-                  {item.title
-                    ? item.title.length > 25
-                      ? item.title.substr(0, 25) + '...'
-                      : item.title
-                    : ''}
-                </Text>
-                <Text style={styles.tname}>{item.tname}</Text>
-              </View>
-              <View style={styles.briefImage}>
-                <Image
-                  source={{
-                    uri: item.owner.face,
-                  }}
-                  style={styles.face}
-                />
-                <Text
-                  style={styles.notIntrest}
-                  onPress={() => {
-                    this.setState({modalVisible: true});
-                  }}>
-                  :
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={this.state.modalVisible}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              this.setState({modalVisible: false});
-            }}>
-            <View style={styles.fullScreen}>
-              <Text style={styles.notIntrestModal}>hello world</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </View>
+      <CardModal
+        // pressedStyle={styles.container}
+        key={item.pic}
+        title={
+          item.title
+            ? item.title.length > 25
+              ? item.title.substr(0, 25) + '...'
+              : item.title
+            : ''
+        }
+        touchable={this.state.pressed}
+        description={'UP主：' + item.owner.name}
+        image={{
+          uri: item.pic,
+        }}
+        up={{
+          uri: item.owner.face,
+        }}
+        color="#01BDC5"
+        content={item.desc}
+        onClick={() => this.disableScroll()}
+        // onClick2={() => this.disablePressed()}
+        due={item.tname}
+        video={'https://www.bilibili.com/video/' + item.bvid}
+      />
+      // <View key={item.pic}>
+      //   <TouchableOpacity
+      //     style={styles.wrapStyle}
+      //     activeOpacity={0.7}
+      //     onPress={() => this.pushToVideoDetail(item)}>
+      //     <View style={styles.innerView}>
+      //       <Image
+      //         source={{
+      //           uri: item.pic,
+      //         }}
+      //         style={styles.imgView}
+      //       />
+      //       <View style={{flexDirection: 'row'}}>
+      //         <View style={styles.brief}>
+      //           <Text style={styles.ownerName}>
+      //             {'UP主：' + item.owner.name}
+      //           </Text>
+      //           <Text style={styles.categoryTitle}>
+      //             {item.title
+      //               ? item.title.length > 25
+      //                 ? item.title.substr(0, 25) + '...'
+      //                 : item.title
+      //               : ''}
+      //           </Text>
+      //           <Text style={styles.tname}>{item.tname}</Text>
+      //         </View>
+      //         <View style={styles.briefImage}>
+      //           <Image
+      //             source={{
+      //               uri: item.owner.face,
+      //             }}
+      //             style={styles.face}
+      //           />
+      //           <Text
+      //             style={styles.notIntrest}
+      //             onPress={() => {
+      //               this.setState({modalVisible: true});
+      //             }}>
+      //             :
+      //           </Text>
+      //         </View>
+      //       </View>
+      //     </View>
+      //   </TouchableOpacity>
+      //   <Modal
+      //     animationType="fade"
+      //     transparent={true}
+      //     visible={this.state.modalVisible}>
+      //     <TouchableWithoutFeedback
+      //       onPress={() => {
+      //         this.setState({modalVisible: false});
+      //       }}>
+      //       <View style={styles.fullScreen}>
+      //         <Text style={styles.notIntrestModal}>hello world</Text>
+      //       </View>
+      //     </TouchableWithoutFeedback>
+      //   </Modal>
+      // </View>
     );
   }
   // _renderRow(item) {
@@ -261,7 +287,7 @@ class Suggest extends Component {
   // }
 
   pushToVideoDetail(Item) {
-    const data={}
+    const data = {};
     let updateTime;
     let avatar;
     let owner_nickname;

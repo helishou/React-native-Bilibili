@@ -23,7 +23,7 @@ console.log(wConffient);
 console.log(hConffient);
 const marginLeft = Number.parseInt(30 * wConffient);
 export const themeColor = '#f4f4f4';
-const tapGreen='#01BDC5'
+const tapGreen = '#01BDC5';
 // 开发分辨率为1260*540
 
 const card_width = Number.parseInt((width - (coles + 1) * marginLeft) / coles);
@@ -46,20 +46,47 @@ export const styles = StyleSheet.create({
     backgroundColor: '#e7e1ea',
     paddingBottom: 10,
   },
-  wrapStyle: {
-    width: card_width,
-    height: card_height + 5,
-    marginLeft: marginLeft,
+  container: {
+    // width: card_width,
+    // height: card_height + 5,
+    alignItems: 'center',
+    alignSelf: 'center',
+    // marginLeft: marginLeft,
     marginBottom: hMargin * 0.75,
     marginTop: hMargin * 0.75,
-    backgroundColor: 'white',
-    borderRadius: radius,
-    overflow: 'hidden',
+    // backgroundColor: 'white',
+    // borderRadius: radius,
+    // overflow: 'hidden',
     elevation: radius, // 适配android的
     shadowOffset: {width: 0, height: 3.5}, // 以下4项适配ios
     shadowColor: 'black',
     shadowOpacity: 0.15,
     shadowRadius: 5,
+  },
+  top: {
+    marginBottom: 0,
+    backgroundColor: '#f4f4f4',
+  },
+  bottom: {
+    marginTop: 0,
+    padding: 16,
+    borderBottomLeftRadius: radius,
+    borderBottomRightRadius: radius,
+    backgroundColor: 'white',
+  },
+  backButton: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    top: 120,
+    left: 30,
+    zIndex: 2,
+    width: userCirle,
+    height: userCirle,
+    borderRadius: userCirle,
+    backgroundColor: 'black',
+    opacity: 0.7,
+    opacity: 0.7,
+    elevation: 20,
   },
   innerView: {
     backgroundColor: 'white',

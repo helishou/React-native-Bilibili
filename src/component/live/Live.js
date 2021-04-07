@@ -9,10 +9,11 @@ import {
   ActivityIndicator,
   Dimensions,
   Button,
+  ScrollView
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {api} from '../../config/api';
-
+import WebView from 'react-native-webview'
 // 计算左侧的外边距，使其居中显示
 const {width, height} = Dimensions.get('window');
 const cols = 2;
@@ -85,12 +86,24 @@ function Live() {
   };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <Button
+      {/* <Button
         onPress={() => {
           return navigation.navigate('Suggest');
         }}
-        title="点我跳转推荐"></Button>
-      {isLoaded ? (
+        title="点我跳转推荐"></Button> */}
+          <WebView
+            source={{ uri: 'https://player.bilibili.com/player.html?aid=927382529&cid=244002362&page=1' }}
+            style={{marginTop: 20}}
+          />
+          <WebView
+            source={{ uri: 'http://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
+            style={{marginTop: 20}}
+          />
+          <WebView
+            source={{ uri: 'http://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
+            style={{marginTop: 20}}
+          />
+      {/* {isLoaded ? (
         <FlatList
           dataSource={dataSource}
           renderRow={rowData => _renderRow(rowData)}
@@ -98,9 +111,10 @@ function Live() {
         />
       ) : (
         <View style={styles.indicatorStyle}>
+         
           <ActivityIndicator size="large" color="#398DEE" />
         </View>
-      )}
+      )} */}
     </View>
   );
 }
