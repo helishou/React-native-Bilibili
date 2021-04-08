@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {WebView, BackHandler} from 'react-native';
 
 import {config} from '../../config/defaultMsgConfig';
-import {api} from '../../config/api';
+import {api} from '../../config/11111';
 
 export default class CommunionDetail extends React.Component {
   static navigationOptions = ({navigation}) => {

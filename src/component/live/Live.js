@@ -12,7 +12,7 @@ import {
   ScrollView
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {api} from '../../config/api';
+import {api} from '../../config/11111';
 import WebView from 'react-native-webview'
 // 计算左侧的外边距，使其居中显示
 const {width, height} = Dimensions.get('window');
