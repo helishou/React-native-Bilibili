@@ -17,17 +17,18 @@ import {
   ImageBackground,
 } from 'react-native';
 import WebView from 'react-native-webview';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
 import {YellowBox} from 'react-native';
-
+import {playVideo, resetVideo,press} from '../../redux/action';
 YellowBox.ignoreWarnings([
   'Require cycle: node_modules/',
   'Animated: `useNativeDriver` was not specified',
   'Animated.event now requires a second argument for options',
 ]);
-export default class CardModal extends Component {
+class CardModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +70,11 @@ export default class CardModal extends Component {
 
   _onPress() {
     this.props.onClick();
+    // console.log(this.props.onRef)
+    this.props.onRef(this)
     this.setState({pressed: !this.state.pressed});
+    this.props.resetVideo();
+    this.props.press(true)
     this.calculateOffset();
   }
 
@@ -193,6 +198,9 @@ export default class CardModal extends Component {
 
   activate() {
     this.setState({activate: 'loading'});
+    const {aid, cid, videos} = this.props;
+    // console.log(this.props.playVideo)
+    this.props.playVideo({aid, cid, videos});
     setTimeout(() => {
       this.setState({
         activate: (
@@ -206,26 +214,25 @@ export default class CardModal extends Component {
   }
 
   renderTop() {
-    var back = this.state.pressed ? (
-      <TouchableOpacity style={[styles.backButton]} onPress={this._onPress}>
-        <Animated.View
-          style={[
-            {
-              opacity: this.state.back_opac,
-              position: 'relative',
-              left: 8,
-              top: 7,
-              
-            },
-          ]}>
-          <Text style={{color: 'white'}}>
-            <Icon size={23} name="chevron-left" />
-          </Text>
-        </Animated.View>
-      </TouchableOpacity>
-    ) : (
-      <View />
-    );
+    // var back = this.state.pressed ? (
+    //   <TouchableOpacity style={[styles.backButton]} onPress={this._onPress}>
+    //     <Animated.View
+    //       style={[
+    //         {
+    //           opacity: this.state.back_opac,
+    //           position: 'relative',
+    //           left: 8,
+    //           top: 7,
+    //         },
+    //       ]}>
+    //       <Text style={{color: 'white'}}>
+    //         <Icon size={23} name="chevron-left" />
+    //       </Text>
+    //     </Animated.View>
+    //   </TouchableOpacity>
+    // ) : (
+    //   <View />
+    // );
 
     var borderStyles = !this.state.pressed
       ? {borderRadius: this.state.TopBorderRadius, borderBottomLeftRadius: 0}
@@ -244,19 +251,19 @@ export default class CardModal extends Component {
             // display: !this.state.activated?'flex':'none'
           },
         ]}>
+
         <Animated.Image
-          source={this.props.image}
+          source={{uri:this.props.image}}
           style={[
             styles.top,
             borderStyles,
             {
-              
               width: this.state.top_width,
               height: this.state.top_height,
               transform: this.state.top_pan.getTranslateTransform(),
             },
           ]}></Animated.Image>
-        {back}
+        {/* {back} */}
       </View>
     );
   }
@@ -295,7 +302,6 @@ export default class CardModal extends Component {
           opacity: this.state.plus,
           justifyContent: 'center',
           alignItems: 'center',
-          
         }}>
         <Animated.Image
           source={this.props.up}
@@ -324,10 +330,7 @@ export default class CardModal extends Component {
         ]}>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 4}}>
-            <Text
-              style={styles.categoryTitle}>
-              {this.props.title}
-            </Text>
+            <Text style={styles.categoryTitle}>{this.props.title}</Text>
             <Text
               style={{
                 fontSize: 12,
@@ -365,7 +368,12 @@ export default class CardModal extends Component {
           transform: this.state.content_pan.getTranslateTransform(),
         }}>
         <View
-          style={{backgroundColor: 'white', flex: 1, margin: 16, padding: 16}}>
+          style={{
+            backgroundColor: '#f4f4f4',
+            flex: 1,
+            margin: 16,
+            padding: 16,
+          }}>
           <Text style={{fontSize: 24, fontWeight: '700', color: 'black'}}>
             简介
           </Text>
@@ -379,20 +387,22 @@ export default class CardModal extends Component {
 
   render() {
     return (
-      <View style={[styles.container, this.state.pressedStyle]}>
-        <TouchableWithoutFeedback
-          onPress={!this.state.pressed ? this._onPress : null}>
-          <View ref="container" style={[{alignItems: 'center',elevation: 20,}]}>
-            {this.renderTop()}
-            {this.renderBottom()}
-            {this.renderContent()}
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+        <View style={[styles.container, this.state.pressedStyle]}>
+          <TouchableWithoutFeedback
+            onPress={!this.props.pressed ? this._onPress : null}>
+            <View
+              ref="container"
+              style={[{alignItems: 'center', elevation: 20}]}>
+              {this.renderTop()}
+              {this.renderBottom()}
+              {this.renderContent()}
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
     );
   }
 }
-
+export default connect(state => ({pressed:state.pressed}), {playVideo, resetVideo,press})(CardModal);
 // const styles = StyleSheet.create({
 //   container: {
 //     alignItems: 'center',

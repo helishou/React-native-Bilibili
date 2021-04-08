@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/react-native": "^4.0.7",
     "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/cli": "^5.0.1-alpha.2",
     "@react-native-community/cli-platform-android": "^5.0.1-alpha.1",

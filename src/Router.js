@@ -38,6 +38,8 @@ import Activitys from './component/bottom/activity';
 import {themeColor} from './style/CommStyle';
 import Animated, {color} from 'react-native-reanimated';
 import {styles} from './style/CommStyle';
+import { connect } from 'react-redux';
+
 const MaterialTopTab = createMaterialTopTabNavigator();
 function MyTabBar({state, descriptors, navigation, position}) {
   return (
@@ -142,8 +144,10 @@ function MyTabBar({state, descriptors, navigation, position}) {
 function MaterialTopTabNavigator() {
   return (
     <MaterialTopTab.Navigator
+      // headerShown={false}
       initialRouteName="Live"
       lazy="true"
+      backBehavior='none'
       tabBar={props => <MyTabBar {...props} />}>
       <MaterialTopTab.Screen
         name="Live"
@@ -385,7 +389,7 @@ function RootNavigation() {
   );
 }
 
-export default function AppInner() {
+ function AppInner() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
@@ -397,3 +401,6 @@ export default function AppInner() {
     </SafeAreaView>
   );
 }
+
+// export default connect((state)=>({pressed:state.pressed}),{})(AppInner)
+export default AppInner
