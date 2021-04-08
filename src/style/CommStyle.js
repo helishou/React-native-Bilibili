@@ -31,7 +31,7 @@ const card_height = Number.parseInt(450 * hConffient);
 const hMargin = Number.parseInt(20 * hConffient);
 const radius = Number.parseInt(12 * wConffient);
 const padding = Number.parseInt(17 * wConffient);
-const fontSize = Number.parseInt(22 * wConffient);
+const fontSize = Number.parseInt(23 * wConffient);
 const smallFontSize = Number.parseInt(15 * wConffient);
 const userCirle = Number.parseInt(40 * wConffient);
 const barHeight = Number.parseInt(100 * hConffient);
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     // backgroundColor: 'white',
     // borderRadius: radius,
     // overflow: 'hidden',
-    elevation: radius, // 适配android的
+    elevation: 20, // 适配android的
     shadowOffset: {width: 0, height: 3.5}, // 以下4项适配ios
     shadowColor: 'black',
     shadowOpacity: 0.15,
@@ -66,6 +66,7 @@ export const styles = StyleSheet.create({
   top: {
     marginBottom: 0,
     backgroundColor: '#f4f4f4',
+    
   },
   bottom: {
     marginTop: 0,
@@ -73,6 +74,7 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: radius,
     borderBottomRightRadius: radius,
     backgroundColor: 'white',
+    elevation: 20,
   },
   backButton: {
     position: 'absolute',
@@ -121,8 +123,8 @@ export const styles = StyleSheet.create({
   categoryTitle: {
     textAlign: 'left',
     marginTop: hMargin / 5,
-    marginBottom: hMargin / 5,
-    paddingLeft: padding,
+    marginBottom: hMargin / 2,
+    // paddingLeft: padding,
     textAlignVertical: 'center',
     // paddingTop: padding,
     // width: card_width,
@@ -200,7 +202,7 @@ export const styles = StyleSheet.create({
     height: userCirle,
     borderRadius: userCirle,
     backgroundColor: 'white',
-    elevation: 20,
+    elevation: 5,
     right: 20,
   },
   circleUser: {
@@ -209,9 +211,9 @@ export const styles = StyleSheet.create({
     height: userCirle,
     borderRadius: userCirle,
     backgroundColor: 'white',
-    elevation: 20,
-    right: -40 * wConffient,
-    top: userCirle * hConffient + 3,
+    elevation: 5,
+    right: -35 * wConffient,
+    top: userCirle * (hConffient+0.3),
     zIndex: 0,
   },
   search: {

@@ -37,7 +37,7 @@ export default class CardModal extends Component {
       org_height: height / 5,
 
       top_width: new Animated.Value(width - 32),
-      top_height: new Animated.Value(height / 5),
+      top_height: new Animated.Value(height / 6),
       bottom_width: new Animated.Value(width - 32),
       bottom_height: new Animated.Value(height / 7),
       content_height: new Animated.Value(0),
@@ -135,7 +135,7 @@ export default class CardModal extends Component {
         useNativeDriver: false,
       }).start(),
       Animated.spring(this.state.bottom_height, {
-        toValue: height / 7,
+        toValue: height / 6,
         useNativeDriver: false,
       }).start(),
       Animated.spring(this.state.top_pan, {
@@ -215,6 +215,7 @@ export default class CardModal extends Component {
               position: 'relative',
               left: 8,
               top: 7,
+              
             },
           ]}>
           <Text style={{color: 'white'}}>
@@ -239,6 +240,7 @@ export default class CardModal extends Component {
             width: this.state.top_width,
             height: this.state.top_height,
             transform: this.state.top_pan.getTranslateTransform(),
+            elevation: 20,
             // display: !this.state.activated?'flex':'none'
           },
         ]}>
@@ -248,6 +250,7 @@ export default class CardModal extends Component {
             styles.top,
             borderStyles,
             {
+              
               width: this.state.top_width,
               height: this.state.top_height,
               transform: this.state.top_pan.getTranslateTransform(),
@@ -292,11 +295,13 @@ export default class CardModal extends Component {
           opacity: this.state.plus,
           justifyContent: 'center',
           alignItems: 'center',
+          
         }}>
         <Animated.Image
           source={this.props.up}
           style={[
             styles.face,
+
             // {
             //   width: this.state.top_width,
             //   height: this.state.top_height,
@@ -320,13 +325,7 @@ export default class CardModal extends Component {
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 4}}>
             <Text
-              style={{
-                fontSize: 24,
-                fontWeight: '700',
-                paddingBottom: 8,
-                height: 70,
-                textAlignVertical: 'center',
-              }}>
+              style={styles.categoryTitle}>
               {this.props.title}
             </Text>
             <Text
@@ -383,7 +382,7 @@ export default class CardModal extends Component {
       <View style={[styles.container, this.state.pressedStyle]}>
         <TouchableWithoutFeedback
           onPress={!this.state.pressed ? this._onPress : null}>
-          <View ref="container" style={[{alignItems: 'center'}]}>
+          <View ref="container" style={[{alignItems: 'center',elevation: 20,}]}>
             {this.renderTop()}
             {this.renderBottom()}
             {this.renderContent()}

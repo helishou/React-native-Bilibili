@@ -92,6 +92,10 @@ function MyTabBar({state, descriptors, navigation, position}) {
           inputRange,
           outputRange: inputRange.map(i => (i === index ? 30 : 19)),
         });
+        const fontWeight = Animated.interpolateNode(position, {
+          inputRange,
+          outputRange: inputRange.map(i => (i === index ? 800 : 500)),
+        });
         return (
           <TouchableOpacity
             key={options.tabBarTestID}
@@ -114,11 +118,10 @@ function MyTabBar({state, descriptors, navigation, position}) {
               style={[
                 {
                   opacity,
-                  fontWeight: isFocused ? 'bold' : 'normal',
+                  fontWeight: toString(fontWeight),
                   fontSize,
                   color: isFocused ?'#01BDC5':'black',
                   textAlign:'left',
-
                 },
               ]}>
               {label}
@@ -165,11 +168,11 @@ function MaterialTopTabNavigator() {
         component={Communion}
         options={{title: '交流'}}
       />
-      <MaterialTopTab.Screen
+      {/* <MaterialTopTab.Screen
         name="CategoryList"
         component={Category}
         options={{title: '目录'}}
-      />
+      /> */}
     </MaterialTopTab.Navigator>
   );
 }
