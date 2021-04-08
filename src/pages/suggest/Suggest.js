@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Banner from './Banner';
-import {api} from '../../config/api';
 import {coles, styles} from '../../style/CommStyle';
 import {color} from 'react-native-reanimated';
 import CardModal from '../../component/card-modal';
@@ -65,7 +64,7 @@ class Suggest extends Component {
   // }
 
   fetchData() {
-    fetch(api.suggest)
+    fetch('https://www.bilibili.com/index/ding.json')
       .then(response => response.json())
       .then(Soucedata => {
         let preDataList = [];

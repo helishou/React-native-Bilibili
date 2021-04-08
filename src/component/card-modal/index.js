@@ -72,7 +72,7 @@ class CardModal extends Component {
     this.props.onClick();
     // console.log(this.props.onRef)
     this.props.onRef(this)
-    this.setState({pressed: !this.state.pressed});
+    this.setState({pressed: !this.state.pressed,activated:'播放'});
     this.props.resetVideo();
     this.props.press(true)
     this.calculateOffset();
@@ -205,7 +205,7 @@ class CardModal extends Component {
       this.setState({
         activate: (
           <Text>
-            Activated <Icon name="check" />
+            播放中 <Icon name="check" />
           </Text>
         ),
         activated: true,
@@ -299,7 +299,7 @@ class CardModal extends Component {
     var plusButton = (
       <Animated.View
         style={{
-          opacity: this.state.plus,
+          opacity: 1,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
@@ -378,7 +378,7 @@ class CardModal extends Component {
             简介
           </Text>
           <Text style={{color: 'gray', paddingTop: 10}}>
-            {this.props.content}
+            {this.props.content?this.props.content:'这视频没有简介哦~'}
           </Text>
         </View>
       </Animated.View>
