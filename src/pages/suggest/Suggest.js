@@ -19,10 +19,10 @@ import VideoPlayer from '../../component/video/VideoPlayer';
 import Banner from './Banner';
 import {coles, styles} from '../../style/CommStyle';
 import {color} from 'react-native-reanimated';
-import CardModal from '../../component/card-modal';
 import {connect} from 'react-redux';
 import {press} from '../../redux/action';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import VideoList from '../../component/videoList';
 let dataHotList = [];
 
 class Suggest extends Component {
@@ -56,9 +56,7 @@ class Suggest extends Component {
   //     console.log(data[key], 'item');
   //   }
   // }
-  disableScroll() {
-    this.setState({scroll: !this.state.scroll});
-  }
+
   // disablePressed(state) {
   //   this.setState({pressed: state});
   // }
@@ -83,7 +81,10 @@ class Suggest extends Component {
             try {
               if (Soucedata[data][v].videos) {
                 // console.log('push', Soucedata[data][v]);
-                return preDataList.push({...Soucedata[data][v],key:Soucedata[data][v].pic});
+                return preDataList.push({
+                  ...Soucedata[data][v],
+                  key: Soucedata[data][v].pic,
+                });
               }
             } catch {
               return;
@@ -94,7 +95,6 @@ class Suggest extends Component {
         this.setState({
           dataSource: preDataList,
           isLoaded: true,
-         
         });
         // for (let i = 0; i < data.itemList.length; i++) {
         //   if (data.itemList[i].type === 'video') {
@@ -126,12 +126,9 @@ class Suggest extends Component {
       })
       .done();
   }
-  onRef = ref => {
-    this.child = ref;
-  };
+
   render() {
     const navigation = this.props.navigation;
-    console.log('pppp', this.props.pressed);
     return (
       <View style={{backgroundColor: '#f4f4f4'}}>
         {/* <Button
@@ -142,152 +139,21 @@ class Suggest extends Component {
         <View
         // style={{display: 'none'}}
         >
-          {this.props.pressed ? (
-            <TouchableOpacity
-              style={[styles.backButton]}
-              onPress={() => {
-                this.child._onPress();
-                this.props.press(false);
-                this.setState({scroll: true});
-              }}>
-              <Animated.View
-                style={[
-                  {
-                    opacity: 0.8,
-                    position: 'relative',
-                    left: 3,
-                    top: 3,
-                  },
-                ]}>
-                <Text style={{color: 'white'}}>
-                  <Icon size={23} name="chevron-left" />
-                </Text>
-              </Animated.View>
-            </TouchableOpacity>
-          ) : (
-            <View />
-          )}
           <VideoPlayer />
         </View>
         {this.state.isLoaded ? (
           // {/* <Banner /> */}
-          <View
-            style={{
-              backgroundColor: '#f4f4f4',
-              alignItem: 'center',
-              alignContent: 'center',
-            }}>
-            <FlatList
-              // style={{display: 'none'}}
-
-              initialListSize={6}
-              data={this.state.dataSource}
-              scrollEnabled={this.state.scroll}
-              numColumns={coles}
-              renderItem={({item}) => this._renderRow(item)}
-              contentContainerStyle={styles.ListViewStyle}
-              refreshing={!this.state.isLoaded}
-              onRefresh={() => this._onRefresh()}
-              ListFooterComponent={
-                <Text style={{color: 'black'}}>已经到底了哦</Text>
-              }
-            />
-          </View>
+          <VideoList dataSource={this.state.dataSource}
+          scrollEnabled={this.state.scroll}
+          isLoaded={this.state.isLoaded}
+          onRefresh={this._onRefresh}
+          ></VideoList>
         ) : (
           <View style={styles.indicatorStyle}>
             <ActivityIndicator size="large" color="#398DEE" />
           </View>
         )}
       </View>
-    );
-  }
-  // 注意TouchableOpacity和内层View容器的样式
-  _renderRow(item) {
-    return (
-      <CardModal
-        // pressedStyle={styles.container}
-        key={item.pic}
-        onRef={this.onRef}
-        title={
-          item.title
-            ? item.title.length > 25
-              ? item.title.substr(0, 25) + '...'
-              : item.title
-            : ''
-        }
-        touchable={this.state.pressed}
-        description={'UP主：' + item.owner.name}
-        image={item.pic}
-        up={{
-          uri: item.owner.face,
-        }}
-        color="#01BDC5"
-        content={item.desc}
-        onClick={() => this.disableScroll()}
-        // onClick2={() => this.disablePressed()}
-        due={item.tname}
-        videos={item.videos}
-        aid={item.aid}
-        cid={item.cid}
-      />
-      // <View key={item.pic}>
-      //   <TouchableOpacity
-      //     style={styles.wrapStyle}
-      //     activeOpacity={0.7}
-      //     onPress={() => this.pushToVideoDetail(item)}>
-      //     <View style={styles.innerView}>
-      //       <Image
-      //         source={{
-      //           uri: item.pic,
-      //         }}
-      //         style={styles.imgView}
-      //       />
-      //       <View style={{flexDirection: 'row'}}>
-      //         <View style={styles.brief}>
-      //           <Text style={styles.ownerName}>
-      //             {'UP主：' + item.owner.name}
-      //           </Text>
-      //           <Text style={styles.categoryTitle}>
-      //             {item.title
-      //               ? item.title.length > 25
-      //                 ? item.title.substr(0, 25) + '...'
-      //                 : item.title
-      //               : ''}
-      //           </Text>
-      //           <Text style={styles.tname}>{item.tname}</Text>
-      //         </View>
-      //         <View style={styles.briefImage}>
-      //           <Image
-      //             source={{
-      //               uri: item.owner.face,
-      //             }}
-      //             style={styles.face}
-      //           />
-      //           <Text
-      //             style={styles.notIntrest}
-      //             onPress={() => {
-      //               this.setState({modalVisible: true});
-      //             }}>
-      //             :
-      //           </Text>
-      //         </View>
-      //       </View>
-      //     </View>
-      //   </TouchableOpacity>
-      //   <Modal
-      //     animationType="fade"
-      //     transparent={true}
-      //     visible={this.state.modalVisible}>
-      //     <TouchableWithoutFeedback
-      //       onPress={() => {
-      //         this.setState({modalVisible: false});
-      //       }}>
-      //       <View style={styles.fullScreen}>
-      //         <Text style={styles.notIntrestModal}>hello world</Text>
-      //       </View>
-      //     </TouchableWithoutFeedback>
-      //   </Modal>
-      // </View>
     );
   }
 
