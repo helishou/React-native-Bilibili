@@ -38,7 +38,7 @@ import Message from './component/bottom/message';
 import Activitys from './component/bottom/activity';
 import {themeColor} from './style/CommStyle';
 import Animated, {color} from 'react-native-reanimated';
-import {styles} from './style/CommStyle';
+import {tapGreen,userCirle,wConffient,hConffient,marginLeft} from './style/CommStyle';
 function MyTabBar({state, descriptors, navigation, position,pressed}) {
     return (
       <View style={[styles.topBar,{display:pressed?'none':'flex'}]}>
@@ -106,14 +106,7 @@ function MyTabBar({state, descriptors, navigation, position,pressed}) {
               onPress={onPress}
               opacity="1"
               onLongPress={onLongPress}
-              style={{
-                // flex: 1,
-                height: 100,
-                backgroundColor: themeColor,
-                alignItems: 'flex-start',
-                justifyContent: 'center',
-                marginRight:20,
-              }}>
+              style={styles.touchDiv}>
               <Animated.Text
                 style={[
                   {
@@ -141,3 +134,29 @@ function MyTabBar({state, descriptors, navigation, position,pressed}) {
   }
 
 export default connect((state)=>({pressed:state.pressed}),{})(MyTabBar)
+
+const styles = StyleSheet.create({
+  underline: {
+    position: 'absolute',
+    top: 65,
+    // left: 7,
+    // width: 40,
+    height: 3,
+    backgroundColor: tapGreen,
+    zIndex: 2,
+  },
+  topBar: {
+    flexDirection: 'row',
+    marginLeft: marginLeft,
+  },
+  touchDiv:{
+    // flex: 1,
+    height: 80,
+    // backgroundColor: 'rgba(0,0,0,0)',
+    // opacity:0.7,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginRight:20,
+    marginTop:20,
+  }
+})

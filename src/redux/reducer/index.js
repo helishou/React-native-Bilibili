@@ -15,7 +15,7 @@ const initVideo = false;
 function video(state = initVideo, action) {
   switch (action.type) {
     case ACTIONTYPES.PLAY_VIDEO:
-      const url = `http://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=1`;
+      const url = `http://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=1&autoplay=true`;
       return {url: url, videos: action.videos};
     case ACTIONTYPES.RESET_VIDEO:
       return {};

@@ -17,11 +17,9 @@ if (height < width) {
   // cols = cols * 2;
 }
 
-const wConffient = Number.parseFloat(width / devWidth / cols);
-const hConffient = Number.parseFloat(height / devHeight / cols);
-console.log(wConffient);
-console.log(hConffient);
-const marginLeft = Number.parseInt(30 * wConffient);
+export const wConffient = Number.parseFloat(width / devWidth / cols);
+export const hConffient = Number.parseFloat(height / devHeight / cols);
+export const marginLeft = Number.parseInt(30 * wConffient);
 export const themeColor = '#f4f4f4';
 export const tapGreen = '#01BDC5';
 // 开发分辨率为1260*540
@@ -33,7 +31,7 @@ const radius = Number.parseInt(12 * wConffient);
 const padding = Number.parseInt(17 * wConffient);
 const fontSize = Number.parseInt(23 * wConffient);
 const smallFontSize = Number.parseInt(15 * wConffient);
-const userCirle = Number.parseInt(40 * wConffient);
+export const userCirle = Number.parseInt(40 * wConffient);
 const barHeight = Number.parseInt(100 * hConffient);
 export const styles = StyleSheet.create({
   listViewStyle: {
@@ -196,60 +194,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-  header: {
-    position: 'absolute',
-    right: 0,
-    // top:40,
-    height: barHeight,
-    width: 100 * wConffient,
-    // flex:2,
-    // alignItems: 'center',
-    backgroundColor: '#f4f4f4',
-  },
-  user: {
-    position: 'relative',
-    width: userCirle - 2,
-    height: userCirle - 2,
-    borderRadius: userCirle,
-    zIndex: 1,
-  },
-  circleSearch: {
-    position: 'relative',
-    width: userCirle,
-    height: userCirle,
-    borderRadius: userCirle,
-    backgroundColor: 'white',
-    elevation: 5,
-    right: 20,
-  },
-  circleUser: {
-    position: 'relative',
-    width: userCirle,
-    height: userCirle,
-    borderRadius: userCirle,
-    backgroundColor: 'white',
-    elevation: 5,
-    right: -35 * wConffient,
-    top: userCirle * (hConffient + 0.3),
-    zIndex: 0,
-  },
-  search: {
-    position: 'relative',
-    left: (userCirle - 20) / 2,
-    top: (userCirle - 22) / 2,
-    color: '#777777',
-  },
-  topBar: {
-    flexDirection: 'row',
-    marginLeft: marginLeft,
-  },
-  underline: {
-    position: 'absolute',
-    top: 80,
-    // left: 7,
-    // width: 40,
-    height: 3,
-    backgroundColor: tapGreen,
-    zIndex: 2,
-  },
+
+
+  
+  
 });

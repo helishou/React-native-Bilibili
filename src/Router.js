@@ -30,7 +30,7 @@ import Category from './component/category/Category';
 import CategoryList from './component/category/CategoryList';
 import Setting from './component/Setting';
 import Header from './component/header/Header';
-import Search from './component/header/Search';
+import Search from './pages/search';
 import Me from './component/bottom/me';
 import Findings from './component/bottom/findings';
 import Message from './component/bottom/message';
@@ -84,17 +84,19 @@ function MaterialTopTabNavigator() {
 const StackTab = createStackNavigator();
 function StackNavigator() {
   return (
-    <StackTab.Navigator headerShown={false} screenOptions={{hidden: true,headerShown:false}}>
+    <StackTab.Navigator
+  // screenOptions={{headerShown:false}}
+     >
       <StackTab.Screen
-        name="bilibili"
+        name="Bilibili"
         component={MaterialTopTabNavigator}
-        options={{title: '哔哩哔哩'}}></StackTab.Screen>
+        options={{title: '哔哩哔哩',headerShown:false}}></StackTab.Screen>
       <StackTab.Screen
-        name="search"
+        name="Search"
         component={Search}
         options={{title: '搜索'}}></StackTab.Screen>
       <StackTab.Screen
-        name="videoPlayDetail"
+        name="VideoPlayDetail"
         component={VideoPlayDetail}
         options={{title: '视频播放'}}></StackTab.Screen>
     </StackTab.Navigator>
@@ -294,7 +296,9 @@ function RootNavigation() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
-        backgroundColor={themeColor}
+        // backgroundColor={themeColor}
+        backgroundColor="rgba(0, 0, 0, 0)"
+        translucent
         barStyle="dark-content"
         animated={true}
       />
