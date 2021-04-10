@@ -83,7 +83,7 @@ class Suggest extends Component {
                 // console.log('push', Soucedata[data][v]);
                 return preDataList.push({
                   ...Soucedata[data][v],
-                  key: Soucedata[data][v].pic,
+                  key: Soucedata[data][v].aid,
                 });
               }
             } catch {
@@ -136,18 +136,19 @@ class Suggest extends Component {
             return navigation.navigate('Live');
           }}
           title="点我跳转直播"></Button> */}
-        <View
+        {/* <View
         // style={{display: 'none'}}
         >
           <VideoPlayer />
-        </View>
+        </View> */}
         {this.state.isLoaded ? (
           // {/* <Banner /> */}
-          <VideoList dataSource={this.state.dataSource}
-          scrollEnabled={this.state.scroll}
-          isLoaded={this.state.isLoaded}
-          onRefresh={this._onRefresh}
-          ></VideoList>
+          <VideoList
+            dataSource={this.state.dataSource}
+            // scrollEnabled={this.state.scroll}
+            isLoaded={this.state.isLoaded}
+            // onRefresh={this._onRefresh}
+            fetchData={() => this.fetchData()}></VideoList>
         ) : (
           <View style={styles.indicatorStyle}>
             <ActivityIndicator size="large" color="#398DEE" />
@@ -179,12 +180,12 @@ class Suggest extends Component {
   }
 
   //下拉刷新
-  _onRefresh = () => {
-    // this.setState({isLoaded: true});
-    this.props.press(false);
-    this.fetchData();
-  };
+  // _onRefresh = () => {
+  //   // this.setState({isLoaded: true});
+  //   this.props.press(false);
+  //   this.fetchData();
+  // };
 }
 
-export default connect(state => ({pressed: state.pressed}), {press})(Suggest);
+export default connect(state => ({pressed: state.pressed}), {})(Suggest);
 // export default connect(state=>({video:state.video}),{})(Suggest);

@@ -61,25 +61,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 5,
   },
-  webView: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: height*0.33,
-    width: width,
-    // alignItems:'center',
-    zIndex: 8,
-  },
-  webViewContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: height*0.32,
-    width: width,
-    backgroundColor:'gray',
-    // alignItems:'center',
-    zIndex: 8,
-  },
+
   top: {
     marginBottom: 0,
     backgroundColor: '#f4f4f4',
@@ -92,19 +74,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     elevation: 20,
   },
-  backButton: {
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    top: 50,
-    left: 20,
-    zIndex: 20,
-    width: userCirle,
-    height: userCirle,
-    borderRadius: userCirle,
-    backgroundColor: 'black',
-    opacity: 0.7,
-    elevation: 20,
-  },
+
   innerView: {
     backgroundColor: 'white',
     width: card_width,
