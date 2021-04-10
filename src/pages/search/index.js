@@ -19,9 +19,13 @@ export default function Search() {
   const [text, setText] = useState('');
   const [onfocus, setonFocus] = useState(true);
   const [dataSource, setDataSource] = useState({});
+  const [show, setShow] = useState(true)
   const onChangeText = text => {
     setText(text);
   };
+  const onClick = ()=>{
+    setShow(false)
+  }
   // const fetchData = keyword => {
   //   // let formData = new FormData();
   //   // formData.append('keyword', keyword);
@@ -49,7 +53,7 @@ export default function Search() {
   //     .done();
   // };
   const onEndEditing = () => {
-    if(text){
+    if (text) {
       getData();
     }
     // fetchData(text)
@@ -70,12 +74,12 @@ export default function Search() {
       // console.log(data, Soucedata[data]);
       // console.log('push', Soucedata[data][v]);
       data.key = data.aid;
-      let newtitle=data.title.replace(`<em class="keyword">`,'')
-      newtitle = newtitle.replace(`</em>`,'')
+      let newtitle = data.title.replace(`<em class="keyword">`, '');
+      newtitle = newtitle.replace(`</em>`, '');
       return preDataList.push({
         ...data,
-        pic:'http:'+data.pic,
-        title:newtitle,
+        pic: 'http:' + data.pic,
+        title: newtitle,
         owner: {
           name: data.author,
           face: null,
@@ -89,7 +93,7 @@ export default function Search() {
   };
   return (
     <View>
-      <View style={styles.container}>
+      {show?<View style={styles.container}>
         <View style={styles.searchBox}>
           <Icon name="search" size={18} style={styles.searchIcon}></Icon>
 
@@ -103,12 +107,13 @@ export default function Search() {
             onEndEditing={() => onEndEditing()}
           />
         </View>
-      </View>
+      </View>:null}
       {!onfocus ? (
         <VideoList
           dataSource={dataSource}
           isLoaded={!onfocus}
           fetchData={() => getData()}
+            onClick={()=>onClick()}
         />
       ) : (
         <SeachView />
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 68 : 58, // 处理iOS状态栏
     backgroundColor: 'rgba(255,255,255,1)',
     alignItems: 'center', // 使元素垂直居中排布, 当flexDirection为column时, 为水平居中
-    zIndex:11,
+    zIndex: 11,
   },
 
   searchBox: {
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 8,
     marginRight: 8,
-    elevation:2,
+    elevation: 2,
   },
   searchIcon: {
     //搜索图标

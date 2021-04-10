@@ -1,17 +1,34 @@
 import React from 'react';
 import WebView from 'react-native-webview';
 import {BlurView} from '@react-native-community/blur';
-import {View, Text,StyleSheet,Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableHighlight,
+} from 'react-native';
 import {connect} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import Orientation from 'react-native-orientation';
+import {setFullscreen} from '../../redux/action';
+import px2dp from '../../util';
 let {width, height} = Dimensions.get('window');
 //封装播放器
 function VideoPlayer(props) {
+  const navigation = useNavigation();
+  console.log(width, height);
   // console.log(props.video.url)
-  return (
-    props.video.url?<View
-      style={[
-        styles.webViewContainer,
-      ]}>
+  // React.useEffect(() => {
+  //   Orientation.lockToLandscape();
+  //   console.log(width, height);
+  //   return () => {
+  //     Orientation.lockToLandscape();
+  //   };
+  // }, []);
+  return props.video.url ? (
+    <View
+      style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
       {/* <Text
         style={{
           position: 'absolute',
@@ -29,6 +46,45 @@ function VideoPlayer(props) {
         {' '}
         {'<'}{' '}
       </Text> */}
+      {!props.fullscreen ? (
+        <TouchableHighlight
+          style={{
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+            height: px2dp(23),
+            width: px2dp(23),
+            color: 'white',
+            zIndex: 10,
+            backgroundColor: 'black',
+            opacity: 0,
+            borderRadius: 30,
+            fontWeight: 'bold',
+          }}
+          onPress={() => {
+            console.log('全屏', props);
+            Orientation.lockToLandscape();
+            props.setFullscreen(true);
+          }}>
+          <Text
+            style={{
+              // position: 'absolute',
+              // bottom: 20,
+              // right: 20,
+              // height: 20,
+              // white: 20,
+              color: 'white',
+              zIndex: 10,
+              // backgroundColor: 'white',
+              opacity: 0.8,
+              // borderRadius: 30,
+              fontWeight: 'bold',
+            }}>
+            {' '}
+            {'□'}{' '}
+          </Text>
+        </TouchableHighlight>
+      ) : null}
       {/* <BlurView
         blurType="light"
         blurAmount={30}
@@ -41,22 +97,25 @@ function VideoPlayer(props) {
           right: 0,
         }}></BlurView> */}
 
-      <View style={styles.webView}>
+      <View
+        style={[
+          props.fullscreen ? styles.fullscreen : styles.webViewContainer,
+        ]}>
         <WebView
           mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback={true}
           source={{
             uri: props.video.url,
           }}
-          style={{
-            // marginTop: 20,
-            // position: 'absolute',
-            // right: 5,
+          // style={{
+          //   // marginTop: 20,
+          //   // position: 'absolute',
+          //   // right: 5,
 
-            width: '100%',
-            height: '100%',
-            zIndex: 1,
-          }}
+          //   width: '100%',
+          //   height: '100%',
+          //   zIndex: 1,
+          // }}
         />
       </View>
       {/* <BlurView
@@ -70,18 +129,21 @@ function VideoPlayer(props) {
           bottom: 0,
           right: 0,
         }}></BlurView> */}
-    </View>:null
-  );
+    </View>
+  ) : null;
 }
 
-export default connect(state=>({video:state.video}),{})(VideoPlayer);
+export default connect(
+  state => ({video: state.video, fullscreen: state.fullscreen}),
+  {setFullscreen},
+)(VideoPlayer);
 
 const styles = StyleSheet.create({
   webView: {
     position: 'absolute',
     top: 0,
     left: 0,
-    height: height*0.33,
+    height: height * 0.33,
     width: width,
     // alignItems:'center',
     zIndex: 8,
@@ -90,10 +152,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    height: height*0.32,
+    height: parseInt(height * 0.32),
     width: width,
-    backgroundColor:'gray',
+    backgroundColor: 'gray',
     // alignItems:'center',
     zIndex: 9,
   },
-})
+  fullscreen: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    // transform:[{rotate:'90deg'},{scale:height/width}],
+    height: width,
+    width: height,
+    zIndex: 9,
+  },
+});

@@ -2,13 +2,20 @@ import React, {useState, useRef} from 'react';
 import CardModal from '../card-modal';
 import {View, FlatList, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {press} from '../../redux/action';
+import {press,setFullscreen} from '../../redux/action';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoPlayer from '../../component/video/VideoPlayer';
+import Orientation from 'react-native-orientation';
 function VideoList(props) {
   const [scroll, setScroll] = useState(true);
   const [child, setChild] = useState({});
   const disableScroll = () => {
+    try{
+      props.onClick()
+    }catch{
+      console.log('没有传入onClick')
+    }
+    
     setScroll(!scroll);
   };
   const onRefresh = () => {
@@ -38,7 +45,7 @@ function VideoList(props) {
         up={item.owner.face}
         color="#01BDC5"
         content={item.desc}
-        onClick={ disableScroll}
+        onClick={disableScroll}
         // onClick2={() => this.disablePressed()}
         due={
           item.tname
@@ -66,8 +73,15 @@ function VideoList(props) {
           style={[styles.backButton]}
           onPress={() => {
             // console.log(child)
-            child._onPress();
-            props.press(false);
+            Orientation.lockToPortrait()
+            if (props.fullscreen) {
+              props.setFullscreen(false);
+              
+            } else {
+              child._onPress();
+              props.press(false);
+            }
+
             // setScroll(true);
           }}>
           <View
@@ -80,7 +94,7 @@ function VideoList(props) {
               },
             ]}>
             {/* <Text style={{color: 'white'}}>? */}
-              <Icon size={23}  style={{color:'white'}} name="chevron-left" />
+            <Icon size={23} style={{color: 'white'}} name="chevron-left" />
             {/* </Text> */}
           </View>
         </TouchableOpacity>
@@ -97,13 +111,28 @@ function VideoList(props) {
         // contentContainerStyle={styles.ListViewStyle}
         refreshing={!props.isLoaded}
         onRefresh={() => onRefresh()}
-        ListFooterComponent={<Text style={{color: 'gray',opacity:0.7,marginTop:20,marginBottom:200,fontWeight:'bold',textAlign:'center'}}>已经到底了哦</Text>}
+        ListFooterComponent={
+          <Text
+            style={{
+              color: 'gray',
+              opacity: 0.7,
+              marginTop: 20,
+              marginBottom: 200,
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}>
+            已经到底了哦
+          </Text>
+        }
       />
     </View>
   );
 }
 
-export default connect(state => ({pressed: state.pressed}), {press})(VideoList);
+export default connect(
+  state => ({pressed: state.pressed, fullscreen: state.fullscreen}),
+  {press,setFullscreen},
+)(VideoList);
 const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',

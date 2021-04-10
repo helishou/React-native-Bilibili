@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
 import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import {NavigationContainer} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -40,121 +40,9 @@ import Animated, {color} from 'react-native-reanimated';
 import {styles} from './style/CommStyle';
 import { connect } from 'react-redux';
 import MyTabBar from './myTabBar'
-const MaterialTopTab = createMaterialTopTabNavigator();
+import TabNavigator from './bottomBar.js'
 
-function MaterialTopTabNavigator() {
-  return (
-    <MaterialTopTab.Navigator
-      // headerShown={false}
-      initialRouteName="Live"
-      lazy="true"
-      backBehavior='none'
-      tabBar={props => <MyTabBar {...props} />}>
-      <MaterialTopTab.Screen
-        name="Live"
-        component={Live}
-        options={{
-          title: '直播',
-          // tabBarIcon: <Ionicons name="home" />
-        }}
-      />
-      <MaterialTopTab.Screen
-        name="Suggest"
-        component={Suggest}
-        options={{title: '推荐'}}
-      />
-      <MaterialTopTab.Screen
-        name="Category"
-        component={Category}
-        options={{title: '分区'}}
-      />
-      <MaterialTopTab.Screen
-        name="Communion"
-        component={Communion}
-        options={{title: '交流'}}
-      />
-      {/* <MaterialTopTab.Screen
-        name="CategoryList"
-        component={Category}
-        options={{title: '目录'}}
-      /> */}
-    </MaterialTopTab.Navigator>
-  );
-}
-const StackTab = createStackNavigator();
-function StackNavigator() {
-  return (
-    <StackTab.Navigator
-  // screenOptions={{headerShown:false}}
-     >
-      <StackTab.Screen
-        name="Bilibili"
-        component={RootNavigation}
-        options={{title: '哔哩哔哩',headerShown:false}}>
-        </StackTab.Screen>
-      <StackTab.Screen
-        name="Search"
-        component={Search}
-        options={{title: '搜索'}}></StackTab.Screen>
-      <StackTab.Screen
-        name="earch"
-        component={Live}
-        options={{title: '搜索'}}></StackTab.Screen>
-      {/* <StackTab.Screen
-        name="VideoPlayDetail"
-        component={VideoPlayDetail}
-        options={{title: '视频播放'}}></StackTab.Screen> */}
-    </StackTab.Navigator>
-  );
-}
-const Tab = createBottomTabNavigator();
-function TabNavigator() {
-  return (
-    <Tab.Navigator
-      // tabBar={props => <MyTabBar {...props} />}
-      adaptive={true}
-      screenOptions={
-        ({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            // console.log('route', route);
-            return focused ? (
-              <Ionicons name={route.name} size={size} color={color} />
-            ) : (
-              <Ionicons
-                name={route.name + '-outline'}
-                size={size}
-                color={color}
-              />
-            );
-          },
-        })
-        // {animationEnabled: true, scrollEnabled: true}
-      }
-      tabBarOptions={{
-        activeTintColor: '#01BDC5',
-        inactiveTintColor: '#999',
-      }}
-      initialRouteName="home">
-      <Tab.Screen
-        name="home"
-        component={MaterialTopTabNavigator}
-        options={{title: '主页'}}
-      />
-      <Tab.Screen
-        name="infinite"
-        component={Findings}
-        options={{title: '发现'}}
-      />
-      <Tab.Screen name="fitness" component={Mv} options={{title: '动态'}} />
-      <Tab.Screen
-        name="chatbubble-ellipses"
-        component={Message}
-        options={{title: '消息'}}
-      />
-      <Tab.Screen name="tv" component={Me} options={{title: '我的'}} />
-    </Tab.Navigator>
-  );
-}
+
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
   const isLargeScreen = false;
@@ -308,7 +196,8 @@ function RootNavigation() {
         barStyle="dark-content"
         animated={true}
       />
-      <NavigationContainer>{StackNavigator()}</NavigationContainer>
+      {/* <View></View> */}
+      <NavigationContainer>{RootNavigation()}</NavigationContainer>
     </SafeAreaView>
   );
 }

@@ -65,15 +65,9 @@ export const styles = StyleSheet.create({
   top: {
     marginBottom: 0,
     backgroundColor: '#f4f4f4',
+    // elevation:20,
   },
-  bottom: {
-    marginTop: 0,
-    padding: 13,
-    borderBottomLeftRadius: radius,
-    borderBottomRightRadius: radius,
-    backgroundColor: 'white',
-    elevation: 20,
-  },
+
 
   innerView: {
     backgroundColor: 'white',

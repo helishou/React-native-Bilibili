@@ -31,6 +31,14 @@ function pressed(state = false, action) {
       return state;
   }
 }
+function fullscreen(state = false, action) {
+  switch (action.type) {
+    case ACTIONTYPES.FULLSCREEN:
+        return action.data
+    default:
+      return state;
+  }
+}
 // function headNavagator(state=initHeadNavigator,action){
 //     switch(action.type){
 //         case SET_HEAD_NAVIGATOR:
@@ -44,6 +52,7 @@ const reducer = combineReducers({
   headNavagator,
   video,
   pressed,
+  fullscreen
 });
 
 export default reducer;

@@ -1,7 +1,7 @@
 /**
  * Created by ggoma on 2016. 11. 22..
  */
-import React, {Component} from 'react';
+import React, {Component, createRef, useRef} from 'react';
 import {
   Animated,
   ActivityIndicator,
@@ -41,7 +41,7 @@ class CardModal extends Component {
       top_width: new Animated.Value(width - 32),
       top_height: new Animated.Value(height / 6),
       bottom_width: new Animated.Value(width - 32),
-      bottom_height: new Animated.Value(height / 7),
+      bottom_height: new Animated.Value(height / 6),
       content_height: new Animated.Value(0),
 
       top_pan: new Animated.ValueXY(),
@@ -53,8 +53,8 @@ class CardModal extends Component {
       back_opac: new Animated.Value(0),
       plus: new Animated.Value(1),
 
-      TopBorderRadius: 5,
-      BottomBorderRadius: 5,
+      TopBorderRadius: px2dp(0),
+      BottomBorderRadius: px2dp(10),
 
       activate: '播放',
       activated: false,
@@ -67,133 +67,145 @@ class CardModal extends Component {
     this._onPress = this._onPress.bind(this);
     this.calculateOffset = this.calculateOffset.bind(this);
     this.activate = this.activate.bind(this);
+    this.containerRef = createRef();
   }
 
   _onPress() {
     // console.log(this.props.onRef)
     // console.log('绑定')
-    this.props.onClick()
+    this.props.onClick();
     this.setState({pressed: !this.state.pressed, activated: '播放'});
 
     this.calculateOffset();
   }
 
   grow() {
-    // this.setState({TopBorderRadius: 0, BottomBorderRadius: 0});
+    this.setState({TopBorderRadius: px2dp(10)});
 
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: width,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.top_height, {
-        toValue: height / 2,
+        toValue:parseInt(height / 2),
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.bottom_height, {
-        toValue: height / 6 + 50,
+        toValue: parseInt(height / 6 + 50),
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.content_height, {
-        toValue: height / 2,
+        toValue: parseInt(height / 2),
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.top_pan, {
         toValue: {
           x: 0,
-          y: -this.state.offset,
+          y: -parseInt(this.state.offset),
         },
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.content_pan, {
         toValue: {
           x: 0,
-          y: -(height / 8 + this.state.offset),
+          y: -parseInt(height / 8 + this.state.offset),
         },
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.bottom_pan, {
         toValue: {
           x: 0,
           y: -(50 + this.state.offset),
         },
+        useNativeDriver: false,duration:500,
       }).start(),
 
       Animated.timing(this.state.content_opac, {
         toValue: 1,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.button_opac, {
         toValue: 1,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.back_opac, {
         toValue: 1,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.plus, {
         toValue: 0,
+        useNativeDriver: false,duration:500,
       }).start(),
     ]);
   }
 
   shrink() {
-    // this.setState({TopBorderRadius: 5, BottomBorderRadius: 5});
+    this.setState({TopBorderRadius: px2dp(0)});
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: this.state.org_width,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.top_height, {
         toValue: this.state.org_height,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.bottom_height, {
         toValue: height / 6,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.top_pan, {
         toValue: {
           x: 0,
           y: 0,
         },
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.bottom_pan, {
         toValue: {
           x: 0,
           y: 0,
         },
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.spring(this.state.content_height, {
         toValue: 0,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.content_opac, {
         toValue: 0,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.button_opac, {
         toValue: 0,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.back_opac, {
         toValue: 0,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
       Animated.timing(this.state.plus, {
         toValue: 1,
-        useNativeDriver: false,
+        useNativeDriver: false,duration:500,
       }).start(),
     ]);
   }
 
   calculateOffset() {
-    if (this.refs.container) {
-      this.refs.container.measure((fx, fy, width, height, px, py) => {
+    // console.log(this.containerRef);duration:500,
+    if (this.containerRef) {
+      this.containerRef.current.measure((fx, fy, width, height, px, py) => {
         this.setState({offset: py}, () => {
           if (this.state.pressed) {
-            this.props.press(true);
             this.props.onRef(this);
-            this.props.resetVideo();
-            console.log('growing with offset', this.state.offset);
+            // console.log('growing with offset', this.state.offset);
             this.grow();
+            this.props.press(true);
           } else {
-            console.log('shrinking with offset', this.state.offset);
+            // console.log('shrinking with offset', this.state.offset);
             this.shrink();
-    
+            this.props.resetVideo();
           }
         });
       });
@@ -239,10 +251,10 @@ class CardModal extends Component {
     // );
 
     var borderStyles = !this.state.pressed
-      ? {borderRadius: this.state.TopBorderRadius, borderBottomLeftRadius: 0}
+      ? {borderRadius: px2dp(10), borderBottomLeftRadius: 0,borderBottomRightRadius: 0,}
       : {
-          borderTopRightRadius: this.state.TopBorderRadius,
-          borderTopLeftRadius: this.state.TopBorderRadius,
+          borderTopRightRadius: px2dp(10),
+          borderTopLeftRadius: px2dp(10),
         };
     return (
       <View
@@ -323,53 +335,60 @@ class CardModal extends Component {
     return (
       <Animated.View
         style={[
-          {  
+          {
             marginTop: 0,
-            paddingLeft: px2dp(12),
-            paddingRight: px2dp(5),
+            paddingLeft: px2dp(15),
+            paddingRight: px2dp(15),
             backgroundColor: 'white',
             elevation: 20,
             width: this.state.bottom_width,
             height: this.state.bottom_height,
-            borderRadius: this.state.BottomBorderRadius,
+            borderTopLeftRadius:this.state.TopBorderRadius,
+            borderTopRightRadius:this.state.TopBorderRadius,
+            borderBottomLeftRadius: this.state.BottomBorderRadius,
+            borderBottomRightRadius: this.state.BottomBorderRadius,
+
             transform: this.state.bottom_pan.getTranslateTransform(),
           },
         ]}>
         <View style={{flexDirection: 'row'}}>
           <View style={!this.props.up ? {} : {flex: 4}}>
-              <Text
-                style={{
-                  textAlign: 'left',
-                  textAlignVertical: 'center',
-                  color: 'black',
-                  fontSize: px2dp(16),
-                  fontWeight: 'bold',
-                  // marginTop:0,
-                  // marginBottom:px2dp(3),
-                  height: height/11,
-                  width:width*0.67,
-                }}>
-                {this.props.title}
-              </Text>
-              <Text
-                style={{
-                  fontSize: px2dp(8),
-                  fontWeight: '500',
-                  color: 'gray',
-                  marginBottom:px2dp(3)
-                  // paddingBottom: 10,
-                }}>
-                {this.props.description}
-              </Text>
-              <Text
-                style={{
-                  fontSize: px2dp(8),
-                  fontWeight: '500',
-                  color: 'gray',
-                }}>
-                {this.props.due}
-              </Text>
-            </View>
+            <Text
+              numberOfLines={2}
+              style={{
+                textAlign: 'left',
+                textAlignVertical: 'center',
+                justifyContent: 'space-evenly',
+                color: 'black',
+                fontSize: px2dp(20),
+                fontWeight: 'bold',
+                // flexWrap:2,
+                // marginBottom:px2dp(3),
+                lineHeight: parseInt(height / 28),
+                height: parseInt(height / 10),
+                width: parseInt(width * 0.67),
+              }}>
+              {this.props.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: px2dp(12),
+                fontWeight: '500',
+                color: 'gray',
+                marginBottom: px2dp(5),
+                // paddingBottom: 10,
+              }}>
+              {this.props.description}
+            </Text>
+            <Text
+              style={{
+                fontSize: px2dp(10),
+                fontWeight: '500',
+                color: 'gray',
+              }}>
+              {this.props.due}
+            </Text>
+          </View>
 
           {plusButton}
         </View>
@@ -416,7 +435,9 @@ class CardModal extends Component {
       <View style={[styles.container, this.state.pressedStyle]}>
         <TouchableWithoutFeedback
           onPress={!this.props.pressed ? this._onPress : null}>
-          <View ref="container" style={[{alignItems: 'center', elevation: 20}]}>
+          <View
+            ref={this.containerRef}
+            style={[{alignItems: 'center', elevation: 20}]}>
             {this.renderTop()}
             {this.renderBottom()}
             {this.renderContent()}

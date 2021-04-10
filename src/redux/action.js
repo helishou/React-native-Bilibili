@@ -7,3 +7,4 @@ export const changeHeadNavigation = (state) => ({
   data: state,
 });
 export const press = (data) =>({type:ACTIONTYPES.PRESSED,data})
+export const setFullscreen = (data) =>({type:ACTIONTYPES.FULLSCREEN,data})

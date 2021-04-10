@@ -91,6 +91,13 @@ class Suggest extends Component {
             }
           });
         });
+        var randomNumber = function () {
+          // randomNumber(a,b) 返回的值大于 0 ，则 b 在 a 的前边；
+          // randomNumber(a,b) 返回的值等于 0 ，则a 、b 位置保持不变；
+          // randomNumber(a,b) 返回的值小于 0 ，则 a 在 b 的前边。
+          return 0.5 - Math.random();
+        };
+        preDataList.sort(randomNumber);
         // console.log('object', preDataList);
         this.setState({
           dataSource: preDataList,
