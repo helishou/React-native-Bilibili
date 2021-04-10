@@ -29,6 +29,7 @@
     "axios": "^0.21.1",
     "jsonp": "^0.2.1",
     "react": "17.0.1",
+    "react-devtools": "^4.11.0",
     "react-native": "0.64.0",
     "react-native-af-video-player": "^0.2.1",
     "react-native-banner-carousel": "^1.0.3",

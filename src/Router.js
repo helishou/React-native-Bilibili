@@ -64,7 +64,7 @@ function MaterialTopTabNavigator() {
         options={{title: '推荐'}}
       />
       <MaterialTopTab.Screen
-        name="category"
+        name="Category"
         component={Category}
         options={{title: '分区'}}
       />
@@ -89,16 +89,21 @@ function StackNavigator() {
      >
       <StackTab.Screen
         name="Bilibili"
-        component={MaterialTopTabNavigator}
-        options={{title: '哔哩哔哩',headerShown:false}}></StackTab.Screen>
+        component={RootNavigation}
+        options={{title: '哔哩哔哩',headerShown:false}}>
+        </StackTab.Screen>
       <StackTab.Screen
         name="Search"
         component={Search}
         options={{title: '搜索'}}></StackTab.Screen>
       <StackTab.Screen
+        name="earch"
+        component={Live}
+        options={{title: '搜索'}}></StackTab.Screen>
+      {/* <StackTab.Screen
         name="VideoPlayDetail"
         component={VideoPlayDetail}
-        options={{title: '视频播放'}}></StackTab.Screen>
+        options={{title: '视频播放'}}></StackTab.Screen> */}
     </StackTab.Navigator>
   );
 }
@@ -132,7 +137,7 @@ function TabNavigator() {
       initialRouteName="home">
       <Tab.Screen
         name="home"
-        component={StackNavigator}
+        component={MaterialTopTabNavigator}
         options={{title: '主页'}}
       />
       <Tab.Screen
@@ -153,6 +158,7 @@ function TabNavigator() {
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
   const isLargeScreen = false;
+  // console.log('props',props)
   return (
     <RootStack.Navigator
       initialRouteName="首页"
@@ -302,7 +308,7 @@ function RootNavigation() {
         barStyle="dark-content"
         animated={true}
       />
-      <NavigationContainer>{RootNavigation()}</NavigationContainer>
+      <NavigationContainer>{StackNavigator()}</NavigationContainer>
     </SafeAreaView>
   );
 }

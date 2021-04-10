@@ -39,6 +39,7 @@ import Activitys from './component/bottom/activity';
 import {themeColor} from './style/CommStyle';
 import Animated, {color} from 'react-native-reanimated';
 import {tapGreen,userCirle,wConffient,hConffient,marginLeft} from './style/CommStyle';
+import px2dp from './util';
 function MyTabBar({state, descriptors, navigation, position,pressed}) {
     return (
       <View style={[styles.topBar,{display:pressed?'none':'flex'}]}>
@@ -90,11 +91,11 @@ function MyTabBar({state, descriptors, navigation, position,pressed}) {
           });
           const fontSize = Animated.interpolateNode(position, {
             inputRange,
-            outputRange: inputRange.map(i => (i === index ? 30 : 19)),
+            outputRange: inputRange.map(i => (i === index ? px2dp(30) : px2dp(19))),
           });
           const fontWeight = Animated.interpolateNode(position, {
             inputRange,
-            outputRange: inputRange.map(i => (i === index ? 800 : 500)),
+            outputRange: inputRange.map(i => (i === index ? 9 : 5)),
           });
           return (
             <TouchableOpacity
@@ -106,12 +107,12 @@ function MyTabBar({state, descriptors, navigation, position,pressed}) {
               onPress={onPress}
               opacity="1"
               onLongPress={onLongPress}
-              style={styles.touchDiv}>
+              style={[styles.touchDiv,{marginHorizontal:isFocused?15:5}]}>
               <Animated.Text
                 style={[
                   {
                     opacity,
-                    fontWeight: toString(fontWeight),
+                    fontWeight: toString(parseInt(fontWeight)*100),
                     fontSize,
                     color: isFocused ?'#01BDC5':'black',
                     textAlign:'left',
@@ -128,7 +129,7 @@ function MyTabBar({state, descriptors, navigation, position,pressed}) {
           );
         })}
   
-        <Header />
+        <Header navigation={navigation}/>
       </View>
     );
   }
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    marginLeft: marginLeft,
+    marginLeft: marginLeft/2,
   },
   touchDiv:{
     // flex: 1,
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     // opacity:0.7,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    marginRight:20,
+    // marginRight:20,
     marginTop:20,
   }
 })

@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function Header() {
   const navigation = useNavigation();
+  // console.log('navigation',navigation)
   // console.log(navigation.openDrawer());
   return (
     <View style={styles.header}>

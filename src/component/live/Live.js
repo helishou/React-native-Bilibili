@@ -29,12 +29,12 @@ function Live() {
   //   // title: '视频分类',
   //   header: null,
   // };
-  const [dataSource, setDataSource] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    fetchData();
-    return () => {};
-  }, []);
+  // const [dataSource, setDataSource] = useState(null);
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // useEffect(() => {
+  //   fetchData();
+  //   return () => {};
+  // }, []);
 
   const fetchData = () => {
     fetch(api.live)

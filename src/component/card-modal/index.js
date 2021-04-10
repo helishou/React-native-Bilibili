@@ -21,13 +21,14 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
-import {YellowBox} from 'react-native';
-import {playVideo, resetVideo,press} from '../../redux/action';
-YellowBox.ignoreWarnings([
-  'Require cycle: node_modules/',
-  'Animated: `useNativeDriver` was not specified',
-  'Animated.event now requires a second argument for options',
-]);
+import px2dp from '../../util/index';
+import {LogBox} from 'react-native';
+import {playVideo, resetVideo, press} from '../../redux/action';
+// LogBox.ignoreLogs([
+//   'Require cycle: node_modules/',
+//   'Animated: `useNativeDriver` was not specified',
+//   'Animated.event now requires a second argument for options',
+// ]);
 class CardModal extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +54,7 @@ class CardModal extends Component {
       plus: new Animated.Value(1),
 
       TopBorderRadius: 5,
-      BottomBorderRadius: 0,
+      BottomBorderRadius: 5,
 
       activate: '播放',
       activated: false,
@@ -69,17 +70,16 @@ class CardModal extends Component {
   }
 
   _onPress() {
-    this.props.onClick();
     // console.log(this.props.onRef)
-    this.props.onRef(this)
-    this.setState({pressed: !this.state.pressed,activated:'播放'});
-    this.props.resetVideo();
-    this.props.press(true)
+    // console.log('绑定')
+    this.props.onClick()
+    this.setState({pressed: !this.state.pressed, activated: '播放'});
+
     this.calculateOffset();
   }
 
   grow() {
-    this.setState({TopBorderRadius: 0, BottomBorderRadius: 5});
+    // this.setState({TopBorderRadius: 0, BottomBorderRadius: 0});
 
     Animated.parallel([
       Animated.spring(this.state.top_width, {
@@ -129,7 +129,7 @@ class CardModal extends Component {
   }
 
   shrink() {
-    this.setState({TopBorderRadius: 5, BottomBorderRadius: 0});
+    // this.setState({TopBorderRadius: 5, BottomBorderRadius: 5});
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: this.state.org_width,
@@ -185,11 +185,15 @@ class CardModal extends Component {
       this.refs.container.measure((fx, fy, width, height, px, py) => {
         this.setState({offset: py}, () => {
           if (this.state.pressed) {
+            this.props.press(true);
+            this.props.onRef(this);
+            this.props.resetVideo();
             console.log('growing with offset', this.state.offset);
             this.grow();
           } else {
             console.log('shrinking with offset', this.state.offset);
             this.shrink();
+    
           }
         });
       });
@@ -251,9 +255,8 @@ class CardModal extends Component {
             // display: !this.state.activated?'flex':'none'
           },
         ]}>
-
         <Animated.Image
-          source={{uri:this.props.image}}
+          source={{uri: this.props.image}}
           style={[
             styles.top,
             borderStyles,
@@ -296,7 +299,7 @@ class CardModal extends Component {
       </TouchableOpacity>
     ) : null;
 
-    var plusButton = (
+    var plusButton = this.props.up ? (
       <Animated.View
         style={{
           opacity: 1,
@@ -304,7 +307,7 @@ class CardModal extends Component {
           alignItems: 'center',
         }}>
         <Animated.Image
-          source={this.props.up}
+          source={{uri: this.props.up}}
           style={[
             styles.face,
 
@@ -315,13 +318,17 @@ class CardModal extends Component {
             // },
           ]}></Animated.Image>
       </Animated.View>
-    );
+    ) : null;
 
     return (
       <Animated.View
         style={[
-          styles.bottom,
-          {
+          {  
+            marginTop: 0,
+            paddingLeft: px2dp(12),
+            paddingRight: px2dp(5),
+            backgroundColor: 'white',
+            elevation: 20,
             width: this.state.bottom_width,
             height: this.state.bottom_height,
             borderRadius: this.state.BottomBorderRadius,
@@ -329,21 +336,40 @@ class CardModal extends Component {
           },
         ]}>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 4}}>
-            <Text style={styles.categoryTitle}>{this.props.title}</Text>
-            <Text
-              style={{
-                fontSize: 12,
-                fontWeight: '500',
-                color: 'gray',
-                paddingBottom: 10,
-              }}>
-              {this.props.description}
-            </Text>
-            <Text style={{fontSize: 12, fontWeight: '500', color: 'gray'}}>
-              {this.props.due}
-            </Text>
-          </View>
+          <View style={!this.props.up ? {} : {flex: 4}}>
+              <Text
+                style={{
+                  textAlign: 'left',
+                  textAlignVertical: 'center',
+                  color: 'black',
+                  fontSize: px2dp(16),
+                  fontWeight: 'bold',
+                  // marginTop:0,
+                  // marginBottom:px2dp(3),
+                  height: height/11,
+                  width:width*0.67,
+                }}>
+                {this.props.title}
+              </Text>
+              <Text
+                style={{
+                  fontSize: px2dp(8),
+                  fontWeight: '500',
+                  color: 'gray',
+                  marginBottom:px2dp(3)
+                  // paddingBottom: 10,
+                }}>
+                {this.props.description}
+              </Text>
+              <Text
+                style={{
+                  fontSize: px2dp(8),
+                  fontWeight: '500',
+                  color: 'gray',
+                }}>
+                {this.props.due}
+              </Text>
+            </View>
 
           {plusButton}
         </View>
@@ -378,7 +404,7 @@ class CardModal extends Component {
             简介
           </Text>
           <Text style={{color: 'gray', paddingTop: 10}}>
-            {this.props.content?this.props.content:'这视频没有简介哦~'}
+            {this.props.content ? this.props.content : '这视频没有简介哦~'}
           </Text>
         </View>
       </Animated.View>
@@ -387,22 +413,24 @@ class CardModal extends Component {
 
   render() {
     return (
-        <View style={[styles.container, this.state.pressedStyle]}>
-          <TouchableWithoutFeedback
-            onPress={!this.props.pressed ? this._onPress : null}>
-            <View
-              ref="container"
-              style={[{alignItems: 'center', elevation: 20}]}>
-              {this.renderTop()}
-              {this.renderBottom()}
-              {this.renderContent()}
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+      <View style={[styles.container, this.state.pressedStyle]}>
+        <TouchableWithoutFeedback
+          onPress={!this.props.pressed ? this._onPress : null}>
+          <View ref="container" style={[{alignItems: 'center', elevation: 20}]}>
+            {this.renderTop()}
+            {this.renderBottom()}
+            {this.renderContent()}
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 }
-export default connect(state => ({pressed:state.pressed}), {playVideo, resetVideo,press})(CardModal);
+export default connect(state => ({pressed: state.pressed}), {
+  playVideo,
+  resetVideo,
+  press,
+})(CardModal);
 // const styles = StyleSheet.create({
 //   container: {
 //     alignItems: 'center',

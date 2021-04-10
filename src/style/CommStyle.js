@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
   },
   bottom: {
     marginTop: 0,
-    padding: 16,
+    padding: 13,
     borderBottomLeftRadius: radius,
     borderBottomRightRadius: radius,
     backgroundColor: 'white',
@@ -96,6 +96,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   ownerName: {
+    flex:1,
     textAlign: 'left',
     paddingLeft: padding,
     marginTop: hMargin,
@@ -105,21 +106,10 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
     fontSize: smallFontSize,
   },
-  categoryTitle: {
-    textAlign: 'left',
-    marginTop: hMargin / 5,
-    marginBottom: hMargin / 2,
-    // paddingLeft: padding,
-    textAlignVertical: 'center',
-    // paddingTop: padding,
-    // width: card_width,
-    color: 'black',
-    fontSize: fontSize,
-    fontWeight: 'bold',
-    height: card_width * 0.12,
-  },
+
 
   tname: {
+    flex:1,
     textAlign: 'left',
 
     // paddingTop: padding,
