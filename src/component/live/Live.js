@@ -102,11 +102,11 @@ function Live() {
             style={{marginBottom:20}}
           />
           <WebView
-            source={{ uri: 'http://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
+            source={{ uri: 'https://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
             style={{marginBottom:20}}
           />
           <WebView
-            source={{ uri: 'http://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
+            source={{ uri: 'https://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
             style={{marginBottom:20}}
           />
       {/* {isLoaded ? (

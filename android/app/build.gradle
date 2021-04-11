@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.jymapp"
+        applicationId "com.pilipili"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

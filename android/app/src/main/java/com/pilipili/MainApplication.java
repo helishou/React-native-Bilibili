@@ -1,4 +1,4 @@
-package com.jymapp;
+package com.pilipili;
 
 import android.app.Application;
 import android.content.Context;

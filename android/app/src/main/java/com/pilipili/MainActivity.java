@@ -1,4 +1,4 @@
-package com.jymapp;
+package com.pilipili;
 
 import com.facebook.react.ReactActivity;
 import android.content.Intent; // <--- import
