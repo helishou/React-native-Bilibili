@@ -1,20 +1,8 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React, {Component} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  useWindowDimensions,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
 import StackNavigator from './stackNavigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Mv from './component/movement';
 import Me from './component/bottom/me';

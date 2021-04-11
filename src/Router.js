@@ -10,36 +10,14 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import {createStackNavigator} from '@react-navigation/stack';
 
 import {NavigationContainer} from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Suggest from './pages/suggest/Suggest';
-import Live from './component/live/Live';
-import Dance from './component/category/Dance';
-import Communion from './component/communion/Communion';
-import CommunionDetail from './component/communion/CommunionDetail';
-import Mv from './component/movement';
-import VideoPlayDetail from './component/video/VideoPlayDetail';
-import LivePlayOnWebview from './component/live/LivePlayOnWebview';
-import Category from './component/category/Category';
-import CategoryList from './component/category/CategoryList';
 import Setting from './component/Setting';
-import Header from './component/header/Header';
 import Search from './pages/search';
-import Me from './component/bottom/me';
-import Findings from './component/bottom/findings';
-import Message from './component/bottom/message';
-import Activitys from './component/bottom/activity';
-import {themeColor} from './style/CommStyle';
-import Animated, {color} from 'react-native-reanimated';
-import {styles} from './style/CommStyle';
 import {connect} from 'react-redux';
-import MyTabBar from './myTabBar';
 import TabNavigator from './bottomBar.js';
 import CustomDrawerContent from './customDrawerContent'
 

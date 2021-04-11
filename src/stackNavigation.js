@@ -1,16 +1,5 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import React, {Component} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  useWindowDimensions,
-  TouchableOpacity,
-} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialTopTabNavigator from './materialTopTabNavigator';
 
