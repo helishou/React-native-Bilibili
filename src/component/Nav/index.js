@@ -5,13 +5,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {marginLeft} from '../../style/CommStyle';
 import {useNavigation} from '@react-navigation/native';
 export default function index(props) {
-    const navigation = useNavigation();
-    const title = props.title||'预定义'
-    const style=props.style||{}
+  const navigation = useNavigation();
+  const title = props.title || '预定义';
+  const style = props.style || {};
+  // console.log(onClick)
   return (
-    <View style={[styles.nav,style]}>
+    <View style={[styles.nav, style]}>
       <Icon
-      onPress={()=>navigation.goBack()}
+        onPress={() => {
+          navigation.goBack();
+          try {
+            console.log('我试了',props.onClick())
+            props.onClick();
+          }catch{}
+        }}
         name="arrow-back-outline"
         size={px2dp(25)}></Icon>
       <Text style={styles.title}>{title}</Text>

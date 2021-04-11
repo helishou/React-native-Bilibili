@@ -15,51 +15,34 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {reqSeach} from '../../config/api';
 import VideoList from '../../component/videoList';
 import LinearGradient from 'react-native-linear-gradient';
-import Nav from '../../component/Nav'
-import { connect } from 'react-redux';
+import Nav from '../../component/Nav';
+import {connect} from 'react-redux';
+import {set} from 'react-native-reanimated';
 // import { styles } from '../../style/CommStyle';
 function Search(props) {
   const [text, setText] = useState('');
-  const [onfocus, setonFocus] = useState(true);
+  const [first, setFirst] = useState(true);
+  const [onfocus, setOnFocus] = useState(true);
   const [dataSource, setDataSource] = useState({});
   const [show, setShow] = useState(true);
+  console.log('show', show);
+  console.log('first', first);
   const onChangeText = text => {
     setText(text);
   };
   const onClick = () => {
     setShow(false);
+    setFirst(false);
+    console.log('我被调用');
   };
-  // const fetchData = keyword => {
-  //   // let formData = new FormData();
-  //   // formData.append('keyword', keyword);
-  //   // let opts = {
-  //   //   method: 'POST', //请求方法
-  //   //   body: formData, //请求体
-  //   //   headers: {
-
-  //   //     'Accept':'application/json',
-
-  //   //     'Content-Type':'multipart/form-data;boundary=6ff46e0b6b5148d984f148b6542e5a5d'
-
-  //   //     },
-  //   // };
-  //   fetch(`http://api.bilibili.com/x/web-interface/search/all/v2?keyword=${keyword}`)
-  //     .then(response => {
-  //       console.log('resp',response)
-  //       return response.json()})
-  //     .then(Soucedata => {
-  //       console.log('111', Soucedata);
-  //     })
-  //     .catch(err => {
-  //       console.log('error!!!', err);
-  //     })
-  //     .done();
-  // };
+  const backClick = () => {
+    setShow(true);
+    console.log('我被调用2');
+  };
   const onEndEditing = () => {
     if (text) {
       getData();
     }
-    // fetchData(text)
   };
   const getData = async () => {
     const result = await reqSeach(text);
@@ -92,11 +75,17 @@ function Search(props) {
     });
     setDataSource(preDataList);
     console.log(preDataList);
-    setonFocus(false);
+    setOnFocus(false);
   };
   return (
     <View>
-      <Nav title='搜索' style={{display:props.pressed?'none':'flex'}}></Nav>
+      <Nav
+        title="搜索"
+        onClick={() => {
+          console.log('search里的Nav返回被调用了');
+          setFirst(true);
+        }}
+        style={{display: props.pressed ? 'none' : 'flex'}}></Nav>
       {show ? (
         <LinearGradient
           start={{x: 0, y: 0}}
@@ -104,19 +93,22 @@ function Search(props) {
           locations={[0, 0.5, 0.6]}
           colors={['white', '#f4f4f4']}
           style={styles.container}>
-            <View style={styles.searchBox}>
-              <Icon name="search" size={18} style={styles.searchIcon}></Icon>
+          <View style={styles.searchBox}>
+            <Icon name="search" size={18} style={styles.searchIcon}></Icon>
 
-              <TextInput
-                onfocus={() => setonFocus(true)}
-                autoFocus={true}
-                placeholder="请输入文字"
-                style={styles.inputText}
-                keyboardType="web-search"
-                onChangeText={text => onChangeText(text)}
-                onEndEditing={() => onEndEditing()}
-              />
-            </View>
+            <TextInput
+              onFocus={() => {
+                console.log('文字选中');
+                setOnFocus(true);
+              }}
+              autoFocus={first}
+              placeholder="请输入文字"
+              style={styles.inputText}
+              keyboardType="web-search"
+              onChangeText={text => onChangeText(text)}
+              onEndEditing={() => onEndEditing()}
+            />
+          </View>
         </LinearGradient>
       ) : null}
       {!onfocus ? (
@@ -125,6 +117,7 @@ function Search(props) {
           isLoaded={!onfocus}
           fetchData={() => getData()}
           onClick={() => onClick()}
+          backClick={() => backClick()}
         />
       ) : (
         <SeachView />
@@ -132,7 +125,7 @@ function Search(props) {
     </View>
   );
 }
-export default connect(state=>({pressed:state.pressed}),{})(Search)
+export default connect(state => ({pressed: state.pressed}), {})(Search);
 const styles = StyleSheet.create({
   container: {
     // position:'absolute',

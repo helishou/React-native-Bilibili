@@ -74,7 +74,6 @@ class CardModal extends Component {
   _onPress() {
     // console.log(this.props.onRef)
     // console.log('绑定')
-    this.props.onClick();
     this.setState({pressed: !this.state.pressed, activated: '播放'});
 
     this.calculateOffset();
@@ -221,6 +220,7 @@ class CardModal extends Component {
         this.setState({offset: py}, () => {
           if (this.state.pressed) {
             this.props.onRef(this);
+            this.props.onClick();
             // console.log('growing with offset', this.state.offset);
             this.grow();
             this.props.press(true);

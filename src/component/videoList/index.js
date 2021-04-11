@@ -6,11 +6,28 @@ import {press, setFullscreen} from '../../redux/action';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Orientation from 'react-native-orientation';
-import px2dp from '../../util'
+import px2dp from '../../util';
 function VideoList(props) {
   const [scroll, setScroll] = useState(true);
   const [child, setChild] = useState({});
   const listRef = useRef();
+  const backClick = () => {
+    {
+      // console.log(child)
+      Orientation.lockToPortrait();
+      try {
+        props.backClick();
+      } catch {}
+      if (props.fullscreen) {
+        props.setFullscreen(false);
+      } else {
+        child._onPress();
+        props.press(false);
+      }
+      setScroll(true);
+      // setScroll(true);
+    }
+  };
   const disableScroll = () => {
     try {
       props.onClick();
@@ -18,7 +35,7 @@ function VideoList(props) {
       console.log('没有传入onClick');
     }
 
-    setScroll(!scroll);
+    setScroll(false);
   };
   const onRefresh = () => {
     props.press(false);
@@ -47,7 +64,7 @@ function VideoList(props) {
         up={item.owner.face}
         color="#01BDC5"
         content={item.desc}
-        onClick={disableScroll}
+        onClick={()=>disableScroll()}
         // onClick2={() => this.disablePressed()}
         due={
           item.tname
@@ -73,30 +90,19 @@ function VideoList(props) {
       {props.pressed ? (
         <TouchableOpacity
           style={[styles.backButton]}
-          onPress={() => {
-            // console.log(child)
-            Orientation.lockToPortrait();
-            if (props.fullscreen) {
-              props.setFullscreen(false);
-            } else {
-              child._onPress();
-              props.press(false);
-            }
-
-            // setScroll(true);
-          }}>
+          onPress={() => backClick()}>
           <View
             style={[
               {
                 opacity: 1,
-                flex:1,
+                flex: 1,
                 left: px2dp(6),
                 // top: px2dp(5),
-                justifyContent:'center',
+                justifyContent: 'center',
                 // alignItems:'center'
               },
             ]}>
-            <Icon size={23} color='white' name="chevron-left" />
+            <Icon size={23} color="white" name="chevron-left" />
           </View>
         </TouchableOpacity>
       ) : (
@@ -108,7 +114,7 @@ function VideoList(props) {
         initialListSize={6}
         data={props.dataSource}
         scrollEnabled={scroll}
-        onTouchStart={()=>console.log('我被按了')}
+        onTouchStart={() => console.log('我被按了')}
         // numColumns={1}
         renderItem={({item}) => _renderRow(item)}
         // contentContainerStyle={styles.ListViewStyle}

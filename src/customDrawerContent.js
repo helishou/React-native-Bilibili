@@ -2,8 +2,8 @@ import React from 'react';
 import { View,Text,StyleSheet } from 'react-native';
 
 export default function CustomDrawerContent(props) {
-  console.log('自定义侧边',props)
-  console.log('---------------')
+  // console.log('自定义侧边',props)
+  // console.log('---------------')
   return (
     <View style={styles.container}>
       {/* <View style={styles.test}></View> */}

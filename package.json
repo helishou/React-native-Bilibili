@@ -20,7 +20,6 @@
     "@react-native-community/segmented-control": "^2.2.2",
     "@react-native-community/slider": "^3.0.3",
     "@react-native-community/viewpager": "^5.0.11",
-    "@react-native-picker/picker": "^1.12.0",
     "@react-navigation/bottom-tabs": "^5.11.8",
     "@react-navigation/drawer": "^5.12.4",
     "@react-navigation/material-top-tabs": "^5.3.14",
