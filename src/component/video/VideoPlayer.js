@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import Orientation from 'react-native-orientation';
 import {setFullscreen} from '../../redux/action';
 import px2dp from '../../util';
+import Icon from 'react-native-vector-icons/FontAwesome';
 let {width, height} = Dimensions.get('window');
 //封装播放器
 function VideoPlayer(props) {
@@ -29,23 +30,21 @@ function VideoPlayer(props) {
   return props.video.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
-      {/* <Text
+      <Icon
+        name="bars"
+        size={props.fullscreen ?px2dp(23):0}
         style={{
           position: 'absolute',
-          top: 20,
-          left: 20,
-          height: 20,
-          white: 20,
-          color: 'black',
+          top: px2dp(40),
+          right: px2dp(40),
+          height: 40,
+          white: 40,
+          color: 'white',
           zIndex: 10,
-          backgroundColor: 'white',
           opacity: 0.5,
-          borderRadius: 30,
           fontWeight: 'bold',
         }}>
-        {' '}
-        {'<'}{' '}
-      </Text> */}
+      </Icon>
       {!props.fullscreen ? (
         <TouchableHighlight
           style={{
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    height: height * 0.33,
+    height: height * 0.3,
     width: width,
     // alignItems:'center',
     zIndex: 8,
@@ -152,9 +151,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    height: parseInt(height * 0.32),
+    height: parseInt(height * 0.34),
     width: width,
-    backgroundColor: 'gray',
+    // backgroundColor: 'gray',
     // alignItems:'center',
     zIndex: 9,
   },

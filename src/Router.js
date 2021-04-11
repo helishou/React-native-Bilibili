@@ -38,10 +38,10 @@ import Activitys from './component/bottom/activity';
 import {themeColor} from './style/CommStyle';
 import Animated, {color} from 'react-native-reanimated';
 import {styles} from './style/CommStyle';
-import { connect } from 'react-redux';
-import MyTabBar from './myTabBar'
-import TabNavigator from './bottomBar.js'
-
+import {connect} from 'react-redux';
+import MyTabBar from './myTabBar';
+import TabNavigator from './bottomBar.js';
+import CustomDrawerContent from './customDrawerContent'
 
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
@@ -51,6 +51,9 @@ function RootNavigation() {
     <RootStack.Navigator
       initialRouteName="首页"
       overlayColor="transparent"
+      drawerContent={props => (
+        <CustomDrawerContent {...props}></CustomDrawerContent>
+      )}
       drawerType={isLargeScreen ? 'permanent' : 'front'}
       // drawerPosition='right'//定义侧边栏位置右边，默认left左边
       // screenOptions={
@@ -92,6 +95,7 @@ function RootNavigation() {
           ),
         }}
       />
+
       <RootStack.Screen
         name="我的大会员"
         component={Setting}
@@ -182,18 +186,25 @@ function RootNavigation() {
           ),
         }}
       />
+      <RootStack.Screen
+        name="Search"
+        component={Search}
+        options={{
+          title: '',
+        }}
+      />
     </RootStack.Navigator>
   );
 }
 
- function AppInner() {
+function AppInner(props) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
         // backgroundColor={themeColor}
-        backgroundColor="rgba(0, 0, 0, 0)"
-        translucent
-        barStyle="dark-content"
+        backgroundColor={0 ? 'black' : 'rgba(0, 0, 0, 0)'}
+        translucent={0 ? false : true}
+        barStyle={props.video.url ? 'light-content' : 'dark-content'}
         animated={true}
       />
       {/* <View></View> */}
@@ -202,5 +213,5 @@ function RootNavigation() {
   );
 }
 
-// export default connect((state)=>({pressed:state.pressed}),{})(AppInner)
-export default AppInner
+export default connect(state => ({video: state.video}), {})(AppInner);
+// export default AppInner

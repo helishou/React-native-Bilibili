@@ -26,10 +26,10 @@ export default function StackNavigator() {
         name="Bilibili"
         component={MaterialTopTabNavigator}
         options={{title: '哔哩哔哩', headerShown: false}}></StackTab.Screen>
-      <StackTab.Screen
+      {/* <StackTab.Screen
         name="Search"
         component={Search}
-        options={{title: '搜索'}}></StackTab.Screen>
+        options={{title: '搜索'}}></StackTab.Screen> */}
       {/* <StackTab.Screen
         name="earch"
         component={Live}

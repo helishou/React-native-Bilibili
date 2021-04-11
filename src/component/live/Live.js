@@ -12,7 +12,7 @@ import {
   ScrollView
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {api} from '../../config/11111';
+// import Orientation from 'react-native-orientation';
 import WebView from 'react-native-webview'
 // 计算左侧的外边距，使其居中显示
 const {width, height} = Dimensions.get('window');
@@ -25,6 +25,12 @@ const hMargin = 10;
 
 function Live() {
   const navigation = useNavigation();
+  // useEffect(() => {
+  //   Orientation.lockToPortrait()
+  //   return () => {
+  //     Orientation.lockToPortrait()
+  //   }
+  // }, [])
   // const navigationOptions = {
   //   // title: '视频分类',
   //   header: null,

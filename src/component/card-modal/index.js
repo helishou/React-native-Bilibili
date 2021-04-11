@@ -24,6 +24,7 @@ const {width, height} = Dimensions.get('window');
 import px2dp from '../../util/index';
 import {LogBox} from 'react-native';
 import {playVideo, resetVideo, press} from '../../redux/action';
+import {BlurView} from '@react-native-community/blur';
 // LogBox.ignoreLogs([
 //   'Require cycle: node_modules/',
 //   'Animated: `useNativeDriver` was not specified',
@@ -85,57 +86,68 @@ class CardModal extends Component {
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: width,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_height, {
-        toValue:parseInt(height / 2),
-        useNativeDriver: false,duration:500,
+        toValue: parseInt(height / 2),
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_height, {
         toValue: parseInt(height / 6 + 50),
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.content_height, {
         toValue: parseInt(height / 2),
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_pan, {
         toValue: {
           x: 0,
           y: -parseInt(this.state.offset),
         },
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.content_pan, {
         toValue: {
           x: 0,
           y: -parseInt(height / 8 + this.state.offset),
         },
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_pan, {
         toValue: {
           x: 0,
           y: -(50 + this.state.offset),
         },
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
 
       Animated.timing(this.state.content_opac, {
         toValue: 1,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.button_opac, {
         toValue: 1,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.back_opac, {
         toValue: 1,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.plus, {
         toValue: 0,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
     ]);
   }
@@ -145,49 +157,59 @@ class CardModal extends Component {
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: this.state.org_width,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_height, {
         toValue: this.state.org_height,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_height, {
         toValue: height / 6,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_pan, {
         toValue: {
           x: 0,
           y: 0,
         },
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_pan, {
         toValue: {
           x: 0,
           y: 0,
         },
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.content_height, {
         toValue: 0,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.content_opac, {
         toValue: 0,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.button_opac, {
         toValue: 0,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.back_opac, {
         toValue: 0,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.plus, {
         toValue: 1,
-        useNativeDriver: false,duration:500,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
     ]);
   }
@@ -251,7 +273,11 @@ class CardModal extends Component {
     // );
 
     var borderStyles = !this.state.pressed
-      ? {borderRadius: px2dp(10), borderBottomLeftRadius: 0,borderBottomRightRadius: 0,}
+      ? {
+          borderRadius: px2dp(10),
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }
       : {
           borderTopRightRadius: px2dp(10),
           borderTopLeftRadius: px2dp(10),
@@ -272,12 +298,14 @@ class CardModal extends Component {
           style={[
             styles.top,
             borderStyles,
+            
             {
               width: this.state.top_width,
               height: this.state.top_height,
               transform: this.state.top_pan.getTranslateTransform(),
             },
           ]}></Animated.Image>
+          
         {/* {back} */}
       </View>
     );
@@ -343,8 +371,8 @@ class CardModal extends Component {
             elevation: 20,
             width: this.state.bottom_width,
             height: this.state.bottom_height,
-            borderTopLeftRadius:this.state.TopBorderRadius,
-            borderTopRightRadius:this.state.TopBorderRadius,
+            borderTopLeftRadius: this.state.TopBorderRadius,
+            borderTopRightRadius: this.state.TopBorderRadius,
             borderBottomLeftRadius: this.state.BottomBorderRadius,
             borderBottomRightRadius: this.state.BottomBorderRadius,
 

@@ -14,18 +14,21 @@ import {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {reqSeach} from '../../config/api';
 import VideoList from '../../component/videoList';
+import LinearGradient from 'react-native-linear-gradient';
+import Nav from '../../component/Nav'
+import { connect } from 'react-redux';
 // import { styles } from '../../style/CommStyle';
-export default function Search() {
+function Search(props) {
   const [text, setText] = useState('');
   const [onfocus, setonFocus] = useState(true);
   const [dataSource, setDataSource] = useState({});
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(true);
   const onChangeText = text => {
     setText(text);
   };
-  const onClick = ()=>{
-    setShow(false)
-  }
+  const onClick = () => {
+    setShow(false);
+  };
   // const fetchData = keyword => {
   //   // let formData = new FormData();
   //   // formData.append('keyword', keyword);
@@ -93,27 +96,35 @@ export default function Search() {
   };
   return (
     <View>
-      {show?<View style={styles.container}>
-        <View style={styles.searchBox}>
-          <Icon name="search" size={18} style={styles.searchIcon}></Icon>
+      <Nav title='搜索' style={{display:props.pressed?'none':'flex'}}></Nav>
+      {show ? (
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 0, y: 1.0}}
+          locations={[0, 0.5, 0.6]}
+          colors={['white', '#f4f4f4']}
+          style={styles.container}>
+            <View style={styles.searchBox}>
+              <Icon name="search" size={18} style={styles.searchIcon}></Icon>
 
-          <TextInput
-            onfocus={() => setonFocus(true)}
-            autoFocus={true}
-            placeholder="请输入文字"
-            style={styles.inputText}
-            keyboardType="web-search"
-            onChangeText={text => onChangeText(text)}
-            onEndEditing={() => onEndEditing()}
-          />
-        </View>
-      </View>:null}
+              <TextInput
+                onfocus={() => setonFocus(true)}
+                autoFocus={true}
+                placeholder="请输入文字"
+                style={styles.inputText}
+                keyboardType="web-search"
+                onChangeText={text => onChangeText(text)}
+                onEndEditing={() => onEndEditing()}
+              />
+            </View>
+        </LinearGradient>
+      ) : null}
       {!onfocus ? (
         <VideoList
           dataSource={dataSource}
           isLoaded={!onfocus}
           fetchData={() => getData()}
-            onClick={()=>onClick()}
+          onClick={() => onClick()}
         />
       ) : (
         <SeachView />
@@ -121,7 +132,7 @@ export default function Search() {
     </View>
   );
 }
-
+export default connect(state=>({pressed:state.pressed}),{})(Search)
 const styles = StyleSheet.create({
   container: {
     // position:'absolute',
@@ -135,7 +146,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 20 : 0, // 处理iOS状态栏
     paddingBottom: Platform.OS === 'ios' ? 20 : 0, // 处理iOS状态栏
     height: Platform.OS === 'ios' ? 68 : 58, // 处理iOS状态栏
-    backgroundColor: 'rgba(255,255,255,1)',
+    // backgroundColor: 'rgba(255,255,255,1)',
     alignItems: 'center', // 使元素垂直居中排布, 当flexDirection为column时, 为水平居中
     zIndex: 11,
   },
