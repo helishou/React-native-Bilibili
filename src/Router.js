@@ -1,14 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
-  Image,
   SafeAreaView,
   StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  useWindowDimensions,
-  TouchableOpacity,
 } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
