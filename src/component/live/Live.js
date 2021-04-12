@@ -12,7 +12,7 @@ import {
   ScrollView
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {api} from '../../config/api';
+// import Orientation from 'react-native-orientation';
 import WebView from 'react-native-webview'
 // 计算左侧的外边距，使其居中显示
 const {width, height} = Dimensions.get('window');
@@ -25,16 +25,22 @@ const hMargin = 10;
 
 function Live() {
   const navigation = useNavigation();
+  // useEffect(() => {
+  //   Orientation.lockToPortrait()
+  //   return () => {
+  //     Orientation.lockToPortrait()
+  //   }
+  // }, [])
   // const navigationOptions = {
   //   // title: '视频分类',
   //   header: null,
   // };
-  const [dataSource, setDataSource] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    fetchData();
-    return () => {};
-  }, []);
+  // const [dataSource, setDataSource] = useState(null);
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // useEffect(() => {
+  //   fetchData();
+  //   return () => {};
+  // }, []);
 
   const fetchData = () => {
     fetch(api.live)
@@ -96,11 +102,11 @@ function Live() {
             style={{marginBottom:20}}
           />
           <WebView
-            source={{ uri: 'http://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
+            source={{ uri: 'https://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
             style={{marginBottom:20}}
           />
           <WebView
-            source={{ uri: 'http://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
+            source={{ uri: 'https://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
             style={{marginBottom:20}}
           />
       {/* {isLoaded ? (

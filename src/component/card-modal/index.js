@@ -1,7 +1,7 @@
 /**
  * Created by ggoma on 2016. 11. 22..
  */
-import React, {Component} from 'react';
+import React, {Component, createRef, useRef} from 'react';
 import {
   Animated,
   ActivityIndicator,
@@ -17,17 +17,20 @@ import {
   ImageBackground,
 } from 'react-native';
 import WebView from 'react-native-webview';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
-import {YellowBox} from 'react-native';
-
-YellowBox.ignoreWarnings([
-  'Require cycle: node_modules/',
-  'Animated: `useNativeDriver` was not specified',
-  'Animated.event now requires a second argument for options',
-]);
-export default class CardModal extends Component {
+import px2dp from '../../util/index';
+import {LogBox} from 'react-native';
+import {playVideo, resetVideo, press} from '../../redux/action';
+import {BlurView} from '@react-native-community/blur';
+// LogBox.ignoreLogs([
+//   'Require cycle: node_modules/',
+//   'Animated: `useNativeDriver` was not specified',
+//   'Animated.event now requires a second argument for options',
+// ]);
+class CardModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,9 +40,9 @@ export default class CardModal extends Component {
       org_height: height / 5,
 
       top_width: new Animated.Value(width - 32),
-      top_height: new Animated.Value(height / 5),
+      top_height: new Animated.Value(height / 6),
       bottom_width: new Animated.Value(width - 32),
-      bottom_height: new Animated.Value(height / 7),
+      bottom_height: new Animated.Value(height / 6),
       content_height: new Animated.Value(0),
 
       top_pan: new Animated.ValueXY(),
@@ -51,8 +54,8 @@ export default class CardModal extends Component {
       back_opac: new Animated.Value(0),
       plus: new Animated.Value(1),
 
-      TopBorderRadius: 5,
-      BottomBorderRadius: 0,
+      TopBorderRadius: px2dp(0),
+      BottomBorderRadius: px2dp(10),
 
       activate: '播放',
       activated: false,
@@ -65,78 +68,106 @@ export default class CardModal extends Component {
     this._onPress = this._onPress.bind(this);
     this.calculateOffset = this.calculateOffset.bind(this);
     this.activate = this.activate.bind(this);
+    this.containerRef = createRef();
   }
 
   _onPress() {
-    this.props.onClick();
-    this.setState({pressed: !this.state.pressed});
+    // console.log(this.props.onRef)
+    // console.log('绑定')
+    this.setState({pressed: !this.state.pressed, activated: '播放'});
+
     this.calculateOffset();
   }
 
   grow() {
-    this.setState({TopBorderRadius: 0, BottomBorderRadius: 5});
+    this.setState({TopBorderRadius: px2dp(10)});
 
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: width,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_height, {
-        toValue: height / 2,
+        toValue: parseInt(height / 2),
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_height, {
-        toValue: height / 6 + 50,
+        toValue: parseInt(height / 6 + 50),
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.content_height, {
-        toValue: height / 2,
+        toValue: parseInt(height / 2),
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_pan, {
         toValue: {
           x: 0,
-          y: -this.state.offset,
+          y: -parseInt(this.state.offset),
         },
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.content_pan, {
         toValue: {
           x: 0,
-          y: -(height / 8 + this.state.offset),
+          y: -parseInt(height / 8 + this.state.offset),
         },
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_pan, {
         toValue: {
           x: 0,
           y: -(50 + this.state.offset),
         },
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
 
       Animated.timing(this.state.content_opac, {
         toValue: 1,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.button_opac, {
         toValue: 1,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.back_opac, {
         toValue: 1,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.plus, {
         toValue: 0,
+        useNativeDriver: false,
+        duration: 500,
       }).start(),
     ]);
   }
 
   shrink() {
-    this.setState({TopBorderRadius: 5, BottomBorderRadius: 0});
+    this.setState({TopBorderRadius: px2dp(0)});
     Animated.parallel([
       Animated.spring(this.state.top_width, {
         toValue: this.state.org_width,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_height, {
         toValue: this.state.org_height,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_height, {
-        toValue: height / 7,
+        toValue: height / 6,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.top_pan, {
         toValue: {
@@ -144,6 +175,7 @@ export default class CardModal extends Component {
           y: 0,
         },
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.bottom_pan, {
         toValue: {
@@ -151,40 +183,51 @@ export default class CardModal extends Component {
           y: 0,
         },
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.spring(this.state.content_height, {
         toValue: 0,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.content_opac, {
         toValue: 0,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.button_opac, {
         toValue: 0,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.back_opac, {
         toValue: 0,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
       Animated.timing(this.state.plus, {
         toValue: 1,
         useNativeDriver: false,
+        duration: 500,
       }).start(),
     ]);
   }
 
   calculateOffset() {
-    if (this.refs.container) {
-      this.refs.container.measure((fx, fy, width, height, px, py) => {
+    // console.log(this.containerRef);duration:500,
+    if (this.containerRef) {
+      this.containerRef.current.measure((fx, fy, width, height, px, py) => {
         this.setState({offset: py}, () => {
           if (this.state.pressed) {
-            console.log('growing with offset', this.state.offset);
+            this.props.onRef(this);
+            this.props.onClick();
+            // console.log('growing with offset', this.state.offset);
             this.grow();
+            this.props.press(true);
           } else {
-            console.log('shrinking with offset', this.state.offset);
+            // console.log('shrinking with offset', this.state.offset);
             this.shrink();
+            this.props.resetVideo();
           }
         });
       });
@@ -193,11 +236,14 @@ export default class CardModal extends Component {
 
   activate() {
     this.setState({activate: 'loading'});
+    const {aid, cid, videos} = this.props;
+    // console.log(this.props.playVideo)
+    this.props.playVideo({aid, cid, videos});
     setTimeout(() => {
       this.setState({
         activate: (
           <Text>
-            Activated <Icon name="check" />
+            播放中 <Icon name="check" />
           </Text>
         ),
         activated: true,
@@ -206,31 +252,35 @@ export default class CardModal extends Component {
   }
 
   renderTop() {
-    var back = this.state.pressed ? (
-      <TouchableOpacity style={[styles.backButton]} onPress={this._onPress}>
-        <Animated.View
-          style={[
-            {
-              opacity: this.state.back_opac,
-              position: 'relative',
-              left: 8,
-              top: 7,
-            },
-          ]}>
-          <Text style={{color: 'white'}}>
-            <Icon size={23} name="chevron-left" />
-          </Text>
-        </Animated.View>
-      </TouchableOpacity>
-    ) : (
-      <View />
-    );
+    // var back = this.state.pressed ? (
+    //   <TouchableOpacity style={[styles.backButton]} onPress={this._onPress}>
+    //     <Animated.View
+    //       style={[
+    //         {
+    //           opacity: this.state.back_opac,
+    //           position: 'relative',
+    //           left: 8,
+    //           top: 7,
+    //         },
+    //       ]}>
+    //       <Text style={{color: 'white'}}>
+    //         <Icon size={23} name="chevron-left" />
+    //       </Text>
+    //     </Animated.View>
+    //   </TouchableOpacity>
+    // ) : (
+    //   <View />
+    // );
 
     var borderStyles = !this.state.pressed
-      ? {borderRadius: this.state.TopBorderRadius, borderBottomLeftRadius: 0}
+      ? {
+          borderRadius: px2dp(10),
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }
       : {
-          borderTopRightRadius: this.state.TopBorderRadius,
-          borderTopLeftRadius: this.state.TopBorderRadius,
+          borderTopRightRadius: px2dp(10),
+          borderTopLeftRadius: px2dp(10),
         };
     return (
       <View
@@ -239,21 +289,24 @@ export default class CardModal extends Component {
             width: this.state.top_width,
             height: this.state.top_height,
             transform: this.state.top_pan.getTranslateTransform(),
+            elevation: 20,
             // display: !this.state.activated?'flex':'none'
           },
         ]}>
         <Animated.Image
-          source={this.props.image}
+          source={{uri: this.props.image}}
           style={[
             styles.top,
             borderStyles,
+            
             {
               width: this.state.top_width,
               height: this.state.top_height,
               transform: this.state.top_pan.getTranslateTransform(),
             },
           ]}></Animated.Image>
-        {back}
+          
+        {/* {back} */}
       </View>
     );
   }
@@ -286,17 +339,18 @@ export default class CardModal extends Component {
       </TouchableOpacity>
     ) : null;
 
-    var plusButton = (
+    var plusButton = this.props.up ? (
       <Animated.View
         style={{
-          opacity: this.state.plus,
+          opacity: 1,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
         <Animated.Image
-          source={this.props.up}
+          source={{uri: this.props.up}}
           style={[
             styles.face,
+
             // {
             //   width: this.state.top_width,
             //   height: this.state.top_height,
@@ -304,41 +358,62 @@ export default class CardModal extends Component {
             // },
           ]}></Animated.Image>
       </Animated.View>
-    );
+    ) : null;
 
     return (
       <Animated.View
         style={[
-          styles.bottom,
           {
+            marginTop: 0,
+            paddingLeft: px2dp(15),
+            paddingRight: px2dp(15),
+            backgroundColor: 'white',
+            elevation: 20,
             width: this.state.bottom_width,
             height: this.state.bottom_height,
-            borderRadius: this.state.BottomBorderRadius,
+            borderTopLeftRadius: this.state.TopBorderRadius,
+            borderTopRightRadius: this.state.TopBorderRadius,
+            borderBottomLeftRadius: this.state.BottomBorderRadius,
+            borderBottomRightRadius: this.state.BottomBorderRadius,
+
             transform: this.state.bottom_pan.getTranslateTransform(),
           },
         ]}>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 4}}>
+          <View style={!this.props.up ? {} : {flex: 4}}>
             <Text
+              numberOfLines={2}
               style={{
-                fontSize: 24,
-                fontWeight: '700',
-                paddingBottom: 8,
-                height: 70,
+                textAlign: 'left',
                 textAlignVertical: 'center',
+                justifyContent: 'space-evenly',
+                color: 'black',
+                fontSize: px2dp(20),
+                fontWeight: 'bold',
+                // flexWrap:2,
+                // marginBottom:px2dp(3),
+                lineHeight: parseInt(height / 28),
+                height: parseInt(height / 10),
+                width: parseInt(width * 0.67),
               }}>
               {this.props.title}
             </Text>
             <Text
               style={{
-                fontSize: 12,
+                fontSize: px2dp(12),
                 fontWeight: '500',
                 color: 'gray',
-                paddingBottom: 10,
+                marginBottom: px2dp(5),
+                // paddingBottom: 10,
               }}>
               {this.props.description}
             </Text>
-            <Text style={{fontSize: 12, fontWeight: '500', color: 'gray'}}>
+            <Text
+              style={{
+                fontSize: px2dp(10),
+                fontWeight: '500',
+                color: 'gray',
+              }}>
               {this.props.due}
             </Text>
           </View>
@@ -366,12 +441,17 @@ export default class CardModal extends Component {
           transform: this.state.content_pan.getTranslateTransform(),
         }}>
         <View
-          style={{backgroundColor: 'white', flex: 1, margin: 16, padding: 16}}>
+          style={{
+            backgroundColor: '#f4f4f4',
+            flex: 1,
+            margin: 16,
+            padding: 16,
+          }}>
           <Text style={{fontSize: 24, fontWeight: '700', color: 'black'}}>
             简介
           </Text>
           <Text style={{color: 'gray', paddingTop: 10}}>
-            {this.props.content}
+            {this.props.content ? this.props.content : '这视频没有简介哦~'}
           </Text>
         </View>
       </Animated.View>
@@ -382,8 +462,10 @@ export default class CardModal extends Component {
     return (
       <View style={[styles.container, this.state.pressedStyle]}>
         <TouchableWithoutFeedback
-          onPress={!this.state.pressed ? this._onPress : null}>
-          <View ref="container" style={[{alignItems: 'center'}]}>
+          onPress={!this.props.pressed ? this._onPress : null}>
+          <View
+            ref={this.containerRef}
+            style={[{alignItems: 'center', elevation: 20}]}>
             {this.renderTop()}
             {this.renderBottom()}
             {this.renderContent()}
@@ -393,7 +475,11 @@ export default class CardModal extends Component {
     );
   }
 }
-
+export default connect(state => ({pressed: state.pressed}), {
+  playVideo,
+  resetVideo,
+  press,
+})(CardModal);
 // const styles = StyleSheet.create({
 //   container: {
 //     alignItems: 'center',

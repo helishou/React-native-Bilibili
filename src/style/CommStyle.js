@@ -17,11 +17,9 @@ if (height < width) {
   // cols = cols * 2;
 }
 
-const wConffient = Number.parseFloat(width / devWidth / cols);
-const hConffient = Number.parseFloat(height / devHeight / cols);
-console.log(wConffient);
-console.log(hConffient);
-const marginLeft = Number.parseInt(30 * wConffient);
+export const wConffient = Number.parseFloat(width / devWidth / cols);
+export const hConffient = Number.parseFloat(height / devHeight / cols);
+export const marginLeft = Number.parseInt(30 * wConffient);
 export const themeColor = '#f4f4f4';
 export const tapGreen = '#01BDC5';
 // 开发分辨率为1260*540
@@ -31,9 +29,9 @@ const card_height = Number.parseInt(450 * hConffient);
 const hMargin = Number.parseInt(20 * hConffient);
 const radius = Number.parseInt(12 * wConffient);
 const padding = Number.parseInt(17 * wConffient);
-const fontSize = Number.parseInt(22 * wConffient);
+const fontSize = Number.parseInt(23 * wConffient);
 const smallFontSize = Number.parseInt(15 * wConffient);
-const userCirle = Number.parseInt(40 * wConffient);
+export const userCirle = Number.parseInt(40 * wConffient);
 const barHeight = Number.parseInt(100 * hConffient);
 export const styles = StyleSheet.create({
   listViewStyle: {
@@ -57,37 +55,20 @@ export const styles = StyleSheet.create({
     // backgroundColor: 'white',
     // borderRadius: radius,
     // overflow: 'hidden',
-    elevation: radius, // 适配android的
+    elevation: 20, // 适配android的
     shadowOffset: {width: 0, height: 3.5}, // 以下4项适配ios
     shadowColor: 'black',
     shadowOpacity: 0.15,
     shadowRadius: 5,
   },
+
   top: {
     marginBottom: 0,
     backgroundColor: '#f4f4f4',
+    // elevation:20,
   },
-  bottom: {
-    marginTop: 0,
-    padding: 16,
-    borderBottomLeftRadius: radius,
-    borderBottomRightRadius: radius,
-    backgroundColor: 'white',
-  },
-  backButton: {
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    top: 120,
-    left: 30,
-    zIndex: 2,
-    width: userCirle,
-    height: userCirle,
-    borderRadius: userCirle,
-    backgroundColor: 'black',
-    opacity: 0.7,
-    opacity: 0.7,
-    elevation: 20,
-  },
+
+
   innerView: {
     backgroundColor: 'white',
     width: card_width,
@@ -109,6 +90,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   ownerName: {
+    flex:1,
     textAlign: 'left',
     paddingLeft: padding,
     marginTop: hMargin,
@@ -118,21 +100,10 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
     fontSize: smallFontSize,
   },
-  categoryTitle: {
-    textAlign: 'left',
-    marginTop: hMargin / 5,
-    marginBottom: hMargin / 5,
-    paddingLeft: padding,
-    textAlignVertical: 'center',
-    // paddingTop: padding,
-    // width: card_width,
-    color: 'black',
-    fontSize: fontSize,
-    fontWeight: 'bold',
-    height: card_width * 0.12,
-  },
+
 
   tname: {
+    flex:1,
     textAlign: 'left',
 
     // paddingTop: padding,
@@ -177,60 +148,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-  header: {
-    position: 'absolute',
-    right: 0,
-    // top:40,
-    height: barHeight,
-    width: 100 * wConffient,
-    // flex:2,
-    // alignItems: 'center',
-    backgroundColor: '#f4f4f4',
-  },
-  user: {
-    position: 'relative',
-    width: userCirle - 2,
-    height: userCirle - 2,
-    borderRadius: userCirle,
-    zIndex: 1,
-  },
-  circleSearch: {
-    position: 'relative',
-    width: userCirle,
-    height: userCirle,
-    borderRadius: userCirle,
-    backgroundColor: 'white',
-    elevation: 20,
-    right: 20,
-  },
-  circleUser: {
-    position: 'relative',
-    width: userCirle,
-    height: userCirle,
-    borderRadius: userCirle,
-    backgroundColor: 'white',
-    elevation: 20,
-    right: -40 * wConffient,
-    top: userCirle * hConffient + 3,
-    zIndex: 0,
-  },
-  search: {
-    position: 'relative',
-    left: (userCirle - 20) / 2,
-    top: (userCirle - 22) / 2,
-    color: '#777777',
-  },
-  topBar: {
-    flexDirection: 'row',
-    marginLeft: marginLeft,
-  },
-  underline: {
-    position: 'absolute',
-    top: 80,
-    // left: 7,
-    // width: 40,
-    height: 3,
-    backgroundColor: tapGreen,
-    zIndex: 2,
-  },
+
+
+  
+  
 });
