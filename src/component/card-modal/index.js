@@ -23,7 +23,7 @@ import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
 import px2dp from '../../util/index';
 import {LogBox} from 'react-native';
-import {playVideo, resetVideo, press} from '../../redux/action';
+import {playVideo, resetVideo, press} from '../../redux/actions';
 import {BlurView} from '@react-native-community/blur';
 // LogBox.ignoreLogs([
 //   'Require cycle: node_modules/',
@@ -219,6 +219,7 @@ class CardModal extends Component {
       this.containerRef.current.measure((fx, fy, width, height, px, py) => {
         this.setState({offset: py}, () => {
           if (this.state.pressed) {
+            this.playVideo();
             this.props.onRef(this);
             this.props.onClick();
             // console.log('growing with offset', this.state.offset);
@@ -226,6 +227,14 @@ class CardModal extends Component {
             this.props.press(true);
           } else {
             // console.log('shrinking with offset', this.state.offset);
+            this.setState({
+              activate: (
+                <Text>
+                  播放 <Icon name="check" />
+                </Text>
+              ),
+              activated: true,
+            });
             this.shrink();
             this.props.resetVideo();
           }
@@ -233,12 +242,22 @@ class CardModal extends Component {
       });
     }
   }
-
-  activate() {
-    this.setState({activate: 'loading'});
+  playVideo() {
     const {aid, cid, videos} = this.props;
     // console.log(this.props.playVideo)
     this.props.playVideo({aid, cid, videos});
+    this.setState({
+      activate: (
+        <Text>
+          播放中 <Icon name="check" />
+        </Text>
+      ),
+      activated: true,
+    });
+  }
+  activate() {
+    this.setState({activate: 'loading'});
+
     setTimeout(() => {
       this.setState({
         activate: (
@@ -298,14 +317,14 @@ class CardModal extends Component {
           style={[
             styles.top,
             borderStyles,
-            
+
             {
               width: this.state.top_width,
               height: this.state.top_height,
               transform: this.state.top_pan.getTranslateTransform(),
             },
           ]}></Animated.Image>
-          
+
         {/* {back} */}
       </View>
     );

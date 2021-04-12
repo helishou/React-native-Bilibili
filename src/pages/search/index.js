@@ -10,7 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import px2dp from '../../util';
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {reqSeach} from '../../config/api';
 import VideoList from '../../component/videoList';
@@ -18,6 +18,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import Nav from '../../component/Nav';
 import {connect} from 'react-redux';
 import {set} from 'react-native-reanimated';
+import {
+  setSearchHistory,
+  getSearchHistory,
+  cleanSearchHistory,
+  toggleSearch,
+} from '../../redux/actions/search';
 // import { styles } from '../../style/CommStyle';
 function Search(props) {
   const [text, setText] = useState('');
@@ -25,6 +31,14 @@ function Search(props) {
   const [onfocus, setOnFocus] = useState(true);
   const [dataSource, setDataSource] = useState({});
   const [show, setShow] = useState(true);
+  const textInputRef = useRef();
+  // useEffect(() => {
+  //   console.log('useeffect');
+  //   textInputRef.current.focus();
+  //   return () => {
+  //     textInputRef.current.focus();
+  //   };
+  // });
   console.log('show', show);
   console.log('first', first);
   const onChangeText = text => {
@@ -39,8 +53,15 @@ function Search(props) {
     setShow(true);
     console.log('我被调用2');
   };
-  const onEndEditing = () => {
+  const onSubmitEditing = () => {
     if (text) {
+      console.log(
+        'search 杯调用3',
+        props.setSearchHistory,
+        props.searchHistory,
+        text,
+      );
+      props.setSearchHistory(props.searchHistory, text);
       getData();
     }
   };
@@ -84,6 +105,7 @@ function Search(props) {
         onClick={() => {
           console.log('search里的Nav返回被调用了');
           setFirst(true);
+          setText('');
         }}
         style={{display: props.pressed ? 'none' : 'flex'}}></Nav>
       {show ? (
@@ -97,6 +119,7 @@ function Search(props) {
             <Icon name="search" size={18} style={styles.searchIcon}></Icon>
 
             <TextInput
+              ref={textInputRef}
               onFocus={() => {
                 console.log('文字选中');
                 setOnFocus(true);
@@ -105,8 +128,9 @@ function Search(props) {
               placeholder="请输入文字"
               style={styles.inputText}
               keyboardType="web-search"
+              value={text}
               onChangeText={text => onChangeText(text)}
-              onEndEditing={() => onEndEditing()}
+              onSubmitEditing={() => onSubmitEditing()}
             />
           </View>
         </LinearGradient>
@@ -125,7 +149,18 @@ function Search(props) {
     </View>
   );
 }
-export default connect(state => ({pressed: state.pressed}), {})(Search);
+export default connect(
+  state => ({
+    pressed: state.pressed,
+    searchHistory: state.search.searchHistory,
+  }),
+  {
+    setSearchHistory,
+    getSearchHistory,
+    cleanSearchHistory,
+    toggleSearch,
+  },
+)(Search);
 const styles = StyleSheet.create({
   container: {
     // position:'absolute',

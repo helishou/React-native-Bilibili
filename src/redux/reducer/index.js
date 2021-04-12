@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import ACTIONTYPES from '../types';
+import search from './search';
 const initHeadNavigator = true;
 //默认上部导航栏显示
 function headNavagator(state = initHeadNavigator, action) {
@@ -15,7 +16,7 @@ const initVideo = false;
 function video(state = initVideo, action) {
   switch (action.type) {
     case ACTIONTYPES.PLAY_VIDEO:
-      const url = `http://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=1&autoplay=true`;
+      const url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=1&autoplay=true`;
       return {url: url, videos: action.videos};
     case ACTIONTYPES.RESET_VIDEO:
       return {};
@@ -26,7 +27,7 @@ function video(state = initVideo, action) {
 function pressed(state = false, action) {
   switch (action.type) {
     case ACTIONTYPES.PRESSED:
-        return action.data
+      return action.data;
     default:
       return state;
   }
@@ -34,7 +35,7 @@ function pressed(state = false, action) {
 function fullscreen(state = false, action) {
   switch (action.type) {
     case ACTIONTYPES.FULLSCREEN:
-        return action.data
+      return action.data;
     default:
       return state;
   }
@@ -52,7 +53,8 @@ const reducer = combineReducers({
   headNavagator,
   video,
   pressed,
-  fullscreen
+  fullscreen,
+  search,
 });
 
 export default reducer;

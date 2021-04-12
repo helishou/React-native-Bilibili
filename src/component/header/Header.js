@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -30,7 +30,7 @@ export default function Header() {
             right: 10,
             width: 50,
             height: 50,
-            top:40,
+            top: 40,
             // backgroundColor: 'red',
           }}>
           <View style={styles.circle}>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     right: 0,
     // top:40,
     height: 100,
-    width: 100 ,
+    width: 100,
     // flex:2,
     // alignItems: 'center',
     backgroundColor: '#f4f4f4',

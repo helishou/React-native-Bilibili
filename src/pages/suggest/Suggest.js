@@ -20,7 +20,7 @@ import Banner from './Banner';
 import {coles, styles} from '../../style/CommStyle';
 import {color} from 'react-native-reanimated';
 import {connect} from 'react-redux';
-import {press} from '../../redux/action';
+import {press} from '../../redux/actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoList from '../../component/videoList';
 let dataHotList = [];

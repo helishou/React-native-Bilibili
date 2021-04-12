@@ -44,9 +44,9 @@ Java Threads: ( => current thread )
   0x000000001a0d4800 JavaThread "WorkerExecutor Queue Thread 3" [_thread_blocked, id=15276, stack(0x00000000288c0000,0x00000000289c0000)]
   0x000000001a0d4000 JavaThread "WorkerExecutor Queue Thread 2" [_thread_blocked, id=11216, stack(0x00000000285c0000,0x00000000286c0000)]
   0x000000001a0d7000 JavaThread "WorkerExecutor Queue" [_thread_blocked, id=14332, stack(0x0000000028170000,0x0000000028270000)]
-  0x000000001a0d8800 JavaThread "Cache worker for Java compile cache (D:\ReactNative\jymapp\android\.gradle\6.7\javaCompile)" [_thread_blocked, id=3168, stack(0x0000000027c70000,0x0000000027d70000)]
+  0x000000001a0d8800 JavaThread "Cache worker for Java compile cache (D:\ReactNative\pilipili\android\.gradle\6.7\javaCompile)" [_thread_blocked, id=3168, stack(0x0000000027c70000,0x0000000027d70000)]
   0x000000001a0d3000 JavaThread "Cache worker for Java compile cache (C:\Users\Administrator\.gradle\caches\6.7\javaCompile)" [_thread_blocked, id=5264, stack(0x0000000027b70000,0x0000000027c70000)]
-  0x0000000018224800 JavaThread "Cache worker for execution history cache (D:\ReactNative\jymapp\android\.gradle\6.7\executionHistory)" [_thread_blocked, id=16868, stack(0x0000000027470000,0x0000000027570000)]
+  0x0000000018224800 JavaThread "Cache worker for execution history cache (D:\ReactNative\pilipili\android\.gradle\6.7\executionHistory)" [_thread_blocked, id=16868, stack(0x0000000027470000,0x0000000027570000)]
   0x0000000018224000 JavaThread "Execution worker for ':' Thread 3" [_thread_blocked, id=1352, stack(0x0000000027370000,0x0000000027470000)]
   0x000000001822a000 JavaThread "Execution worker for ':' Thread 2" [_thread_blocked, id=13580, stack(0x0000000026f10000,0x0000000027010000)]
   0x0000000018226000 JavaThread "Execution worker for ':'" [_thread_blocked, id=14468, stack(0x0000000027270000,0x0000000027370000)]
@@ -146,14 +146,14 @@ Java Threads: ( => current thread )
   0x0000000017ae6000 JavaThread "Build operations Thread 3" [_thread_blocked, id=11492, stack(0x000000001e6c0000,0x000000001e7c0000)]
   0x0000000017aec800 JavaThread "Build operations Thread 2" [_thread_blocked, id=11984, stack(0x000000001e5c0000,0x000000001e6c0000)]
   0x0000000017ae5000 JavaThread "Build operations" [_thread_blocked, id=7580, stack(0x000000001e4c0000,0x000000001e5c0000)]
-  0x0000000017aea800 JavaThread "Cache worker for Build Output Cleanup Cache (D:\ReactNative\jymapp\android\.gradle\buildOutputCleanup)" [_thread_blocked, id=18020, stack(0x000000001e1c0000,0x000000001e2c0000)]
+  0x0000000017aea800 JavaThread "Cache worker for Build Output Cleanup Cache (D:\ReactNative\pilipili\android\.gradle\buildOutputCleanup)" [_thread_blocked, id=18020, stack(0x000000001e1c0000,0x000000001e2c0000)]
   0x0000000017ae8000 JavaThread "Cache worker for file content cache (C:\Users\Administrator\.gradle\caches\6.7\fileContent)" [_thread_blocked, id=10868, stack(0x000000001dac0000,0x000000001dbc0000)]
   0x00000000177bb800 JavaThread "jar transforms" [_thread_blocked, id=8016, stack(0x000000001d9c0000,0x000000001dac0000)]
   0x00000000177ba000 JavaThread "Cache worker for execution history cache (C:\Users\Administrator\.gradle\caches\6.7\executionHistory)" [_thread_blocked, id=17900, stack(0x000000001d2c0000,0x000000001d3c0000)]
   0x00000000177b9000 JavaThread "Cache worker for cache directory md-rule (C:\Users\Administrator\.gradle\caches\6.7\md-rule)" [_thread_blocked, id=16684, stack(0x000000001d1c0000,0x000000001d2c0000)]
   0x00000000177b8800 JavaThread "Cache worker for cache directory md-supplier (C:\Users\Administrator\.gradle\caches\6.7\md-supplier)" [_thread_blocked, id=5608, stack(0x000000001bca0000,0x000000001bda0000)]
-  0x00000000177b7800 JavaThread "Cache worker for checksums cache (D:\ReactNative\jymapp\android\.gradle\checksums)" [_thread_blocked, id=8712, stack(0x000000001bba0000,0x000000001bca0000)]
-  0x00000000177bd800 JavaThread "Cache worker for file hash cache (D:\ReactNative\jymapp\android\.gradle\6.7\fileHashes)" [_thread_blocked, id=5036, stack(0x000000001d0c0000,0x000000001d1c0000)]
+  0x00000000177b7800 JavaThread "Cache worker for checksums cache (D:\ReactNative\pilipili\android\.gradle\checksums)" [_thread_blocked, id=8712, stack(0x000000001bba0000,0x000000001bca0000)]
+  0x00000000177bd800 JavaThread "Cache worker for file hash cache (D:\ReactNative\pilipili\android\.gradle\6.7\fileHashes)" [_thread_blocked, id=5036, stack(0x000000001d0c0000,0x000000001d1c0000)]
   0x00000000177b7000 JavaThread "Cache worker for journal cache (C:\Users\Administrator\.gradle\caches\journal-1)" [_thread_blocked, id=16224, stack(0x0000000019700000,0x0000000019800000)]
   0x00000000177bc000 JavaThread "File lock request listener" [_thread_in_native, id=2228, stack(0x0000000019600000,0x0000000019700000)]
   0x00000000177bd000 JavaThread "Cache worker for file hash cache (C:\Users\Administrator\.gradle\caches\6.7\fileHashes)" [_thread_blocked, id=10936, stack(0x0000000019400000,0x0000000019500000)]
@@ -431,7 +431,7 @@ java_class_path (initial): C:\Users\Administrator\.gradle\wrapper\dists\gradle-6
 Launcher Type: SUN_STANDARD
 
 Environment Variables:
-CLASSPATH=D:\ReactNative\jymapp\android\\gradle\wrapper\gradle-wrapper.jar
+CLASSPATH=D:\ReactNative\pilipili\android\\gradle\wrapper\gradle-wrapper.jar
 USERNAME=Administrator
 OS=Windows_NT
 PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 158 Stepping 11, GenuineIntel

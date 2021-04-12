@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import CardModal from '../card-modal';
 import {View, FlatList, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {press, setFullscreen} from '../../redux/action';
+import {press, setFullscreen} from '../../redux/actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Orientation from 'react-native-orientation';
