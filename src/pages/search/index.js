@@ -39,8 +39,8 @@ function Search(props) {
   //     textInputRef.current.focus();
   //   };
   // });
-  console.log('show', show);
-  console.log('first', first);
+  console.log('Searchshow', show);
+  console.log('Searchfirst', first);
   const onChangeText = text => {
     setText(text);
   };

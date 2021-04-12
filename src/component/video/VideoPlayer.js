@@ -17,8 +17,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 let {width, height} = Dimensions.get('window');
 //封装播放器
 function VideoPlayer(props) {
+  console.log('videoplayershow', props.show);
+  if (!props.show) {
+    return null;
+  }
   const navigation = useNavigation();
-  console.log(width, height);
+  console.log('player', width, height);
   // console.log(props.video.url)
   // React.useEffect(() => {
   //   Orientation.lockToLandscape();

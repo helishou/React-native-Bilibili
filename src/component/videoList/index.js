@@ -86,7 +86,7 @@ function VideoList(props) {
         alignItem: 'center',
         alignContent: 'center',
       }}>
-      <VideoPlayer />
+      <VideoPlayer show={!scroll}/>
       {props.pressed ? (
         <TouchableOpacity
           style={[styles.backButton]}
