@@ -137,6 +137,7 @@ function Search(props) {
       ) : null}
       {!onfocus ? (
         <VideoList
+          compensation={px2dp(90)}
           dataSource={dataSource}
           isLoaded={!onfocus}
           fetchData={() => getData()}

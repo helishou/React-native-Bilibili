@@ -7,10 +7,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Orientation from 'react-native-orientation';
 import px2dp from '../../util';
+
 function VideoList(props) {
   const [scroll, setScroll] = useState(true);
   const [child, setChild] = useState({});
   const listRef = useRef();
+  const compensation = props.compensation ? props.compensation : 0;
   const backClick = () => {
     {
       // console.log(child)
@@ -23,8 +25,8 @@ function VideoList(props) {
       } else {
         child._onPress();
         props.press(false);
+        setScroll(true);
       }
-      setScroll(true);
       // setScroll(true);
     }
   };
@@ -44,6 +46,7 @@ function VideoList(props) {
   const _renderRow = item => {
     return (
       <CardModal
+        compensation={compensation}
         // pressedStyle={styles.container}
         onRef={ref => {
           // console.log('我被执行了',ref
@@ -64,7 +67,7 @@ function VideoList(props) {
         up={item.owner.face}
         color="#01BDC5"
         content={item.desc}
-        onClick={()=>disableScroll()}
+        onClick={() => disableScroll()}
         // onClick2={() => this.disablePressed()}
         due={
           item.tname
@@ -86,7 +89,7 @@ function VideoList(props) {
         alignItem: 'center',
         alignContent: 'center',
       }}>
-      <VideoPlayer show={!scroll}/>
+      <VideoPlayer show={!scroll} />
       {props.pressed ? (
         <TouchableOpacity
           style={[styles.backButton]}
