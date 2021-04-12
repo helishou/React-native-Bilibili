@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-
 
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,7 +8,7 @@ import Setting from './component/Setting';
 import Search from './pages/search';
 import {connect} from 'react-redux';
 import TabNavigator from './bottomBar.js';
-import CustomDrawerContent from './customDrawerContent'
+import CustomDrawerContent from './customDrawerContent';
 
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
@@ -179,7 +175,10 @@ function AppInner(props) {
         animated={true}
       />
       {/* <View></View> */}
-      <NavigationContainer>{RootNavigation()}</NavigationContainer>
+      {/* <NavigationContainer>{RootNavigation()}</NavigationContainer> */}
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
