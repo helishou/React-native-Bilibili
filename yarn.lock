@@ -857,7 +857,7 @@
 
 "@jest/create-cache-key-function@^26.5.0":
   version "26.6.2"
-  resolved "https://registry.npm.taobao.org/@jest/create-cache-key-function/download/@jest/create-cache-key-function-26.6.2.tgz?cache=0&sync_timestamp=1617380994094&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40jest%2Fcreate-cache-key-function%2Fdownload%2F%40jest%2Fcreate-cache-key-function-26.6.2.tgz#04cf439207a4fd12418d8aee551cddc86f9ac5f5"
+  resolved "https://registry.npm.taobao.org/@jest/create-cache-key-function/download/@jest/create-cache-key-function-26.6.2.tgz#04cf439207a4fd12418d8aee551cddc86f9ac5f5"
   integrity sha1-BM9Dkgek/RJBjYruVRzdyG+axfU=
   dependencies:
     "@jest/types" "^26.6.2"
@@ -6243,10 +6243,18 @@ rc@^1.0.1, rc@^1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-devtools-core@4.11.0, react-devtools-core@^4.6.0:
+react-devtools-core@4.11.0:
   version "4.11.0"
   resolved "https://registry.npm.taobao.org/react-devtools-core/download/react-devtools-core-4.11.0.tgz?cache=0&sync_timestamp=1618013708386&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-devtools-core%2Fdownload%2Freact-devtools-core-4.11.0.tgz#38e92bcfebd7fa6f89f9a29439e30688ef4781b4"
   integrity sha1-OOkrz+vX+m+J+aKUOeMGiO9HgbQ=
+  dependencies:
+    shell-quote "^1.6.1"
+    ws "^7"
+
+react-devtools-core@^4.6.0:
+  version "4.12.0"
+  resolved "https://registry.npm.taobao.org/react-devtools-core/download/react-devtools-core-4.12.0.tgz#02fa1a3d58b2748ce5a0a3213f4417e7a4960354"
+  integrity sha1-AvoaPViydIzloKMhP0QX56SWA1Q=
   dependencies:
     shell-quote "^1.6.1"
     ws "^7"
@@ -6458,7 +6466,7 @@ react-native-webview@^11.3.2:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@0.64.0:
+react-native@^0.64.0:
   version "0.64.0"
   resolved "https://registry.npm.taobao.org/react-native/download/react-native-0.64.0.tgz#c3bde5b638bf8bcf12bae6e094930d39cb942ab7"
   integrity sha1-w73ltji/i88SuubglJMNOcuUKrc=
@@ -7920,7 +7928,7 @@ url-parse-lax@^3.0.0:
 
 use-subscription@^1.0.0:
   version "1.5.1"
-  resolved "https://registry.npm.taobao.org/use-subscription/download/use-subscription-1.5.1.tgz?cache=0&sync_timestamp=1617985187796&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fuse-subscription%2Fdownload%2Fuse-subscription-1.5.1.tgz#73501107f02fad84c6dd57965beb0b75c68c42d1"
+  resolved "https://registry.npm.taobao.org/use-subscription/download/use-subscription-1.5.1.tgz?cache=0&sync_timestamp=1618245271179&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fuse-subscription%2Fdownload%2Fuse-subscription-1.5.1.tgz#73501107f02fad84c6dd57965beb0b75c68c42d1"
   integrity sha1-c1ARB/AvrYTG3VeWW+sLdcaMQtE=
   dependencies:
     object-assign "^4.1.1"
@@ -8181,7 +8189,7 @@ ws@^7, ws@^7.4.4:
 
 xcode@^2.0.0:
   version "2.1.0"
-  resolved "https://registry.npm.taobao.org/xcode/download/xcode-2.1.0.tgz#bab64a7e954bb50ca8d19da7e09531c65a43ecfe"
+  resolved "https://registry.npm.taobao.org/xcode/download/xcode-2.1.0.tgz?cache=0&sync_timestamp=1618275467176&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fxcode%2Fdownload%2Fxcode-2.1.0.tgz#bab64a7e954bb50ca8d19da7e09531c65a43ecfe"
   integrity sha1-urZKfpVLtQyo0Z2n4JUxxlpD7P4=
   dependencies:
     simple-plist "^1.0.0"
