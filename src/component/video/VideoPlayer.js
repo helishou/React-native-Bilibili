@@ -8,19 +8,21 @@ import {
   Dimensions,
   TouchableHighlight,
   TouchableOpacity,
+  ScrollView,
+  FlatList,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
 import Orientation from 'react-native-orientation';
-import {setFullscreen} from '../../redux/actions';
+import {setFullscreen, switchVideo} from '../../redux/actions';
 import px2dp from '../../util';
 import Icon from 'react-native-vector-icons/FontAwesome';
 let {width, height} = Dimensions.get('window');
 
 import {useState, useRef} from 'react';
 import {Button, DrawerLayoutAndroid} from 'react-native';
+import Item from '@ant-design/react-native/lib/list/ListItem';
 
-const sliderWidth = 300;
+const sliderWidth = 370;
 //封装播放器
 function VideoPlayer(props) {
   console.log('videoplayershow', props.show);
@@ -28,26 +30,41 @@ function VideoPlayer(props) {
   if (!props.show) {
     return null;
   }
-  const navigation = useNavigation();
   const drawRef = useRef();
+
   //播放器的侧边栏
   const buttons = [];
-
   for (let i = 1; i <= props.video.videos; i++) {
-    buttons.push(
-      <TouchableOpacity onPress={() => {}}>
+    buttons.push({id: i});
+  }
+  const renderItem = ({item}) => {
+    // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+    return (
+      <TouchableOpacity onPress={() => props.switchVideo(item.id)}>
         <Text
           style={[
             styles.Button,
-            props.video.pg ? {backgroundColor: props.activeTheme} : {},
+            props.video.pg == item.id ? {borderColor: props.activeTheme} : {},
           ]}>
-          {i}
+          {item.id}
         </Text>
-      </TouchableOpacity>,
+      </TouchableOpacity>
     );
-  }
+  };
   const navigationView = (
-    <View style={styles.navigationContainer}>{buttons}</View>
+    <View style={styles.navigationContainer}>
+      <Text style={[styles.sliderTitle]}>选集（{props.video.videos}）</Text>
+      <FlatList
+        //   columnWrapperStyle={{borderWidth: 2, backgroundColor: 'yellow'}}
+        numColumns={4}
+        horizontal={false}
+        style={styles.scrollView}
+        data={buttons}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        extraData={props.video.pd}
+      />
+    </View>
   );
   console.log('player', width, height);
   // console.log(props.video.url)
@@ -58,6 +75,8 @@ function VideoPlayer(props) {
   //     Orientation.lockToLandscape();
   //   };
   // }, []);
+  //player.bilibili.com/player.html?aid=33668155&cid=58943259&page=2&autoplay=true
+  https: console.log('videoplayer_url', props.video.url);
   return props.video.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
@@ -66,72 +85,36 @@ function VideoPlayer(props) {
         drawerWidth={sliderWidth}
         drawerPosition={'right'}
         renderNavigationView={() => navigationView}
-        drawerBackgroundColor="rgba(0,0,0,0.6)">
+        drawerBackgroundColor="rgba(0,0,0,0)">
         <Icon
           name="bars"
-          size={props.fullscreen ? px2dp(23) : 0}
+          size={px2dp(23)}
           onPress={() => drawRef.current.openDrawer()}
+          style={styles.barIcon}
+        />
+        <TouchableHighlight
           style={{
             position: 'absolute',
-            top: px2dp(40),
-            right: px2dp(40),
-            height: 40,
-            color: 'white',
+            bottom: px2dp(3),
+            right: px2dp(3),
             zIndex: 10,
-            opacity: 0.5,
-            fontWeight: 'bold',
+            height: props.fullscreen ? px2dp(40) : px2dp(15),
+            width: props.fullscreen ? px2dp(40) : px2dp(15),
+            // backgroundColor: 'white',
+            opacity: 0,
           }}
-        />
-        {!props.fullscreen ? (
-          <TouchableHighlight
-            style={{
-              position: 'absolute',
-              bottom: 10,
-              right: 10,
-              height: px2dp(23),
-              width: px2dp(23),
-              color: 'white',
-              zIndex: 10,
-              backgroundColor: 'black',
-              opacity: 0,
-              borderRadius: 30,
-              fontWeight: 'bold',
-            }}
-            onPress={() => {
+          onPress={() => {
+            if (props.fullscreen) {
+              Orientation.lockToPortrait();
+              props.setFullscreen(false);
+            } else {
               console.log('全屏', props);
               Orientation.lockToLandscape();
               props.setFullscreen(true);
-            }}>
-            <Text
-              style={{
-                // position: 'absolute',
-                // bottom: 20,
-                // right: 20,
-                // height: 20,
-                // white: 20,
-                color: 'white',
-                zIndex: 10,
-                // backgroundColor: 'white',
-                opacity: 0.8,
-                // borderRadius: 30,
-                fontWeight: 'bold',
-              }}>
-              {' '}
-              {'□'}{' '}
-            </Text>
-          </TouchableHighlight>
-        ) : null}
-        {/* <BlurView
-        blurType="light"
-        blurAmount={30}
-        reducedTransparencyFallbackColor="gray"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-        }}></BlurView> */}
+            }
+          }}>
+          <Icon name="arrows-alt" color="white" size={px2dp(18)}></Icon>
+        </TouchableHighlight>
 
         <View
           style={[
@@ -140,18 +123,23 @@ function VideoPlayer(props) {
           <WebView
             mediaPlaybackRequiresUserAction={false}
             allowsInlineMediaPlayback={true}
+            userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
             source={{
-              uri: props.video.url,
+              // uri: props.video.url,
+              // method: "GET",
+              html: `
+              <iframe src='${props.video.url}'
+              width="100%" height="100%"
+              data-dom="iframe"
+              target="_self"
+              about:blank
+               scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> 
+          
+              `,
             }}
-            // style={{
-            //   // marginTop: 20,
-            //   // position: 'absolute',
-            //   // right: 5,
-
-            //   width: '100%',
-            //   height: '100%',
-            //   zIndex: 1,
-            // }}
+            style={{
+              backgroundColor: 'black',
+            }}
           />
         </View>
         {/* <BlurView
@@ -176,7 +164,7 @@ export default connect(
     fullscreen: state.fullscreen,
     activeTheme: state.common.activeTheme,
   }),
-  {setFullscreen},
+  {setFullscreen, switchVideo},
 )(VideoPlayer);
 
 const styles = StyleSheet.create({
@@ -208,6 +196,15 @@ const styles = StyleSheet.create({
     width: height,
     zIndex: 9,
   },
+  barIcon:{
+    position: 'absolute',
+    top: px2dp(50),
+    right: px2dp(40),
+    height: 40,
+    color: 'white',
+    zIndex: 10,
+    opacity: 0.5,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -217,34 +214,52 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   navigationContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    // backgroundColor: 'black',
-    padding: 8,
-    marginLeft: 20,
-    marginTop: 40,
+    // flexDirection: 'column',
+    // flexWrap: 'wrap',
+    // flex: 1,
+    width: sliderWidth,
+    // justifyContent: 'flex-start',
+    backgroundColor: 'rgba(0,0,0,0.7)',
     // opacity: 0.9,
   },
+  scrollView: {
+    // backgroundColor: 'red',
+    width: sliderWidth,
+    padding: 8,
+    paddingLeft: px2dp(12),
+    // borderWidth: 2,
+    // borderColor: '#222',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    height: width,
+    // marginTop: 40,
+    // flex: 1,
+    // flexDirection: 'column',
+    // flexWrap: 'wrap',
+    // width: sliderWidth,
+  },
   sliderTitle: {
-    position: 'absolute',
-    color: '#666',
-    fontSize: px2dp(17),
+    // position: 'absolute',
+    paddingTop: px2dp(27),
+    paddingLeft: px2dp(15),
+    color: '#888',
+    fontSize: px2dp(22),
   },
   Button: {
-    width: sliderWidth / 6,
-    height: sliderWidth / 10,
+    // flex: 1,
+    width: sliderWidth * 0.2,
+    height: sliderWidth / 7,
     margin: 5,
     textAlign: 'center',
     textAlignVertical: 'center',
     fontWeight: 'bold',
     // borderRadius: 13,
-    fontSize: px2dp(13),
-    color: '#666',
-    borderWidth: 1,
-    borderColor: '#bbb',
-    paddingHorizontal: 3,
-    paddingVertical: 3,
-    borderRadius: 4,
+    fontSize: px2dp(17),
+    color: '#EEE',
+    borderWidth: 2,
+    borderColor: '#222',
+    // paddingHorizontal: 3,
+    // paddingVertical: 3,
+    borderRadius: 5,
   },
 });

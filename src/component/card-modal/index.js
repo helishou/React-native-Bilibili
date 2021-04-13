@@ -244,9 +244,10 @@ class CardModal extends Component {
     }
   }
   playVideo(pg = 1) {
-    const {aid, cid, videos} = this.props;
-    // console.log(this.props.playVideo)
-    this.props.playVideo({aid, cid, videos, pg});
+    // const {aid, cid, videos} = this.props;
+    const {video} = this.props;
+    console.log('carmodel_video', video);
+    this.props.playVideo({...video, pg});
     this.setState({
       activate: (
         <Text>
@@ -386,40 +387,10 @@ class CardModal extends Component {
 
     return (
       <Animated.View
-        style={[
-          {
-            marginTop: 0,
-            paddingLeft: px2dp(15),
-            paddingRight: px2dp(15),
-            backgroundColor: 'white',
-            elevation: 20,
-            width: this.state.bottom_width,
-            height: this.state.bottom_height,
-            borderTopLeftRadius: this.state.TopBorderRadius,
-            borderTopRightRadius: this.state.TopBorderRadius,
-            borderBottomLeftRadius: this.state.BottomBorderRadius,
-            borderBottomRightRadius: this.state.BottomBorderRadius,
-
-            transform: this.state.bottom_pan.getTranslateTransform(),
-          },
-        ]}>
+        style={styles2.bottomContainer}>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 4}}>
-            <Text
-              numberOfLines={2}
-              style={{
-                textAlign: 'left',
-                textAlignVertical: 'center',
-                justifyContent: 'space-evenly',
-                color: 'black',
-                fontSize: px2dp(20),
-                fontWeight: 'bold',
-                // flexWrap:2,
-                // marginBottom:px2dp(3),
-                lineHeight: parseInt(height / 28),
-                height: parseInt(height / 10),
-                width: parseInt(width * 0.67),
-              }}>
+            <Text numberOfLines={2} style={styles2.title}>
               {this.props.title}
             </Text>
             <Text
@@ -508,28 +479,50 @@ export default connect(state => ({pressed: state.pressed}), {
   resetVideo,
   press,
 })(CardModal);
-// const styles = StyleSheet.create({
-//   container: {
-//     alignItems: 'center',
-//     alignSelf: 'center',
-//     marginBottom: 16,
-//     marginTop: 16,
-//   },
-//   top: {
-//     marginBottom: 0,
-//     backgroundColor: 'blue',
-//   },
-//   bottom: {
-//     marginTop: 0,
-//     padding: 16,
-//     borderBottomLeftRadius: 5,
-//     borderBottomRightRadius: 5,
-//     backgroundColor: 'white',
-//   },
-//   backButton: {
-//     position: 'absolute',
-//     backgroundColor: 'transparent',
-//     top: 32,
-//     left: 10,
-//   },
-// });
+const styles2 = StyleSheet.create({
+  title: {
+    textAlign: 'left',
+    textAlignVertical: 'center',
+    justifyContent: 'space-evenly',
+    color: 'black',
+    fontSize: px2dp(20),
+    fontWeight: 'bold',
+    // flexWrap:2,
+    // marginBottom:px2dp(3),
+    lineHeight: parseInt(height / 28),
+    height: parseInt(height / 10),
+    width: parseInt(width * 0.67),
+  },
+  bottomContainer:{
+    marginTop: 0,
+    paddingLeft: px2dp(15),
+    paddingRight: px2dp(15),
+    backgroundColor: 'white',
+    elevation: 20,
+    width: this.state.bottom_width,
+    height: this.state.bottom_height,
+    borderTopLeftRadius: this.state.TopBorderRadius,
+    borderTopRightRadius: this.state.TopBorderRadius,
+    borderBottomLeftRadius: this.state.BottomBorderRadius,
+    borderBottomRightRadius: this.state.BottomBorderRadius,
+
+    transform: this.state.bottom_pan.getTranslateTransform(),
+  },
+  // top: {
+  //   marginBottom: 0,
+  //   backgroundColor: 'blue',
+  // },
+  // bottom: {
+  //   marginTop: 0,
+  //   padding: 16,
+  //   borderBottomLeftRadius: 5,
+  //   borderBottomRightRadius: 5,
+  //   backgroundColor: 'white',
+  // },
+  // backButton: {
+  //   position: 'absolute',
+  //   backgroundColor: 'transparent',
+  //   top: 32,
+  //   left: 10,
+  // },
+});

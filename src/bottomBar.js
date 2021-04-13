@@ -21,15 +21,17 @@ function TabNavigator(props) {
         ({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             // console.log('route', route);
-            return focused ? (
-              <Ionicons name={route.name} size={size} color={color} />
-            ) : (
-              <Ionicons
-                name={route.name + '-outline'}
-                size={size}
-                color={color}
-              />
-            );
+            return route.name != 'test' ? (
+              focused ? (
+                <Ionicons name={route.name} size={size} color={color} />
+              ) : (
+                <Ionicons
+                  name={route.name + '-outline'}
+                  size={size}
+                  color={color}
+                />
+              )
+            ) : null;
           },
         })
         // {animationEnabled: true, scrollEnabled: true}

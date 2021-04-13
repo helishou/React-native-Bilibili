@@ -76,9 +76,10 @@ function VideoList(props) {
               : item.tname
             : ''
         }
-        videos={item.videos}
-        aid={item.aid}
-        cid={item.cid}
+        video={item}
+        // videos={item.videos}
+        // aid={item.aid}
+        // cid={item.cid}
       />
     );
   };
@@ -131,17 +132,7 @@ function VideoList(props) {
                 viewPosition: 0,
               })
             }>
-            <Text
-              style={{
-                color: 'gray',
-                opacity: 0.7,
-                marginTop: 20,
-                marginBottom: 200,
-                fontWeight: 'bold',
-                textAlign: 'center',
-              }}>
-              已经到底了哦,点我返回顶部↑
-            </Text>
+            <Text style={styles.bottomText}>已经到底了哦,点我返回顶部↑</Text>
           </TouchableOpacity>
         }
       />
@@ -156,7 +147,7 @@ export default connect(
 const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
     top: 50,
     left: 20,
     zIndex: 20,
@@ -166,6 +157,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     opacity: 0.7,
     elevation: 20,
-    zIndex: 99,
+  },
+  bottomText: {
+    color: 'gray',
+    opacity: 0.7,
+    marginTop: 20,
+    marginBottom: 200,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
