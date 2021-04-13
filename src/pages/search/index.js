@@ -7,6 +7,7 @@ import {
   Dimensions,
   Animated,
   TouchableWithoutFeedback,
+  Platform,
   TextInput,
 } from 'react-native';
 import px2dp from '../../util';
@@ -68,7 +69,7 @@ function Search(props) {
   const getData = async () => {
     const result = await reqSeach(text);
     const Soucedata = result.data.result[8].data;
-    console.log('Soucedata', Soucedata);
+    // console.log('Soucedata', Soucedata);
     let preDataList = [];
     // let data = Soucedata['douga'];
     // Object.keys(data).map((v, i) => {
@@ -95,24 +96,24 @@ function Search(props) {
       });
     });
     setDataSource(preDataList);
-    console.log(preDataList);
+    // console.log(preDataList);
     setOnFocus(false);
   };
   return (
     <View>
-      <Nav
+      {/* <Nav
         title="搜索"
         onClick={() => {
           console.log('search里的Nav返回被调用了');
           setFirst(true);
           setText('');
         }}
-        style={{display: props.pressed ? 'none' : 'flex'}}></Nav>
+        style={{display: props.pressed ? 'none' : 'flex'}}></Nav> */}
       {show ? (
         <LinearGradient
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1.0}}
-          locations={[0, 0.5, 0.6]}
+          locations={[0, 1]}
           colors={['white', '#f4f4f4']}
           style={styles.container}>
           <View style={styles.searchBox}>
@@ -137,7 +138,7 @@ function Search(props) {
       ) : null}
       {!onfocus ? (
         <VideoList
-          compensation={px2dp(90)}
+          compensation={px2dp(60)}
           dataSource={dataSource}
           isLoaded={!onfocus}
           fetchData={() => getData()}

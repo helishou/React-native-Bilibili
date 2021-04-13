@@ -18,11 +18,20 @@ function video(state = initVideo, action) {
   let url;
   switch (action.type) {
     case ACTIONTYPES.PLAY_VIDEO:
-      url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&autoplay=true`;
-      return {url: url, videos: action.data.videos, pg: action.data.pg};
-    case ACTIONTYPES.SWi_VIDEO:
-      url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${state.cid}&page=${action.data.pg}&autoplay=true`;
-      return {...state, url: url, pg: action.data.pg};
+      url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&high_quality=1&autoplay=true`;
+      // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&high_quality=1&autoplay=true`;
+      return {
+        url: url,
+        aid: action.data.aid,
+        cid: action.data.cid,
+        videos: action.data.videos,
+        pg: action.data.pg,
+      };
+    case ACTIONTYPES.SWICH_VIDEO:
+      console.log('state', state);
+      url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${state.cid}&page=${action.data}&autoplay=true`;
+      // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${state.aid}&cid=${state.cid}&page=${action.data}&autoplay=true`;
+      return {...state, url: url, pg: action.data};
     case ACTIONTYPES.RESET_VIDEO:
       return {};
     default:
