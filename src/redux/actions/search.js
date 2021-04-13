@@ -16,6 +16,7 @@ export const setSearchHistory = (list, value) => {
   let newList = list.concat([value]);
   return async function (dispatch, getState) {
     await setItem('history', newList.join(','));
+    // console.log(newList.join(','));
     return dispatch(storeHistory({searchHistory: newList}));
   };
 };

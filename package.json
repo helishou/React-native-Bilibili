@@ -31,6 +31,7 @@
     "react-devtools": "^4.11.0",
     "react-native": "^0.64.0",
     "react-native-af-video-player": "^0.2.1",
+    "react-native-android-fullscreen-webview-video": "^1.0.4",
     "react-native-banner-carousel": "^1.0.3",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-linear-gradient": "^2.5.6",
@@ -52,6 +53,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "react-devtools": "^4.11.0",
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",

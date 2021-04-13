@@ -1,4 +1,4 @@
-import {AsyncStorage} from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import {fromPairs} from './func';
 
 export const setItem = (key, value) => {
