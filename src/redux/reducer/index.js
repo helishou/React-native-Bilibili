@@ -22,10 +22,7 @@ function video(state = initVideo, action) {
       // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&high_quality=1&autoplay=true`;
       return {
         url: url,
-        aid: action.data.aid,
-        cid: action.data.cid,
-        videos: action.data.videos,
-        pg: action.data.pg,
+        ...action.data
       };
     case ACTIONTYPES.SWICH_VIDEO:
       console.log('state', state);

@@ -1,4 +1,3 @@
-
 import React, {useState, useRef} from 'react';
 import {
   Button,
@@ -6,50 +5,17 @@ import {
   Text,
   StyleSheet,
   View,
+  Dimensions,
 } from 'react-native';
-
-const Test = () => {
-  const [drawerPosition, setDrawerPosition] = useState('left');
-  const changeDrawerPosition = () => {
-    if (drawerPosition === 'left') {
-      setDrawerPosition('right');
-    } else {
-      setDrawerPosition('left');
-    }
-  };
-  const drawRef = useRef();
-
-  const navigationView = (
-    <View style={styles.navigationContainer}>
-      <Text style={{margin: 10, fontSize: 15}}>I'm in the Drawer!</Text>
+import Testp from './testp';
+const {height, width} = Dimensions.get('window');
+export default function Test() {
+  return (
+    <View style={{backgroundColor: 'white', height: height, width: width}}>
+      <Testp></Testp>
     </View>
   );
-
-  return (
-    <DrawerLayoutAndroid
-      ref={drawRef}
-      drawerWidth={300}
-      drawerPosition={drawerPosition}
-      renderNavigationView={() => navigationView}>
-      <View style={styles.container}>
-        <Text style={{margin: 10, fontSize: 15}}>
-          DrawerLayoutAndroid example
-        </Text>
-        <Button
-          title="Change Drawer Position"
-          onPress={() => changeDrawerPosition()}
-        />
-        <Button
-          title="onpen Drawer"
-          onPress={() => drawRef.current.openDrawer()}
-        />
-        <Text style={{margin: 10, fontSize: 15}}>
-          Drawer on the {drawerPosition}! Swipe from the side to see!
-        </Text>
-      </View>
-    </DrawerLayoutAndroid>
-  );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -67,5 +33,3 @@ const styles = StyleSheet.create({
     padding: 8,
   },
 });
-
-export default Test;

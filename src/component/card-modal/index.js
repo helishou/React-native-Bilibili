@@ -387,7 +387,20 @@ class CardModal extends Component {
 
     return (
       <Animated.View
-        style={styles2.bottomContainer}>
+        style={{
+          marginTop: 0,
+          paddingLeft: px2dp(15),
+          paddingRight: px2dp(15),
+          backgroundColor: 'white',
+          elevation: 20,
+          width: this.state.bottom_width,
+          height: this.state.bottom_height,
+          borderTopLeftRadius: this.state.TopBorderRadius,
+          borderTopRightRadius: this.state.TopBorderRadius,
+          borderBottomLeftRadius: this.state.BottomBorderRadius,
+          borderBottomRightRadius: this.state.BottomBorderRadius,
+          transform: this.state.bottom_pan.getTranslateTransform(),
+        }}>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 4}}>
             <Text numberOfLines={2} style={styles2.title}>
@@ -493,21 +506,7 @@ const styles2 = StyleSheet.create({
     height: parseInt(height / 10),
     width: parseInt(width * 0.67),
   },
-  bottomContainer:{
-    marginTop: 0,
-    paddingLeft: px2dp(15),
-    paddingRight: px2dp(15),
-    backgroundColor: 'white',
-    elevation: 20,
-    width: this.state.bottom_width,
-    height: this.state.bottom_height,
-    borderTopLeftRadius: this.state.TopBorderRadius,
-    borderTopRightRadius: this.state.TopBorderRadius,
-    borderBottomLeftRadius: this.state.BottomBorderRadius,
-    borderBottomRightRadius: this.state.BottomBorderRadius,
 
-    transform: this.state.bottom_pan.getTranslateTransform(),
-  },
   // top: {
   //   marginBottom: 0,
   //   backgroundColor: 'blue',

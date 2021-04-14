@@ -1,19 +1,22 @@
-
 // import {
 //   Toast,
 // } from '@ant-design/react-native';
-import ajax from "./ajax";
-import jsonp from "jsonp";
+import ajax from './ajax';
+import jsonp from 'jsonp';
 // 包含应用中所有接口请求函数的模块
 // 要求:能根据接口文档定义接口请求
 // 每个函数的返回值都是promise
 
 //登陆
 
-export const reqSeach = (keyword) =>
-  ajax(`http://api.bilibili.com/x/web-interface/search/all/v2?keyword=${keyword}`,  "POST");
+export const reqSeach = keyword =>
+  ajax(
+    `http://api.bilibili.com/x/web-interface/search/all/v2?keyword=${keyword}`,
+    'POST',
+  );
 
-// export const reqAddUser = (user) => ajax("/manage/user/add", user, "POST");
+export const reqSpaceNotice = mid =>
+  ajax('http://api.bilibili.com/x/space/notice', {mid});
 
 // /* jsonp请求的接口请求函数 */
 // export const reqWeather = (city) => {
@@ -55,10 +58,10 @@ export const reqSeach = (keyword) =>
 //   export const reqCategory = (categoryId) => ajax('http://120.55.193.14:5000/manage/category/info',{categoryId})
 //   /* 更新商品的状态(上/下) */
 //   export const reqUpdateStatus = (productId,status) => ajax('http://120.55.193.14:5000/manage/product/updateStatus',{productId,status},'post')
-  
+
 //   //添加/修改商品  //多加一个/
 //   export const reqAddProduct = (product) => ajax('http://120.55.193.14:5000/manage/product/'+(product._id?'update':'add'),product,'post')//这个本身是对象，所以不用加{}
-  
+
 //   //删除指定名称的图片
 //   export const reqDelImg = (name) => ajax('http://120.55.193.14:5000/manage/img/delete',{name},'post')
 //   //获取所有角色列表
