@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
 });
 
 const url =
-  'https://upos-hz-mirrorakam.akamaized.net/upgcxcode/20/77/19937720/19937720-1-208.mp4?e=ig8euxZM2rNcNbRBhwdVhwdlhWUVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1618411643&gen=playurl&os=akam&oi=2901877426&trid=c7819bf70923460ea762debf6b5f7c08T&platform=html5&upsig=a26d20355d94f23d3c7d8c2b963aa074&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&hdnts=exp=1618411643~hmac=2735b55771bbee54b0d8a3953a068d5698264332af2f1ed4613df532c1a54c6c&mid=0&orderid=0,1&logo=80000000';
-// const url = 'https://your-url.com/video.mp4'
+'https://upos-sz-mirrorks3.bilivideo.com/upgcxcode/21/77/19937721/19937721-1-208.mp4?e=ig8euxZM2rNcNbRBhwdVhwdlhWUVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1618422927&gen=playurl&os=ks3bv&oi=1972570661&trid=3a2864d815f84dac9d18ab0a1a76af79T&platform=html5&upsig=91eb348881b486810416b67cb32da849&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&mid=0&orderid=0,1&logo=80000000';
+
 export default class VideoExample extends React.Component {
   render() {
     return (
@@ -24,6 +24,9 @@ export default class VideoExample extends React.Component {
           onExitFullscreen={() => {
             Orientation.lockToPortrait();
           }}
+          playInBackground={false}
+          rate={2}
+          poster="https://baconmockup.com/300/200/"
           seekColor="red"
           disableBack={true}
           tapAnywhereToPause={true}
