@@ -506,7 +506,6 @@ const styles2 = StyleSheet.create({
     height: parseInt(height / 10),
     width: parseInt(width * 0.67),
   },
-
   // top: {
   //   marginBottom: 0,
   //   backgroundColor: 'blue',
