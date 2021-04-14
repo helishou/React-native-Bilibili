@@ -73,7 +73,7 @@ function Search(props) {
     // loadRef.current.set
     const result = await reqSeach(text);
     const Soucedata = result.data.result[8].data;
-    // console.log('Soucedata', Soucedata);
+    console.log( Soucedata,'SearchSoucedata');
     let preDataList = [];
     // let data = Soucedata['douga'];
     // Object.keys(data).map((v, i) => {
@@ -95,6 +95,7 @@ function Search(props) {
         owner: {
           name: data.author,
           face: null,
+          mid:data.mid,
         },
         tname: data.tag,
       });

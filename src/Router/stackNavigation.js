@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import MaterialTopTabNavigator from './materialTopTabNavigator';
-
-import Search from './pages/search';
+import TabNavigator from './bottomBar';
+import Search from '../pages/search';
 import {connect} from 'react-redux';
-
+import UserDetail from '../pages/userDetail';
 const StackTab = createStackNavigator();
 function StackNavigator(props) {
   return (
@@ -13,7 +12,7 @@ function StackNavigator(props) {
     >
       <StackTab.Screen
         name="Bilibili"
-        component={MaterialTopTabNavigator}
+        component={TabNavigator}
         options={{title: '哔哩哔哩', headerShown: false}}></StackTab.Screen>
       <StackTab.Screen
         name="Search"
@@ -22,10 +21,13 @@ function StackNavigator(props) {
           title: '搜索',
           headerShown: !props.pressed,
         }}></StackTab.Screen>
-      {/* <StackTab.Screen
-        name="earch"
-        component={Live}
-        options={{title: '搜索'}}></StackTab.Screen> */}
+      <StackTab.Screen
+        name="userDetail"
+        component={UserDetail}
+        options={{
+          title: '个人空间',
+          headerShown: !props.pressed,
+        }}></StackTab.Screen>
       {/* <StackTab.Screen
         name="VideoPlayDetail"
         component={VideoPlayDetail}

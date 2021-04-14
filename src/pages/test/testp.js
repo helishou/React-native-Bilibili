@@ -85,7 +85,7 @@ export default connect(
 const styles = StyleSheet.create({
   fans: {flex: 1},
   numbers: {
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: 20,
     textAlign: 'center',
     width: 50,

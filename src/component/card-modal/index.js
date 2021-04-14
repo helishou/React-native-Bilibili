@@ -25,6 +25,7 @@ import px2dp from '../../util/index';
 import {LogBox} from 'react-native';
 import {playVideo, resetVideo, press} from '../../redux/actions';
 import {BlurView} from '@react-native-community/blur';
+// import {useNavigation} from '@react-navigation/native';
 // LogBox.ignoreLogs([
 //   'Require cycle: node_modules/',
 //   'Animated: `useNativeDriver` was not specified',
@@ -64,7 +65,7 @@ class CardModal extends Component {
 
       pressed: false,
     };
-
+    // console.log(props);
     this._onPress = this._onPress.bind(this);
     this.calculateOffset = this.calculateOffset.bind(this);
     this.activate = this.activate.bind(this);
@@ -273,26 +274,6 @@ class CardModal extends Component {
   }
 
   renderTop() {
-    // var back = this.state.pressed ? (
-    //   <TouchableOpacity style={[styles.backButton]} onPress={this._onPress}>
-    //     <Animated.View
-    //       style={[
-    //         {
-    //           opacity: this.state.back_opac,
-    //           position: 'relative',
-    //           left: 8,
-    //           top: 7,
-    //         },
-    //       ]}>
-    //       <Text style={{color: 'white'}}>
-    //         <Icon size={23} name="chevron-left" />
-    //       </Text>
-    //     </Animated.View>
-    //   </TouchableOpacity>
-    // ) : (
-    //   <View />
-    // );
-
     var borderStyles = !this.state.pressed
       ? {
           borderRadius: px2dp(10),
@@ -360,8 +341,14 @@ class CardModal extends Component {
       </TouchableOpacity>
     ) : null;
 
-    var plusButton = (
-      <Animated.View
+    var face = (
+      <TouchableOpacity
+        onPress={() => {
+          this.props.navigation.navigate('userDetail', {
+            owner: this.props.video.owner,
+          });
+          this.props.press(false);
+        }}
         style={{
           opacity: 1,
           justifyContent: 'center',
@@ -382,7 +369,7 @@ class CardModal extends Component {
             //   transform: this.state.top_pan.getTranslateTransform(),
             // },
           ]}></Animated.Image>
-      </Animated.View>
+      </TouchableOpacity>
     );
 
     return (
@@ -425,8 +412,7 @@ class CardModal extends Component {
               {this.props.due}
             </Text>
           </View>
-
-          {plusButton}
+          {face}
         </View>
         {button}
       </Animated.View>

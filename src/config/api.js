@@ -18,6 +18,10 @@ export const reqSeach = keyword =>
 export const reqSpaceNotice = mid =>
   ajax('http://api.bilibili.com/x/space/notice', {mid});
 
+export const reqSpaceVideos = mid => {
+  return ajax('http://api.bilibili.com/x/space/arc/search', {mid});
+};
+
 // /* jsonp请求的接口请求函数 */
 // export const reqWeather = (city) => {
 //   return new Promise((resolve, reject) => {

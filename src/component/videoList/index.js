@@ -1,14 +1,22 @@
 import React, {useState, useRef} from 'react';
 import CardModal from '../card-modal';
-import {View, FlatList, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {press, setFullscreen} from '../../redux/actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Orientation from 'react-native-orientation';
 import px2dp from '../../util';
-
+import {useNavigation} from '@react-navigation/native';
 function VideoList(props) {
+  const navigation = useNavigation();
   const [scroll, setScroll] = useState(true);
   const [child, setChild] = useState({});
   const listRef = useRef();
@@ -17,12 +25,12 @@ function VideoList(props) {
     {
       // console.log(child)
       Orientation.lockToPortrait();
-      try {
-        props.backClick();
-      } catch {}
       if (props.fullscreen) {
         props.setFullscreen(false);
       } else {
+        try {
+          props.backClick();
+        } catch {}
         child._onPress();
         props.press(false);
         setScroll(true);
@@ -46,6 +54,7 @@ function VideoList(props) {
   const _renderRow = item => {
     return (
       <CardModal
+        navigation={navigation}
         compensation={compensation}
         // pressedStyle={styles.container}
         onRef={ref => {
@@ -114,6 +123,7 @@ function VideoList(props) {
       )}
       <FlatList
         ref={listRef}
+        ListEmptyComponent={<View style={{height: 800}}></View>}
         // style={{display: 'none'}}
         initialListSize={6}
         data={props.dataSource}

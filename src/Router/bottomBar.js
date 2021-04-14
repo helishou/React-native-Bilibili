@@ -1,14 +1,16 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import StackNavigator from './stackNavigation';
+// import StackNavigator from './stackNavigation';
+import MaterialTopTabNavigator from './materialTopTabNavigator';
+
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Mv from './component/movement';
-import Me from './component/bottom/me';
-import Findings from './component/bottom/findings';
-import Message from './component/bottom/message';
-import Test from './pages/test';
+import Mv from '../component/movement';
+import Me from '../component/bottom/me';
+import Findings from '../component/bottom/findings';
+import Message from '../component/bottom/message';
+import Test from '../pages/test';
 import {connect} from 'react-redux';
 const Tab = createBottomTabNavigator();
 function TabNavigator(props) {
@@ -44,7 +46,7 @@ function TabNavigator(props) {
       <Tab.Screen name="test" component={Test} options={{title: '测试页面'}} />
       <Tab.Screen
         name="home"
-        component={StackNavigator}
+        component={MaterialTopTabNavigator}
         options={{
           title: '主页',
           tabBarVisible: props.fullscreen ? false : true,

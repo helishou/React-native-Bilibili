@@ -4,10 +4,11 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Setting from './component/Setting';
-import Search from './pages/search';
+import Setting from '../component/Setting';
+import Search from '../pages/search';
 import {connect} from 'react-redux';
-import TabNavigator from './bottomBar.js';
+// import TabNavigator from './bottomBar.js';
+import StackNavigator from './stackNavigation';
 import CustomDrawerContent from './customDrawerContent';
 
 const RootStack = createDrawerNavigator();
@@ -177,7 +178,7 @@ function AppInner(props) {
       {/* <View></View> */}
       {/* <NavigationContainer>{RootNavigation()}</NavigationContainer> */}
       <NavigationContainer>
-        <TabNavigator />
+        <StackNavigator />
       </NavigationContainer>
     </SafeAreaView>
   );

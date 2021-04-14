@@ -1,62 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-  Dimensions,
-  Button,
-  ScrollView
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import WebView from 'react-native-webview'
-import Orientation from 'react-native-orientation';
-import VideoPlayer from '../video/VideoPlayer'
-// 计算左侧的外边距，使其居中显示
-const {width, height} = Dimensions.get('window');
-const cols = 2;
-const marginLeft = 8;
-
-const card_width = Number.parseInt((width - (cols + 1) * marginLeft) / cols);
-const card_height = 120;
-const hMargin = 10;
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import Video from 'react-native-af-video-player'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center'
-  },
-  fullScreen:{
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    // transform:[{rotate:'90deg'},{scale:height/width}],
-    height: width,
-    width: height,
-    zIndex: 0,
   }
 })
 
-const url = 'https://player.bilibili.com/player.html?aid=927382529&cid=244002362&page=1'
+const url = 'https://upos-hz-mirrorakam.akamaized.net/upgcxcode/20/77/19937720/19937720-1-208.mp4?e=ig8euxZM2rNcNbRBhwdVhwdlhWUVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1618411643&gen=playurl&os=akam&oi=2901877426&trid=c7819bf70923460ea762debf6b5f7c08T&platform=html5&upsig=a26d20355d94f23d3c7d8c2b963aa074&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&hdnts=exp=1618411643~hmac=2735b55771bbee54b0d8a3953a068d5698264332af2f1ed4613df532c1a54c6c&mid=0&orderid=0,1&logo=80000000'
 
-export default function VideoExample (props) {
-  useEffect(() => {
-    Orientation.lockToLandscape();
-    return () => {
-      Orientation.lockToLandscape();
-    }
-  }, [])
-  // console.log(props.route.params)
+export default class VideoExample extends React.Component {
+
+  render() {
     return (
       <View style={styles.container}>
-                  <WebView
-            source={{ uri: 'http://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
-            style={styles.fullScreen}
-          />
+        <Video url={url} />
       </View>
     )
-
+  }
 }
