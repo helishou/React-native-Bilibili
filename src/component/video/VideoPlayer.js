@@ -72,7 +72,7 @@ function VideoPlayer(props) {
   //   };
   // }, []);
   //player.bilibili.com/player.html?aid=33668155&cid=58943259&page=2&autoplay=true
-  https: console.log('videoplayer_url', props.video.url);
+  console.log('videoplayer_url', props.video.url);
   return props.video.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
@@ -88,29 +88,31 @@ function VideoPlayer(props) {
           onPress={() => drawRef.current.openDrawer()}
           style={styles.barIcon}
         />
-        <TouchableHighlight
-          style={{
-            position: 'absolute',
-            bottom: px2dp(3),
-            right: px2dp(3),
-            zIndex: 10,
-            height: props.fullscreen ? px2dp(40) : px2dp(15),
-            width: props.fullscreen ? px2dp(40) : px2dp(15),
-            // backgroundColor: 'white',
-            opacity: 0,
-          }}
-          onPress={() => {
-            if (props.fullscreen) {
-              Orientation.lockToPortrait();
-              props.setFullscreen(false);
-            } else {
-              console.log('全屏', props);
-              Orientation.lockToLandscape();
-              props.setFullscreen(true);
-            }
-          }}>
-          <Icon name="arrows-alt" color="white" size={px2dp(18)}></Icon>
-        </TouchableHighlight>
+        {!props.fullscreen ? (
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              bottom: px2dp(23),
+              right: px2dp(3),
+              zIndex: 10,
+              height: px2dp(25),
+              width: px2dp(25),
+              // backgroundColor: 'white',
+              opacity: 1,
+            }}
+            onPress={() => {
+              if (props.fullscreen) {
+                Orientation.lockToPortrait();
+                props.setFullscreen(false);
+              } else {
+                console.log('全屏', props);
+                Orientation.lockToLandscape();
+                props.setFullscreen(true);
+              }
+            }}>
+            <Icon name="arrows-alt" color="white" size={px2dp(18)}></Icon>
+          </TouchableOpacity>
+        ) : null}
 
         <View
           style={[
@@ -119,16 +121,22 @@ function VideoPlayer(props) {
           <WebView
             mediaPlaybackRequiresUserAction={false}
             allowsInlineMediaPlayback={true}
-            userAgent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+            userAgent={
+              props.video.pg === 1
+                ? null
+                : 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36'
+            }
             source={{
               // uri: props.video.url,
               // method: "GET",
               html: `
               <iframe src='${props.video.url}'
-              width="100%" height="100%"
+              style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
+              frameborder="no" scrolling="no"
               data-dom="iframe"
               target="_self"
               about:blank
+ 
                scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> 
           
               `,
