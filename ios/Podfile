@@ -18,6 +18,8 @@ target 'pilipili' do
 
   pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
   target 'pilipiliTests' do
     inherit! :complete
     # Pods for testing

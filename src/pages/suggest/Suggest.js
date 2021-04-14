@@ -149,25 +149,15 @@ class Suggest extends Component {
           <VideoPlayer />
         </View> */}
 
-          <VideoList
-            dataSource={this.state.dataSource}
-            // scrollEnabled={this.state.scroll}
-            isLoaded={this.state.isLoaded}
-            // onRefresh={this._onRefresh}
-            fetchData={() => this.fetchData()}></VideoList>
-       
-          
+        <VideoList
+          dataSource={this.state.dataSource}
+          // scrollEnabled={this.state.scroll}
+          isLoaded={this.state.isLoaded}
+          // onRefresh={this._onRefresh}
+          fetchData={() => this.fetchData()}></VideoList>
       </View>
     );
   }
-  }
-
-  //下拉刷新
-  // _onRefresh = () => {
-  //   // this.setState({isLoaded: true});
-  //   this.props.press(false);
-  //   this.fetchData();
-  // };
 }
 
 export default connect(state => ({pressed: state.pressed}), {})(Suggest);
