@@ -29,10 +29,12 @@ import {
 function Search(props) {
   const [text, setText] = useState('');
   const [first, setFirst] = useState(true);
+  const [loaded, setLoaded] = useState(true);
   const [onfocus, setOnFocus] = useState(true);
-  const [dataSource, setDataSource] = useState({});
+  const [dataSource, setDataSource] = useState([]);
   const [show, setShow] = useState(true);
   const textInputRef = useRef();
+  const loadRef = useRef();
   // useEffect(() => {
   //   console.log('useeffect');
   //   textInputRef.current.focus();
@@ -55,6 +57,7 @@ function Search(props) {
     console.log('我被调用2');
   };
   const onSubmitEditing = () => {
+    setOnFocus(false);
     if (text) {
       console.log(
         'search 杯调用3',
@@ -67,6 +70,7 @@ function Search(props) {
     }
   };
   const getData = async () => {
+    // loadRef.current.set
     const result = await reqSeach(text);
     const Soucedata = result.data.result[8].data;
     // console.log('Soucedata', Soucedata);
@@ -97,7 +101,8 @@ function Search(props) {
     });
     setDataSource(preDataList);
     // console.log(preDataList);
-    setOnFocus(false);
+
+    setLoaded(false);
   };
   return (
     <View>
@@ -140,7 +145,7 @@ function Search(props) {
         <VideoList
           compensation={px2dp(60)}
           dataSource={dataSource}
-          isLoaded={!onfocus}
+          isLoaded={!loaded}
           fetchData={() => getData()}
           onClick={() => onClick()}
           backClick={() => backClick()}

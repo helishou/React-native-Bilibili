@@ -29,7 +29,7 @@ function video(state = initVideo, action) {
       };
     case ACTIONTYPES.SWICH_VIDEO:
       console.log('state', state);
-      url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${state.cid}&page=${action.data}&autoplay=true`;
+      url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${state.cid}&high_quality=1&page=${action.data}&autoplay=true&as_wide=1`;
       // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${state.aid}&cid=${state.cid}&page=${action.data}&autoplay=true`;
       return {...state, url: url, pg: action.data};
     case ACTIONTYPES.RESET_VIDEO:
