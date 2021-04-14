@@ -148,42 +148,18 @@ class Suggest extends Component {
         >
           <VideoPlayer />
         </View> */}
-        {this.state.isLoaded ? (
-          // {/* <Banner /> */}
+
           <VideoList
             dataSource={this.state.dataSource}
             // scrollEnabled={this.state.scroll}
             isLoaded={this.state.isLoaded}
             // onRefresh={this._onRefresh}
             fetchData={() => this.fetchData()}></VideoList>
-        ) : (
-          <View style={styles.indicatorStyle}>
-            <ActivityIndicator size="large" color="#398DEE" />
-          </View>
-        )}
+       
+          
       </View>
     );
   }
-
-  pushToVideoDetail(Item) {
-    const data = {};
-    let updateTime;
-    let avatar;
-    let owner_nickname;
-
-    this.props.navigation.navigate('videoPlayDetail', {
-      // id: data.id,
-      // title: data.title,
-      // description: data.description,
-      // playUrl: data.playUrl,
-      // owner_nickname: owner_nickname,
-      // avatar: avatar,
-      // updateTime: updateTime,
-      // placeholder: data.cover.feed,
-      // shareCount: data.consumption.shareCount,
-      // collectionCount: data.consumption.collectionCount,
-      // replyCount: data.consumption.replyCount,
-    });
   }
 
   //下拉刷新
