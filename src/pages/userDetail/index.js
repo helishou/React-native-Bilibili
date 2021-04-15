@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Animated,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {reqSpaceNotice, reqSpaceVideos} from '../../config/api';
@@ -14,47 +15,43 @@ import {marginLeft} from '../../style/CommStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import VideoList from '../../component/videoList';
 import px2dp from '../../util/';
+import ScrollableTabView, {
+  DefaultTabBar,
+  ScrollableTabBar,
+} from 'react-native-scrollable-tab-view';
+import {set} from 'react-native-reanimated';
+
 const {height, width} = Dimensions.get('window');
-const orignHeight=-250
+const orignHeight = 245;
 function UserDetail(props) {
+  useEffect(() => {
+    getSpaceNotice();
+    // props.navigation
+    return () => {};
+  }, []);
+  const [zt, setZt] = useState(1);
   // console.log('UserDetail.props.navigation', props);
   // const [topHeight, setTopHeight] = useState(new Animated.Value(250));
-  const topHeight = useRef(new Animated.Value(0)).current;
+  const topHeight = useRef(new Animated.Value(orignHeight)).current;
   const onClick = () => {
     console.log('usedetai_shirik');
+    setZt(zt + 2);
     shrink();
   };
   const backClick = () => {
     console.log('usedetai_grow');
+    setZt(zt - 2);
     grow();
   };
-  //   org_width: width - 32,
-  //   org_height: height / 5,
-
-  //   top_width: new Animated.Value(width - 32),
-  //   top_height: new Animated.Value(height / 6),
-  //   bottom_width: new Animated.Value(width - 32),
-  //   bottom_height: new Animated.Value(height / 6),
-  //   content_height: new Animated.Value(0),
-
-  //   top_pan: new Animated.ValueXY(),
-  //   bottom_pan: new Animated.ValueXY(),
-  //   content_pan: new Animated.ValueXY(),
-
-  //   content_opac: new Animated.Value(0),
-  //   button_opac: new Animated.Value(0),
-  //   back_opac: new Animated.Value(0),
-  //   plus: new Animated.Value(1),
-
-  //   TopBorderRadius: px2dp(0),
-  //   BottomBorderRadius: px2dp(10),
-  const grow = () => {
+  const grow = (height = orignHeight) => {
     // this.setState({TopBorderRadius: px2dp(10)});
-
+    if (zt === 2) {
+      return;
+    }
     Animated.parallel([
       Animated.timing(topHeight, {
-        toValue: 0,
-        useNativeDriver: true,
+        toValue: height,
+        useNativeDriver: false,
         duration: 500,
       }).start(),
       // Animated.spring(this.state.top_height, {
@@ -119,13 +116,33 @@ function UserDetail(props) {
       // }).start(),
     ]);
   };
+  //   org_width: width - 32,
+  //   org_height: height / 5,
+
+  //   top_width: new Animated.Value(width - 32),
+  //   top_height: new Animated.Value(height / 6),
+  //   bottom_width: new Animated.Value(width - 32),
+  //   bottom_height: new Animated.Value(height / 6),
+  //   content_height: new Animated.Value(0),
+
+  //   top_pan: new Animated.ValueXY(),
+  //   bottom_pan: new Animated.ValueXY(),
+  //   content_pan: new Animated.ValueXY(),
+
+  //   content_opac: new Animated.Value(0),
+  //   button_opac: new Animated.Value(0),
+  //   back_opac: new Animated.Value(0),
+  //   plus: new Animated.Value(1),
+
+  //   TopBorderRadius: px2dp(0),
+  //   BottomBorderRadius: px2dp(10),
 
   const shrink = () => {
     // this.setState({TopBorderRadius: px2dp(0)});
     Animated.parallel([
       Animated.timing(topHeight, {
-        toValue: orignHeight,
-        useNativeDriver: true,
+        toValue: 0,
+        useNativeDriver: false,
         duration: 500,
       }).start(),
       // Animated.spring(this.state.top_height, {
@@ -181,6 +198,15 @@ function UserDetail(props) {
       // }).start(),
     ]);
   };
+  const calculateOffset = height => {
+    if ((zt % 2 === 1) & (height > orignHeight)) {
+      setZt(0);
+      shrink();
+    } else if ((zt % 2 === 0) & (height < 150)) {
+      setZt(1);
+      grow();
+    }
+  };
   // var borderStyles = !this.state.pressed
   //   ? {
   //       borderRadius: px2dp(10),
@@ -192,7 +218,7 @@ function UserDetail(props) {
   //       borderTopLeftRadius: px2dp(10),
   //     };
   const owener = props.route.params.owner;
-  console.log('userdetai_owener', owener);
+  // console.log('userdetai_owener', owener);
   const [spaceNotice, setSpaceNotice] = useState('');
   const [dataSource, setDataSource] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -207,7 +233,7 @@ function UserDetail(props) {
     const result = await reqSpaceVideos(owener.mid);
     const Soucedata = result.data.list.vlist;
     // console.log('Soucedata', Soucedata);
-    console.log(Soucedata,'usedetaisoucedata')
+    // console.log(Soucedata, 'usedetaisoucedata');
     let preDataList = [];
     Soucedata.map((data, i) => {
       data.key = data.aid;
@@ -224,18 +250,15 @@ function UserDetail(props) {
     setLoaded(true);
     // console.log(preDataList, '/n --------------usedetailprelist');
   };
-  useEffect(() => {
-    getSpaceNotice();
-    return () => {};
-  }, []);
+
   return (
-    <Animated.View style={{transform: [{translateY: topHeight}]}}>
+    <Animated.View style={{flex: 1}}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 0, y: 1.0}}
         locations={[0, 1]}
         colors={['white', '#f4f4f4']}>
-        <Animated.View>
+        <Animated.View style={{height: topHeight}}>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 0, y: 1.0}}
@@ -296,7 +319,8 @@ function UserDetail(props) {
               }}>
               {owener.name}
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View
+              style={{flexDirection: 'row'}}>
               <Text style={styles.spaceNotice}>
                 {spaceNotice ? spaceNotice : '这个人很神秘，什么都没有写'}
               </Text>
@@ -304,14 +328,39 @@ function UserDetail(props) {
           </View>
         </Animated.View>
       </LinearGradient>
-      <VideoList
-        compensation={px2dp(240)}
-        dataSource={dataSource}
-        isLoaded={loaded}
-        fetchData={() => getData()}
-        onClick={() => onClick()}
-        backClick={() => backClick()}
-      />
+      <ScrollableTabView
+        // tabBarPosition={'overlayTop'}
+        locked={true}
+        style={[
+          styles.scrollContainer,
+          {
+            backgroundColor: zt ? '#f4f4f4' : 'white',
+            transform: [{translateY: zt < 2 ? 0 : -50}],
+          },
+        ]}
+        // renderTabBar={() => <DefaultTabBar />}
+        tabBarUnderlineStyle={{
+          width: width / 4,
+          height: 2,
+          backgroundColor: props.activeTheme,
+          marginLeft: width / 8,
+        }}
+        tabBarActiveTextColor={props.activeTheme}>
+        <VideoList
+          setContentOffsetY={calculateOffset}
+          tabLabel="视频"
+          compensation={zt ? px2dp(300) : px2dp(50)}
+          dataSource={dataSource}
+          isLoaded={loaded}
+          fetchData={() => getData()}
+          onClick={() => onClick()}
+          backClick={() => backClick()}
+          hideFace={true}
+        />
+        <Text style={styles.textStyle} tabLabel="动态">
+          动态施工中
+        </Text>
+      </ScrollableTabView>
     </Animated.View>
   );
 }
@@ -350,5 +399,16 @@ const styles = StyleSheet.create({
   },
   spaceNotice: {
     color: 'rgba(0,0,0,0.7)',
+  },
+  scrollContainer: {
+    flex: 1,
+
+    // marginTop: 20,
+  },
+  textStyle: {
+    flex: 1,
+    fontSize: 20,
+    marginTop: 20,
+    textAlign: 'center',
   },
 });

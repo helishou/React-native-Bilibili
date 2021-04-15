@@ -48,7 +48,7 @@ export default function Header() {
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
         onPress={() => {
-          return navigation.openDrawer();
+          // return navigation.openDrawer();
         }}>
         <View
           style={{

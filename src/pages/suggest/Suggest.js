@@ -1,29 +1,8 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-  ScrollView,
-  RefreshControl,
-  Button,
-  StyleSheet,
-  Touchable,
-  Modal,
-  TouchableWithoutFeedback,
-  Animated,
-} from 'react-native';
-import VideoPlayer from '../../component/video/VideoPlayer';
-import Banner from './Banner';
-import {coles, styles} from '../../style/CommStyle';
-import {color} from 'react-native-reanimated';
+import {View} from 'react-native';
 import {connect} from 'react-redux';
-import {press} from '../../redux/actions';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import VideoList from '../../component/videoList';
-let dataHotList = [];
+import px2dp from '../../util/index';
 
 class Suggest extends Component {
   static navigationOptions = ({navigation}) => {
@@ -38,7 +17,7 @@ class Suggest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: null,
+      dataSource: [],
       isLoaded: false,
       refreshing: false,
       modalVisible: false,
@@ -51,28 +30,16 @@ class Suggest extends Component {
     this.fetchData();
     // this.getData();
   }
-  // getData() {
-  //   for (let key in data) {
-  //     console.log(data[key], 'item');
-  //   }
-  // }
-
-  // disablePressed(state) {
-  //   this.setState({pressed: state});
-  // }
 
   fetchData() {
     fetch('https://www.bilibili.com/index/ding.json')
       .then(response => response.json())
       .then(Soucedata => {
         let preDataList = [];
-        // let data = Soucedata['douga'];
-        // Object.keys(data).map((v, i) => {
-        //   //加上kye={i}，控制台就不会报错
-
-        //   return preDataList.push(data[v]);
-        // });
         Object.keys(Soucedata).map((data, i) => {
+          if ((i == 4) | (i == 9) | (i == 1)) {
+            return;
+          }
           //加上kye={i}，控制台就不会报错
           // console.log(data, Soucedata[data]);
           Object.keys(Soucedata[data]).map((v, i) => {
@@ -151,6 +118,7 @@ class Suggest extends Component {
 
         <VideoList
           dataSource={this.state.dataSource}
+          compensation={px2dp(20)}
           // scrollEnabled={this.state.scroll}
           isLoaded={this.state.isLoaded}
           // onRefresh={this._onRefresh}

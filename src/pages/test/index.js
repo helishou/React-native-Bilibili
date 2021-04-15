@@ -11,7 +11,8 @@ import Testp from './testp';
 const {height, width} = Dimensions.get('window');
 export default function Test() {
   return (
-    <View style={{backgroundColor: 'white', height: height, width: width}}>
+    <View
+      style={{ height: height, width: width, flex: 1}}>
       <Testp></Testp>
     </View>
   );

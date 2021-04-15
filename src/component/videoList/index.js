@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import CardModal from '../card-modal';
 import {
   View,
@@ -20,23 +20,27 @@ function VideoList(props) {
   const [scroll, setScroll] = useState(true);
   const [child, setChild] = useState({});
   const listRef = useRef();
-  const compensation = props.compensation ? props.compensation : 0;
+
   const backClick = () => {
-    {
-      // console.log(child)
-      Orientation.lockToPortrait();
-      if (props.fullscreen) {
-        props.setFullscreen(false);
-      } else {
-        try {
-          props.backClick();
-        } catch {}
-        child._onPress();
-        props.press(false);
-        setScroll(true);
-      }
-      // setScroll(true);
+    // console.log(child)
+    Orientation.lockToPortrait();
+    if (props.fullscreen) {
+      props.setFullscreen(false);
+    } else {
+      try {
+        props.backClick();
+      } catch {}
+      child._onPress();
+      props.press(false);
+      setScroll(true);
     }
+    // setScroll(true);
+  };
+  const _onScroll = event => {
+    // console.log(event.nativeEvent.contentOffset.y);
+    try {
+      props.setContentOffsetY(event.nativeEvent.contentOffset.y);
+    } catch {}
   };
   const disableScroll = () => {
     try {
@@ -55,7 +59,7 @@ function VideoList(props) {
     return (
       <CardModal
         navigation={navigation}
-        compensation={compensation}
+        compensation={props.compensation}
         // pressedStyle={styles.container}
         onRef={ref => {
           // console.log('我被执行了',ref
@@ -70,6 +74,7 @@ function VideoList(props) {
               : item.title
             : ''
         }
+        hideFace={props.hideFace}
         touchable={props.pressed}
         description={'UP主：' + item.owner.name}
         image={item.pic}
@@ -125,6 +130,7 @@ function VideoList(props) {
         ref={listRef}
         ListEmptyComponent={<View style={{height: 800}}></View>}
         // style={{display: 'none'}}
+        onScroll={_onScroll}
         initialListSize={6}
         data={props.dataSource}
         scrollEnabled={scroll}

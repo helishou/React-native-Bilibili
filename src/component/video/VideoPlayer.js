@@ -63,15 +63,6 @@ function VideoPlayer(props) {
     </View>
   );
   console.log('player', width, height);
-  // console.log(props.video.url)
-  // React.useEffect(() => {
-  //   Orientation.lockToLandscape();
-  //   console.log(width, height);
-  //   return () => {
-  //     Orientation.lockToLandscape();
-  //   };
-  // }, []);
-  //player.bilibili.com/player.html?aid=33668155&cid=58943259&page=2&autoplay=true
   console.log('videoplayer_url', props.video.url);
   return props.video.url ? (
     <View
@@ -92,7 +83,7 @@ function VideoPlayer(props) {
           <TouchableOpacity
             style={{
               position: 'absolute',
-              bottom: px2dp(23),
+              bottom: px2dp(3),
               right: px2dp(3),
               zIndex: 10,
               height: px2dp(25),
