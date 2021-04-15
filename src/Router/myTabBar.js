@@ -13,10 +13,7 @@ import {
 } from 'react-native';
 import Header from '../component/header/Header';
 import Animated, {color} from 'react-native-reanimated';
-import {
-  tapGreen,
-  marginLeft,
-} from '../style/CommStyle';
+import {tapGreen, marginLeft} from '../style/CommStyle';
 import px2dp from '../util';
 function MyTabBar({state, descriptors, navigation, position, pressed}) {
   return (
@@ -68,7 +65,7 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
         });
         const width = Animated.interpolateNode(position, {
           inputRange,
-          outputRange: inputRange.map(i => (i === index ? 40 : 120)),
+          outputRange: inputRange.map(i => (i === index ? 40 : 10)),
         });
         const left = Animated.interpolateNode(position, {
           inputRange,
@@ -109,7 +106,7 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
             </Animated.Text>
             <Animated.View
               style={[
-                {opacity: lineOpacity, left: 9 + index / 2, width: width},
+                {opacity: lineOpacity, left: 14 , width: width},
                 styles.underline,
               ]}></Animated.View>
           </TouchableOpacity>

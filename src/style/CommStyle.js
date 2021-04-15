@@ -68,7 +68,6 @@ export const styles = StyleSheet.create({
     // elevation:20,
   },
 
-
   innerView: {
     backgroundColor: 'white',
     width: card_width,
@@ -90,7 +89,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   ownerName: {
-    flex:1,
+    flex: 1,
     textAlign: 'left',
     paddingLeft: padding,
     marginTop: hMargin,
@@ -101,9 +100,8 @@ export const styles = StyleSheet.create({
     fontSize: smallFontSize,
   },
 
-
   tname: {
-    flex:1,
+    flex: 1,
     textAlign: 'left',
 
     // paddingTop: padding,
@@ -148,8 +146,4 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-
-
-  
-  
 });

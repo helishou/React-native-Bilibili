@@ -18,15 +18,26 @@ function video(state = initVideo, action) {
   let url;
   switch (action.type) {
     case ACTIONTYPES.PLAY_VIDEO:
-      url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&high_quality=1&autoplay=true`;
+      console.log(ACTIONTYPES.PLAY_VIDEO, action);
+      url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&high_quality=1&autoplay=true&platform=html5`;
       // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&high_quality=1&autoplay=true`;
       return {
         url: url,
-        ...action.data
+        ...action.data,
       };
+    case ACTIONTYPES.SET_PAGES:
+      console.log('SET_PAGES', action.data);
+      return {
+        ...state,
+        cid: action.data.cid,
+        videos: action.data.videos,
+      };
+
     case ACTIONTYPES.SWICH_VIDEO:
-      console.log('state', state);
-      url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${state.cid}&high_quality=1&page=${action.data}&autoplay=true&as_wide=1`;
+      console.log(state, ACTIONTYPES.SWICH_VIDEO);
+      url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${
+        state.cid[action.data].cid
+      }&high_quality=1&autoplay=true&platform=html5`;
       // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${state.aid}&cid=${state.cid}&page=${action.data}&autoplay=true`;
       return {...state, url: url, pg: action.data};
     case ACTIONTYPES.RESET_VIDEO:

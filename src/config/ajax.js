@@ -28,7 +28,7 @@ export default function ajax(url, data = {}, type = 'GET') {
       })
       .catch(error => {
         //reject(error)
-        console.log('请求失败',error.message)
+        console.log('请求失败', error.message);
         Toast.info('请求出错了:' + error.message);
       });
   });

@@ -20,14 +20,14 @@ function MaterialTopTabNavigator(props) {
       lazy="true"
       backBehavior="none"
       tabBar={props => <MyTabBar {...props} />}>
-      {/* <MaterialTopTab.Screen
+      <MaterialTopTab.Screen
         name="Live"
         component={Live}
         options={{
           title: '直播',
           // tabBarIcon: <Ionicons name="home" />
         }}
-      /> */}
+      />
       <MaterialTopTab.Screen
         name="Suggest"
         component={Suggest}

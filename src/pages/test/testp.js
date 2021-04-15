@@ -1,103 +1,56 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Button, Image, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
-import {reqSpaceNotice} from '../../config/api';
-import {marginLeft} from '../../style/CommStyle';
-function Testp(props) {
-  const [spaceNotice, setSpaceNotice] = useState('');
-  const getSpaceNotice = async () => {
-    // console.log(props.video.owner.mid);
-    // const result = await reqSpaceNotice(props.video.owner.mid);
-    const result = await reqSpaceNotice(540564177);
-    setSpaceNotice(result.data);
-  };
-  useEffect(() => {
-    getSpaceNotice();
-    return () => {};
-  }, []);
-  return (
-    <View
-      style={{
-        paddingLeft: 20,
-        marginTop: 80,
-        backgroundColor: 'white',
-        // borderTopColor: props.activeTheme,
-        elevation: 20,
+import React, {Component} from 'react';
 
-        // borderTopWidth: 1,
-      }}>
-      <View style={{flexDirection: 'row', flexWrap: 'nowrap'}}>
-        <View class="user_img">
-          <Image
-            // source={{uri: props.video.owner.face}}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 100,
-              position: 'relative',
-              top: -40,
-              backgroundColor: 'black',
-            }}></Image>
-        </View>
+import {AppRegistry, StyleSheet, Text, View} from 'react-native';
+export default class testp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {bg: 'white', count: 0};
+  }
+
+  componentWillMount() {
+    this._gestureHandlers = {
+      onStartShouldSetResponder: () => true,
+      onMoveShouldSetResponder: () => true,
+      onResponderGrant: () => {
+        this.setState({bg: 'red'});
+      },
+      onResponderMove: () => {
+        this.setState({count: this.state.count + 1}, () =>
+          console.log(this.state.count),
+        );
+      },
+      onResponderRelease: () => {
+        this.setState({bg: 'white'});
+      },
+    };
+  }
+  render() {
+    return (
+      <View style={styles.container}>
         <View
-          style={{
-            // position: 'relative',
-            // right: -20,
-            marginLeft: 20,
-            flex: 3,
-            flexDirection: 'row',
-            marginTop: 10,
-            // marginLeft: 50,
-            // backgroundColor: 'black',
-          }}>
-          <View style={styles.fans}>
-            <Text style={styles.numbers}>0</Text>
-            <Text style={styles.title}>粉丝</Text>
-          </View>
-          <View style={styles.fans}>
-            <Text style={styles.numbers}>54</Text>
-            <Text style={styles.title}>关注</Text>
-          </View>
-          <View style={styles.fans}>
-            <Text style={styles.numbers}>0</Text>
-            <Text style={styles.title}>获赞</Text>
-          </View>
-        </View>
-        {/* <Text>{props.video.owner.name?props.video.owner.name:'jsonlaoshi'}</Text> */}
+          {...this._gestureHandlers}
+          style={[
+            styles.rect,
+            {
+              backgroundColor: this.state.bg,
+            },
+          ]}></View>
       </View>
-      <View style={styles.detail}>
-        {/* <Text>{props.video.owner.name}</Text> */}
-        <Text style={{color: props.activeTheme,fontWeight:'600',paddingBottom:6,fontSize:17}}>这个人很神秘</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.spaceNotice}>
-            {spaceNotice ? spaceNotice : '这个人很神秘，什么都没有写'}
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
+    );
+  }
 }
-export default connect(
-  state => ({video: state.video, activeTheme: state.common.activeTheme}),
-  {},
-)(Testp);
 
 const styles = StyleSheet.create({
-  fans: {flex: 1},
-  numbers: {
-    fontWeight: '600',
-    fontSize: 20,
-    textAlign: 'center',
-    width: 50,
-    // backgroundColor: 'red',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
-  title: {color: '#343434', fontSize: 10, paddingLeft: 15},
-  detail: {
-    // backgroundColor: 'red',
-    position: 'relative',
-    top: -25,
-  },
-  spaceNotice: {
-    color: 'rgba(0,0,0,0.7)',
+  rect: {
+    width: 200,
+    height: 200,
+    borderWidth: 1,
+    borderColor: 'black',
   },
 });

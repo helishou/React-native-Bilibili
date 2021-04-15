@@ -30,7 +30,7 @@ function VideoPlayer(props) {
 
   //播放器的侧边栏
   const buttons = [];
-  for (let i = 1; i <= props.video.videos; i++) {
+  for (let i = 0; i < props.video.videos; i++) {
     buttons.push({id: i});
   }
   const renderItem = ({item}) => {
@@ -42,7 +42,7 @@ function VideoPlayer(props) {
             styles.Button,
             props.video.pg == item.id ? {borderColor: props.activeTheme} : {},
           ]}>
-          {item.id}
+          {item.id + 1}
         </Text>
       </TouchableOpacity>
     );
@@ -63,15 +63,6 @@ function VideoPlayer(props) {
     </View>
   );
   console.log('player', width, height);
-  // console.log(props.video.url)
-  // React.useEffect(() => {
-  //   Orientation.lockToLandscape();
-  //   console.log(width, height);
-  //   return () => {
-  //     Orientation.lockToLandscape();
-  //   };
-  // }, []);
-  //player.bilibili.com/player.html?aid=33668155&cid=58943259&page=2&autoplay=true
   console.log('videoplayer_url', props.video.url);
   return props.video.url ? (
     <View
@@ -92,7 +83,7 @@ function VideoPlayer(props) {
           <TouchableOpacity
             style={{
               position: 'absolute',
-              bottom: px2dp(23),
+              bottom: px2dp(3),
               right: px2dp(3),
               zIndex: 10,
               height: px2dp(25),
@@ -121,25 +112,25 @@ function VideoPlayer(props) {
           <WebView
             mediaPlaybackRequiresUserAction={false}
             allowsInlineMediaPlayback={true}
-            userAgent={
-              props.video.pg === 1
-                ? null
-                : 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36'
-            }
+            mixedContentMode="always"
             source={{
-              // uri: props.video.url,
-              // method: "GET",
-              html: `
-              <iframe src='${props.video.url}'
-              style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-              frameborder="no" scrolling="no"
-              data-dom="iframe"
-              target="_self"
-              about:blank
- 
-               scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> 
-          
-              `,
+              uri: props.video.url,
+              method: 'GET',
+              headers: {
+                Referer: props.video.url,
+              },
+
+              // html: `
+              // <iframe src='${props.video.url}'
+              // style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
+              // frameborder="no" scrolling="no"
+              // data-dom="iframe"
+              // target="_self"
+              // about:blank
+
+              //  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+              // `,
             }}
             style={{
               backgroundColor: 'black',

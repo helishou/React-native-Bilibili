@@ -22,6 +22,9 @@ export const reqSpaceVideos = mid => {
   return ajax('http://api.bilibili.com/x/space/arc/search', {mid});
 };
 
+export const reqVideoDetail = aid => {
+  return ajax('https://api.bilibili.com/x/web-interface/view', {aid});
+};
 // /* jsonp请求的接口请求函数 */
 // export const reqWeather = (city) => {
 //   return new Promise((resolve, reject) => {
