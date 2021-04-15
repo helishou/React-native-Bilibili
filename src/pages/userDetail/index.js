@@ -15,10 +15,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import VideoList from '../../component/videoList';
 import px2dp from '../../util/';
 const {height, width} = Dimensions.get('window');
+const orignHeight=-250
 function UserDetail(props) {
   // console.log('UserDetail.props.navigation', props);
   // const [topHeight, setTopHeight] = useState(new Animated.Value(250));
-  const topHeight = useRef(new Animated.Value(250)).current;
+  const topHeight = useRef(new Animated.Value(0)).current;
   const onClick = () => {
     console.log('usedetai_shirik');
     shrink();
@@ -52,8 +53,8 @@ function UserDetail(props) {
 
     Animated.parallel([
       Animated.timing(topHeight, {
-        toValue: 200,
-        useNativeDriver: false,
+        toValue: 0,
+        useNativeDriver: true,
         duration: 500,
       }).start(),
       // Animated.spring(this.state.top_height, {
@@ -123,8 +124,8 @@ function UserDetail(props) {
     // this.setState({TopBorderRadius: px2dp(0)});
     Animated.parallel([
       Animated.timing(topHeight, {
-        toValue: 0,
-        useNativeDriver: false,
+        toValue: orignHeight,
+        useNativeDriver: true,
         duration: 500,
       }).start(),
       // Animated.spring(this.state.top_height, {
@@ -206,6 +207,7 @@ function UserDetail(props) {
     const result = await reqSpaceVideos(owener.mid);
     const Soucedata = result.data.list.vlist;
     // console.log('Soucedata', Soucedata);
+    console.log(Soucedata,'usedetaisoucedata')
     let preDataList = [];
     Soucedata.map((data, i) => {
       data.key = data.aid;
@@ -213,7 +215,7 @@ function UserDetail(props) {
       // newtitle = newtitle.replace(`</em>`, '');
       return preDataList.push({
         ...data,
-        pic: 'http:' + data.pic,
+        pic: data.pic,
         owner: owener,
         tname: data.length,
       });
@@ -227,13 +229,13 @@ function UserDetail(props) {
     return () => {};
   }, []);
   return (
-    <View>
+    <Animated.View style={{transform: [{translateY: topHeight}]}}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 0, y: 1.0}}
         locations={[0, 1]}
         colors={['white', '#f4f4f4']}>
-        <Animated.View style={{height: topHeight}}>
+        <Animated.View>
           <LinearGradient
             start={{x: 0, y: 0}}
             end={{x: 0, y: 1.0}}
@@ -303,14 +305,14 @@ function UserDetail(props) {
         </Animated.View>
       </LinearGradient>
       <VideoList
-        compensation={px2dp(200)}
+        compensation={px2dp(240)}
         dataSource={dataSource}
         isLoaded={loaded}
         fetchData={() => getData()}
         onClick={() => onClick()}
         backClick={() => backClick()}
       />
-    </View>
+    </Animated.View>
   );
 }
 export default connect(

@@ -23,8 +23,9 @@ import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
 import px2dp from '../../util/index';
 import {LogBox} from 'react-native';
-import {playVideo, resetVideo, press} from '../../redux/actions';
+import {playVideo, resetVideo, press, setPages} from '../../redux/actions';
 import {BlurView} from '@react-native-community/blur';
+import {reqVideoDetail} from '../../config/api';
 // import {useNavigation} from '@react-navigation/native';
 // LogBox.ignoreLogs([
 //   'Require cycle: node_modules/',
@@ -57,7 +58,7 @@ class CardModal extends Component {
 
       TopBorderRadius: px2dp(0),
       BottomBorderRadius: px2dp(10),
-
+      // cid: [],
       activate: '播放',
       activated: false,
 
@@ -81,6 +82,18 @@ class CardModal extends Component {
     this.calculateOffset();
   }
 
+  async getDetail() {
+    if (this.props.videos !== 1) {
+      const result = await reqVideoDetail(this.props.video.aid);
+      let predata = [];
+      console.log(result);
+      for (let i = 0; i < result.data.pages.length; i++) {
+        predata.push(result.data.pages[i]);
+      }
+      console.log('CardModal', predata);
+      this.props.setPages({cid: predata, videos: result.data.videos});
+    }
+  }
   grow() {
     this.setState({TopBorderRadius: px2dp(10)});
 
@@ -227,6 +240,7 @@ class CardModal extends Component {
             // console.log('growing with offset', this.state.offset);
             this.grow();
             this.props.press(true);
+            this.getDetail();
           } else {
             // console.log('shrinking with offset', this.state.offset);
             this.setState({
@@ -244,9 +258,9 @@ class CardModal extends Component {
       });
     }
   }
-  playVideo(pg = 1) {
+  playVideo(pg = 1, video = this.props.video) {
     // const {aid, cid, videos} = this.props;
-    const {video} = this.props;
+    // const {video} = this.props;
     console.log('carmodel_video', video);
     this.props.playVideo({...video, pg});
     this.setState({
@@ -473,11 +487,15 @@ class CardModal extends Component {
     );
   }
 }
-export default connect(state => ({pressed: state.pressed}), {
-  playVideo,
-  resetVideo,
-  press,
-})(CardModal);
+export default connect(
+  state => ({pressed: state.pressed, videos: state.video.videos}),
+  {
+    playVideo,
+    resetVideo,
+    press,
+    setPages,
+  },
+)(CardModal);
 const styles2 = StyleSheet.create({
   title: {
     textAlign: 'left',
