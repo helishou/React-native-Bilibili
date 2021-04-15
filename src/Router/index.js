@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
@@ -14,6 +14,7 @@ import CustomDrawerContent from './customDrawerContent';
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
   const isLargeScreen = false;
+
   // console.log('props',props)
   return (
     <RootStack.Navigator
@@ -171,7 +172,7 @@ function AppInner(props) {
       <StatusBar
         // backgroundColor={themeColor}
         backgroundColor={0 ? 'black' : 'rgba(0, 0, 0, 0)'}
-        translucent={0 ? false : true}
+        translucent={true}
         barStyle={props.video.url ? 'light-content' : 'dark-content'}
         animated={true}
       />

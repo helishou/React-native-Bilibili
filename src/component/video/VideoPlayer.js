@@ -30,7 +30,7 @@ function VideoPlayer(props) {
 
   //播放器的侧边栏
   const buttons = [];
-  for (let i = 1; i <= props.video.videos; i++) {
+  for (let i = 0; i < props.video.videos; i++) {
     buttons.push({id: i});
   }
   const renderItem = ({item}) => {
@@ -42,7 +42,7 @@ function VideoPlayer(props) {
             styles.Button,
             props.video.pg == item.id ? {borderColor: props.activeTheme} : {},
           ]}>
-          {item.id}
+          {item.id + 1}
         </Text>
       </TouchableOpacity>
     );
