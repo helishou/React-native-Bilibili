@@ -4,6 +4,7 @@ import TabNavigator from './bottomBar';
 import Search from '../pages/search';
 import {connect} from 'react-redux';
 import UserDetail from '../pages/userDetail';
+import VideoPlayDetail from '../pages/videoPlayDetail';
 import MaterialTopTabNavigator from './materialTopTabNavigator';
 import {Easing} from 'react-native';
 const StackTab = createStackNavigator();
@@ -53,10 +54,13 @@ function StackNavigator(props) {
           };
         }}
       />
-      {/* <StackTab.Screen
+      <StackTab.Screen
         name="VideoPlayDetail"
         component={VideoPlayDetail}
-        options={{title: '视频播放'}}></StackTab.Screen> */}
+        options={{
+          title: 'VideoPlayDetail',
+          headerTransparent: 'true',
+        }}></StackTab.Screen>
     </StackTab.Navigator>
   );
 }

@@ -20,9 +20,7 @@ function VideoList(props) {
   const [scroll, setScroll] = useState(true);
   const [child, setChild] = useState({});
   const listRef = useRef();
-
   const backClick = () => {
-    // console.log(child)
     Orientation.lockToPortrait();
     if (props.fullscreen) {
       props.setFullscreen(false);
@@ -42,14 +40,13 @@ function VideoList(props) {
       props.setContentOffsetY(event.nativeEvent.contentOffset.y);
     } catch {}
   };
-  const disableScroll = () => {
+  const onClick = () => {
     try {
       props.onClick();
     } catch {
       console.log('没有传入onClick');
     }
-
-    setScroll(false);
+    setScroll(!scroll);
   };
   const onRefresh = () => {
     props.press(false);
@@ -59,7 +56,7 @@ function VideoList(props) {
     return (
       <CardModal
         navigation={navigation}
-        compensation={props.compensation}
+        // compensation={props.compensation}
         // pressedStyle={styles.container}
         onRef={ref => {
           // console.log('我被执行了',ref
@@ -81,7 +78,8 @@ function VideoList(props) {
         up={item.owner.face}
         color="#01BDC5"
         content={item.desc}
-        onClick={() => disableScroll()}
+        onBack={() => backClick()}
+        onClick={() => onClick()}
         // onClick2={() => this.disablePressed()}
         due={
           item.tname
@@ -104,8 +102,8 @@ function VideoList(props) {
         alignItem: 'center',
         alignContent: 'center',
       }}>
-      <VideoPlayer show={!scroll} />
-      {props.pressed ? (
+      {/* <VideoPlayer show={!scroll} /> */}
+      {/* {props.pressed ? (
         <TouchableOpacity
           style={[styles.backButton]}
           onPress={() => backClick()}>
@@ -125,7 +123,7 @@ function VideoList(props) {
         </TouchableOpacity>
       ) : (
         <View />
-      )}
+      )} */}
       <FlatList
         ref={listRef}
         ListEmptyComponent={<View style={{height: 800}}></View>}

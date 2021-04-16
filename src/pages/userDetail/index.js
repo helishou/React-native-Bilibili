@@ -33,6 +33,7 @@ function UserDetail(props) {
   // console.log('UserDetail.props.navigation', props);
   // const [topHeight, setTopHeight] = useState(new Animated.Value(250));
   const topHeight = useRef(new Animated.Value(orignHeight)).current;
+  console.log(topHeight,zt)
   const onClick = () => {
     console.log('usedetai_shirik');
     setZt(zt + 2);
@@ -45,6 +46,7 @@ function UserDetail(props) {
   };
   const grow = (height = orignHeight) => {
     // this.setState({TopBorderRadius: px2dp(10)});
+    console.log(grow, zt);
     if (zt === 2) {
       return;
     }
@@ -54,66 +56,7 @@ function UserDetail(props) {
         useNativeDriver: false,
         duration: 500,
       }).start(),
-      // Animated.spring(this.state.top_height, {
-      //   toValue: parseInt(height / 2 + this.compensation),
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.bottom_height, {
-      //   toValue: parseInt(height / 6 + 50),
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.content_height, {
-      //   toValue: parseInt(height / 2),
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.top_pan, {
-      //   toValue: {
-      //     x: 0,
-      //     y: -parseInt(this.state.offset),
-      //   },
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.content_pan, {
-      //   toValue: {
-      //     x: 0,
-      //     y: -parseInt(height / 8 + this.state.offset),
-      //   },
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.bottom_pan, {
-      //   toValue: {
-      //     x: 0,
-      //     y: -(50 + this.state.offset),
-      //   },
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-
-      // Animated.timing(this.state.content_opac, {
-      //   toValue: 1,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.button_opac, {
-      //   toValue: 1,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.back_opac, {
-      //   toValue: 1,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.plus, {
-      //   toValue: 0,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
+     
     ]);
   };
   //   org_width: width - 32,
@@ -319,8 +262,7 @@ function UserDetail(props) {
               }}>
               {owener.name}
             </Text>
-            <View
-              style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row'}}>
               <Text style={styles.spaceNotice}>
                 {spaceNotice ? spaceNotice : '这个人很神秘，什么都没有写'}
               </Text>
