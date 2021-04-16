@@ -16,6 +16,7 @@ import {
   Text,
   Alert,
   ImageBackground,
+  BackHandler,
 } from 'react-native';
 import WebView from 'react-native-webview';
 import {connect} from 'react-redux';
@@ -23,8 +24,16 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
 import px2dp from '../../util/index';
-import {playVideo, resetVideo, press, setPages} from '../../redux/actions';
+import {
+  playVideo,
+  resetVideo,
+  press,
+  setPages,
+  setFullscreen,
+} from '../../redux/actions';
 import {reqVideoDetail} from '../../config/api';
+import Orientation from 'react-native-orientation';
+import video from '../../pages/videoPlayDetail';
 class CardModal extends Component {
   constructor(props) {
     super(props);
@@ -34,20 +43,20 @@ class CardModal extends Component {
       org_width: width - 32,
       org_height: height / 5,
 
-      top_width: new Animated.Value(width - 32),
-      top_height: new Animated.Value(height / 6),
-      bottom_width: new Animated.Value(width - 32),
-      bottom_height: new Animated.Value(height / 6),
-      content_height: new Animated.Value(0),
+      top_width: width - 32,
+      top_height: height / 6,
+      bottom_width: width - 32,
+      bottom_height: height / 6,
+      content_height: 0,
 
-      top_pan: new Animated.ValueXY(),
-      bottom_pan: new Animated.ValueXY(),
-      content_pan: new Animated.ValueXY(),
+      top_pan: 0,
+      bottom_pan: 0,
+      content_pan: 0,
 
-      content_opac: new Animated.Value(0),
-      button_opac: new Animated.Value(0),
-      back_opac: new Animated.Value(0),
-      plus: new Animated.Value(0),
+      content_opac: 0,
+      button_opac: 0,
+      back_opac: 0,
+      plus: 0,
 
       TopBorderRadius: px2dp(0),
       BottomBorderRadius: px2dp(10),
@@ -63,101 +72,43 @@ class CardModal extends Component {
     this._onPress = this._onPress.bind(this);
     this.calculateOffset = this.calculateOffset.bind(this);
     this.activate = this.activate.bind(this);
-    this.containerRef = createRef();
-    // this.compensation = props.compensation ? props.compensation : 0;
   }
-
   _onPress() {
+    this.props.navigation.navigate('VideoPlayDetail')
     // console.log(this.props.onRef)
     // console.log('绑定')
-
-    this.setState({pressed: !this.state.pressed, activated: '播放'});
-
-    this.calculateOffset();
+    // this.setState({pressed: !this.state.pressed, activated: '播放'});
+    // this.calculateOffset();
   }
+  backClick = () => {
+    // console.log('back被点了', this);
+    Orientation.lockToPortrait();
+    if (this.props.fullscreen) {
+      this.props.setFullscreen(false);
+    } else {
+      this._onPress();
+      this.props.press(false);
+      try {
+        this.props.onBack();
+      } catch {}
+    }
 
+    BackHandler.removeEventListener('hardwareBackPress', this.backClick);
+  };
   async getDetail() {
     if (this.props.videos !== 1) {
       const result = await reqVideoDetail(this.props.video.aid);
       let predata = [];
-      console.log(result);
+      // console.log(result);
       for (let i = 0; i < result.data.pages.length; i++) {
         predata.push(result.data.pages[i]);
       }
-      console.log('CardModal', predata);
+      // console.log('CardModal', predata);
       this.props.setPages({cid: predata, videos: result.data.videos});
     }
   }
   grow() {
     this.setState({TopBorderRadius: px2dp(10)});
-
-    Animated.parallel([
-      Animated.spring(this.state.top_width, {
-        toValue: width,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.top_height, {
-        toValue: parseInt(height / 2 + this.props.compensation),
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.bottom_height, {
-        toValue: parseInt(height / 6 + 50),
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.content_height, {
-        toValue: parseInt(height / 2),
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.top_pan, {
-        toValue: {
-          x: 0,
-          y: -parseInt(this.state.offset),
-        },
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.content_pan, {
-        toValue: {
-          x: 0,
-          y: -parseInt(height / 8 + this.state.offset),
-        },
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.bottom_pan, {
-        toValue: {
-          x: 0,
-          y: -(50 + this.state.offset),
-        },
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-
-      Animated.timing(this.state.content_opac, {
-        toValue: 1,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.button_opac, {
-        toValue: 1,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.back_opac, {
-        toValue: 1,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.plus, {
-        toValue: 1,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-    ]);
   }
   pressFace = () => {
     if (this.props.hideFace) {
@@ -172,103 +123,39 @@ class CardModal extends Component {
     });
     // this.calculateOffset();
     this.props.press(false);
+    BackHandler.removeEventListener('hardwareBackPress', this.backClick);
   };
   shrink() {
     this.setState({TopBorderRadius: px2dp(0)});
-    Animated.parallel([
-      Animated.spring(this.state.top_width, {
-        toValue: this.state.org_width,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.top_height, {
-        toValue: this.state.org_height,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.bottom_height, {
-        toValue: height / 6,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.top_pan, {
-        toValue: {
-          x: 0,
-          y: 0,
-        },
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.bottom_pan, {
-        toValue: {
-          x: 0,
-          y: 0,
-        },
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.spring(this.state.content_height, {
-        toValue: 0,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.content_opac, {
-        toValue: 0,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.button_opac, {
-        toValue: 0,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.back_opac, {
-        toValue: 0,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-      Animated.timing(this.state.plus, {
-        toValue: 0,
-        useNativeDriver: false,
-        duration: 500,
-      }).start(),
-    ]);
   }
-
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener('hardwareBackPress', this.backClick);
+  // }
   calculateOffset() {
     // console.log(this.containerRef);duration:500,
-    if (this.containerRef) {
-      this.containerRef.current.measure((fx, fy, width, height, px, py) => {
-        this.setState({offset: py}, () => {
-          if (this.state.pressed) {
-            this.playVideo();
-            this.props.onRef(this);
-            this.props.onClick();
-            // console.log('growing with offset', this.state.offset);
-            this.grow();
-            this.props.press(true);
-            this.getDetail();
-          } else {
-            // console.log('shrinking with offset', this.state.offset);
-            this.setState({
-              activate: (
-                <Text>
-                  播放 <Icon name="check" />
-                </Text>
-              ),
-              activated: true,
-            });
-            this.shrink();
-            this.props.resetVideo();
-          }
-        });
+    if (this.state.pressed) {
+      this.playVideo();
+      this.grow();
+      this.props.press(true);
+      this.getDetail();
+      this.props.onClick();
+      // BackHandler.addEventListener('hardwareBackPress', this.backClick);
+    } else {
+      this.setState({
+        activate: (
+          <Text>
+            播放 <Icon name="check" />
+          </Text>
+        ),
+        activated: true,
       });
+      this.props.resetVideo();
     }
   }
   playVideo(pg = 0, video = this.props.video) {
     // const {aid, cid, videos} = this.props;
     // const {video} = this.props;
-    console.log('carmodel_video', video);
+    // console.log('carmodel_video', video);
     this.props.playVideo({...video, pg});
     this.setState({
       activate: (
@@ -311,7 +198,6 @@ class CardModal extends Component {
           {
             width: this.state.top_width,
             height: this.state.top_height,
-            transform: this.state.top_pan.getTranslateTransform(),
             elevation: 20,
             // display: !this.state.activated?'flex':'none'
           },
@@ -325,11 +211,8 @@ class CardModal extends Component {
             {
               width: this.state.top_width,
               height: this.state.top_height,
-              transform: this.state.top_pan.getTranslateTransform(),
             },
           ]}></Animated.Image>
-
-        {/* {back} */}
       </View>
     );
   }
@@ -403,7 +286,6 @@ class CardModal extends Component {
           borderTopRightRadius: this.state.TopBorderRadius,
           borderBottomLeftRadius: this.state.BottomBorderRadius,
           borderBottomRightRadius: this.state.BottomBorderRadius,
-          transform: this.state.bottom_pan.getTranslateTransform(),
         }}>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 4}}>
@@ -456,7 +338,6 @@ class CardModal extends Component {
           height: this.state.content_height,
           zIndex: -1,
           backgroundColor: '#f4f4f4',
-          transform: this.state.content_pan.getTranslateTransform(),
         }}>
         <ScrollView
           style={{
@@ -477,10 +358,6 @@ class CardModal extends Component {
   }
 
   render() {
-    // if (!this.state.pressed && this.props.pressed) {
-    //   return null;
-    // }
-    // console.log('cardModel compensation', this.compensation);
     return (
       <View style={[styles.container, this.state.pressedStyle]}>
         <TouchableWithoutFeedback
@@ -498,12 +375,17 @@ class CardModal extends Component {
   }
 }
 export default connect(
-  state => ({pressed: state.pressed, videos: state.video.videos}),
+  state => ({
+    pressed: state.pressed,
+    videos: state.video.videos,
+    fullscreen: state.fullscreen,
+  }),
   {
     playVideo,
     resetVideo,
     press,
     setPages,
+    setFullscreen,
   },
 )(CardModal);
 const styles2 = StyleSheet.create({
@@ -520,21 +402,23 @@ const styles2 = StyleSheet.create({
     height: parseInt(height / 10),
     width: parseInt(width * 0.67),
   },
-  // top: {
-  //   marginBottom: 0,
-  //   backgroundColor: 'blue',
-  // },
-  // bottom: {
-  //   marginTop: 0,
-  //   padding: 16,
-  //   borderBottomLeftRadius: 5,
-  //   borderBottomRightRadius: 5,
-  //   backgroundColor: 'white',
-  // },
   // backButton: {
   //   position: 'absolute',
   //   backgroundColor: 'transparent',
   //   top: 32,
   //   left: 10,
   // },
+  backButton: {
+    position: 'absolute',
+    // backgroundColor: 'transparent',
+    top: 50,
+    left: 20,
+    zIndex: 20,
+    width: 35,
+    height: 35,
+    borderRadius: 35,
+    backgroundColor: 'black',
+    opacity: 0.7,
+    elevation: 20,
+  },
 });
