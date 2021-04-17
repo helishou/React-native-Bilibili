@@ -51,14 +51,19 @@ class Video extends Component {
       plus: 1,
       TopBorderRadius: px2dp(10),
       BottomBorderRadius: px2dp(10),
-      activate: '播放',
+      activate: '评论区',
       activated: false,
       pressed: true,
+      scaleXAnimate: new Animated.Value(1),
+      scaleYAnimate: new Animated.Value(1),
+      translateYAnimate: new Animated.Value(1),
+      opacityAnimate: new Animated.Value(1),
+      opacityReverseAnimate: new Animated.Value(0),
     };
     // console.log(props);
     // console.log('this.props.route.params---------------', this.props.route.params);
-    this.calculateOffset = this.calculateOffset.bind(this);
     this.activate = this.activate.bind(this);
+    this.inactivate = this.inactivate.bind(this);
   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.backClick);
@@ -79,6 +84,64 @@ class Video extends Component {
     }
     return false;
   };
+  grow() {
+    Animated.parallel([
+      Animated.timing(this.state.scaleXAnimate, {
+        toValue: 1.1,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.scaleYAnimate, {
+        toValue: 13,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.translateYAnimate, {
+        toValue: 13,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.opacityAnimate, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.opacityReverseAnimate, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+    ]);
+  }
+  shrink() {
+    Animated.parallel([
+      Animated.timing(this.state.scaleXAnimate, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.scaleYAnimate, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.translateYAnimate, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.opacityAnimate, {
+        toValue: 1,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+      Animated.timing(this.state.opacityReverseAnimate, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 500,
+      }).start(),
+    ]);
+  }
   async getDetail() {
     if (this.props.route.params.videos !== 1) {
       const result = await reqVideoDetail(this.props.route.params.aid);
@@ -105,60 +168,28 @@ class Video extends Component {
     // this.calculateOffset();
     this.props.press(false);
   };
-  shrink() {
-    this.setState({TopBorderRadius: px2dp(0)});
-  }
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener('hardwareBackPress', this.backClick);
-  // }
-  calculateOffset() {
-    // console.log(this.containerRef);duration:500,
-    if (this.state.pressed) {
-      this.playVideo();
-      this.grow();
-      this.props.press(true);
-      this.getDetail();
-      this.props.onClick();
-      //
-    } else {
-      this.setState({
-        activate: (
-          <Text>
-            播放 <Icon name="check" />
-          </Text>
-        ),
-        activated: true,
-      });
-      this.props.resetVideo();
-    }
-  }
+
   playVideo(pg = 0, video = this.props.route.params) {
     // const {aid, cid, videos} = this.props;
     // const {video} = this.props;
     // console.log('carmodel_video', video);
     this.props.playVideo({...video, pg});
+  }
+  activate() {
+    console.log('act');
+    this.grow();
+
     this.setState({
-      activate: (
-        <Text>
-          播放中 <Icon name="check" />
-        </Text>
-      ),
       activated: true,
     });
   }
-  activate() {
-    this.setState({activate: 'loading'});
+  inactivate() {
+    console.log('inact');
+    this.shrink();
 
-    setTimeout(() => {
-      this.setState({
-        activate: (
-          <Text>
-            播放中 <Icon name="check" />
-          </Text>
-        ),
-        activated: true,
-      });
-    }, 1500);
+    this.setState({
+      activated: false,
+    });
   }
 
   renderTop() {
@@ -186,19 +217,50 @@ class Video extends Component {
   }
 
   renderBottom() {
-    var loading =
-      this.state.activate == 'loading' ? (
-        <ActivityIndicator animating={true} color="white" />
-      ) : (
-        <Text style={{color: 'white', fontWeight: '800', fontSize: 18}}>
-          {this.state.activate}
-        </Text>
-      );
-
+    var comment = (
+      <Text style={{color: 'white', fontWeight: '800', fontSize: 18}}>
+        {this.state.activate}
+      </Text>
+    );
+    var commentDetail = (
+      <Animated.View style={{opacity: this.state.opacityReverseAnimate}}>
+        <Icon
+          onPress={this.inactivate}
+          name="close"
+          size={30}
+          style={{
+            position: 'relative',
+            left: width - 90,
+            top: -175,
+          }}
+        />
+        <Animated.Text
+          style={{
+            color: 'black',
+            fontWeight: '800',
+            fontSize: 18,
+            textAlign: 'center',
+          }}>
+          {'此功能暂未开放'}
+        </Animated.Text>
+      </Animated.View>
+    );
+    var animateStyle = {
+      backgroundColor: this.state.activated ? 'white' : tapGreen,
+      // opacity:  this.state.opacityAnimate,
+      transform: [
+        {scaleX: this.state.scaleXAnimate},
+        {scaleY: this.state.scaleYAnimate},
+        {translateY: this.state.translateYAnimate},
+      ],
+    };
     var button = (
-      <TouchableOpacity onPress={this.activate}>
-        <Animated.View style={styles2.playbutton}>{loading}</Animated.View>
-      </TouchableOpacity>
+      <TouchableWithoutFeedback
+        onPress={this.state.activated ? this.inactivate : this.activate}>
+        <Animated.View style={[styles2.playbutton, animateStyle]}>
+          {comment}
+        </Animated.View>
+      </TouchableWithoutFeedback>
     );
 
     var face = (
@@ -207,7 +269,7 @@ class Video extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        onPress={() => this.pressFace()}>
+        onPress={() => (this.state.activated ? null : this.pressFace())}>
         <Animated.View
           style={{
             opacity: this.props.hideFace ? this.state.plus : 1,
@@ -241,6 +303,8 @@ class Video extends Component {
           elevation: 20,
           width: this.state.bottom_width,
           height: this.state.bottom_height,
+          //change to
+          // height: this.state.bottom_height * 3,
           borderTopLeftRadius: this.state.TopBorderRadius,
           borderTopRightRadius: this.state.TopBorderRadius,
           borderBottomLeftRadius: this.state.BottomBorderRadius,
@@ -273,6 +337,7 @@ class Video extends Component {
           {face}
         </View>
         {button}
+        {commentDetail}
       </Animated.View>
     );
   }
@@ -385,10 +450,12 @@ const styles2 = StyleSheet.create({
     backgroundColor: tapGreen,
     marginTop: 10,
     borderRadius: 10,
-    width: width - 64,
-    height: 50,
+    // width: width - 64,
+    // height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    width: width - 64,
+    height: 50,
   },
   backButton: {
     position: 'absolute',
