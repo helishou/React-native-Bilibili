@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import Ripple from 'react-native-material-ripple';
 import {connect} from 'react-redux';
 import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
@@ -26,13 +27,8 @@ class CardModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pressedStyle: {},
-
-      org_width: width - 32,
-      org_height: height / 5,
-
       top_width: width - 32,
-      top_height: height / 6,
+      top_height: height / 5,
       bottom_width: width - 32,
       bottom_height: height / 6,
       content_height: 0,
@@ -46,8 +42,7 @@ class CardModal extends Component {
       back_opac: 0,
       plus: 0,
 
-      TopBorderRadius: px2dp(0),
-      BottomBorderRadius: px2dp(10),
+      BottomBorderRadius: px2dp(8),
       // cid: [],
       activate: '播放',
       activated: false,
@@ -80,13 +75,13 @@ class CardModal extends Component {
   renderTop() {
     var borderStyles = !this.state.pressed
       ? {
-          borderRadius: px2dp(10),
+          borderRadius: px2dp(8),
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
         }
       : {
-          borderTopRightRadius: px2dp(10),
-          borderTopLeftRadius: px2dp(10),
+          borderTopRightRadius: px2dp(8),
+          borderTopLeftRadius: px2dp(8),
         };
     return (
       <View
@@ -116,7 +111,7 @@ class CardModal extends Component {
   renderBottom() {
     var face = (
       <TouchableOpacity
-        style={{justifyContent: 'center', alignItems: 'center'}}
+        style={{justifyContent: 'center', alignItems: 'center', zIndex: 99}}
         onPress={() => this.pressFace()}>
         <Animated.View
           style={{
@@ -148,11 +143,9 @@ class CardModal extends Component {
           paddingLeft: px2dp(15),
           paddingRight: px2dp(15),
           backgroundColor: 'white',
-          elevation: 20,
+          // elevation: 20,
           width: this.state.bottom_width,
           height: this.state.bottom_height,
-          borderTopLeftRadius: this.state.TopBorderRadius,
-          borderTopRightRadius: this.state.TopBorderRadius,
           borderBottomLeftRadius: this.state.BottomBorderRadius,
           borderBottomRightRadius: this.state.BottomBorderRadius,
         }}>
@@ -195,16 +188,16 @@ class CardModal extends Component {
 
   render() {
     return (
-      <View style={[styles.container, this.state.pressedStyle]}>
-        <TouchableWithoutFeedback
-          onPress={!this.state.pressed ? this._onPress : null}>
-          <View
-            ref={this.containerRef}
-            style={[{alignItems: 'center', elevation: 20}]}>
+      <View style={[styles.container]}>
+        <Ripple
+          rippleSize={2 * width}
+          // rippleCentered={true}}
+          onPress={this._onPress}>
+          <View ref={this.containerRef} style={[{alignItems: 'center'}]}>
             {this.renderTop()}
             {this.renderBottom()}
           </View>
-        </TouchableWithoutFeedback>
+        </Ripple>
       </View>
     );
   }

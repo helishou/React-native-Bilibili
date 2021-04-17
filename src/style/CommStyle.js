@@ -52,8 +52,8 @@ export const styles = StyleSheet.create({
     // marginLeft: marginLeft,
     marginTop: 5,
     marginBottom: 20,
-    // backgroundColor: 'white',
-    // borderRadius: radius,
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderRadius: radius,
     // overflow: 'hidden',
     elevation: 20, // 适配android的
     shadowOffset: {width: 0, height: 3.5}, // 以下4项适配ios
@@ -113,11 +113,11 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   face: {
-    marginRight: padding,
-    width: card_height * 0.22,
-    height: card_height * 0.22,
+    marginRight: padding - 5,
+    width: card_height * 0.24,
+    height: card_height * 0.24,
     resizeMode: 'cover',
-    borderRadius: card_height * 0.11,
+    borderRadius: card_height * 0.12,
   },
   notIntrest: {
     textAlign: 'right',
