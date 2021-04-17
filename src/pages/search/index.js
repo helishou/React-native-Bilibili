@@ -1,15 +1,6 @@
 import React from 'react';
-import SeachView from '../../component/searchView';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Dimensions,
-  Animated,
-  TouchableWithoutFeedback,
-  Platform,
-  TextInput,
-} from 'react-native';
+import SeachView from './searchView';
+import {View, StyleSheet, Dimensions, TextInput} from 'react-native';
 import ScrollableTabView, {
   DefaultTabBar,
   ScrollableTabBar,
@@ -63,38 +54,28 @@ function Search(props) {
     setShow(true);
     console.log('我被调用2');
   };
-  const onSubmitEditing = () => {
+  const onSubmitEditing = (sText = text) => {
     setOnFocus(false);
-    if (text) {
-      console.log(
-        'search 杯调用3',
-        props.setSearchHistory,
-        props.searchHistory,
-        text,
-      );
-      props.setSearchHistory(props.searchHistory, text);
-      getData();
+    console.log('搜索', sText);
+    if (sText) {
+      props.setSearchHistory(props.searchHistory, sText);
+      getData(sText);
+    } else {
+      alert('输入不能为空');
     }
   };
-  const getData = async () => {
+  const getData = async (sText = text) => {
     // loadRef.current.set
-    const result = await reqSeach(text);
+    const result = await reqSeach(sText);
     const Soucedata = result.data.result[8].data;
     console.log(Soucedata, 'SearchSoucedata');
     let preDataList = [];
-    // let data = Soucedata['douga'];
-    // Object.keys(data).map((v, i) => {
-    //   //加上kye={i}，控制台就不会报错
-
-    //   return preDataList.push(data[v]);
-    // });
     Soucedata.map((data, i) => {
-      //加上kye={i}，控制台就不会报错
-      // console.log(data, Soucedata[data]);
-      // console.log('push', Soucedata[data][v]);
       data.key = data.aid;
-      let newtitle = data.title.replace(`<em class="keyword">`, '');
-      newtitle = newtitle.replace(`</em>`, '');
+      let newtitle = data.title.replace(/<em class="keyword">/g, '');
+      newtitle = newtitle.replace(/<em class=\"keyword\">/g, '');
+      newtitle = newtitle.replace(/<\/em>/g, '');
+      // newtitle = newtitle.replace(`</em>`, '');
       return preDataList.push({
         ...data,
         pic: 'http:' + data.pic,
@@ -194,7 +175,10 @@ function Search(props) {
           /> */}
         </ScrollableTabView>
       ) : (
-        <SeachView />
+        <SeachView
+          setText={s => setText(s)}
+          onSubmitEditing={s => onSubmitEditing(s)}
+        />
       )}
     </View>
   );

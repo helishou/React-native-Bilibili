@@ -33,7 +33,7 @@ function UserDetail(props) {
   // console.log('UserDetail.props.navigation', props);
   // const [topHeight, setTopHeight] = useState(new Animated.Value(250));
   const topHeight = useRef(new Animated.Value(orignHeight)).current;
-  console.log(topHeight,zt)
+  console.log(topHeight, zt);
   const onClick = () => {
     console.log('usedetai_shirik');
     setZt(zt + 2);
@@ -45,7 +45,6 @@ function UserDetail(props) {
     grow();
   };
   const grow = (height = orignHeight) => {
-    // this.setState({TopBorderRadius: px2dp(10)});
     console.log(grow, zt);
     if (zt === 2) {
       return;
@@ -56,89 +55,16 @@ function UserDetail(props) {
         useNativeDriver: false,
         duration: 500,
       }).start(),
-     
     ]);
   };
-  //   org_width: width - 32,
-  //   org_height: height / 5,
-
-  //   top_width: new Animated.Value(width - 32),
-  //   top_height: new Animated.Value(height / 6),
-  //   bottom_width: new Animated.Value(width - 32),
-  //   bottom_height: new Animated.Value(height / 6),
-  //   content_height: new Animated.Value(0),
-
-  //   top_pan: new Animated.ValueXY(),
-  //   bottom_pan: new Animated.ValueXY(),
-  //   content_pan: new Animated.ValueXY(),
-
-  //   content_opac: new Animated.Value(0),
-  //   button_opac: new Animated.Value(0),
-  //   back_opac: new Animated.Value(0),
-  //   plus: new Animated.Value(1),
-
-  //   TopBorderRadius: px2dp(0),
-  //   BottomBorderRadius: px2dp(10),
 
   const shrink = () => {
-    // this.setState({TopBorderRadius: px2dp(0)});
     Animated.parallel([
       Animated.timing(topHeight, {
         toValue: 0,
         useNativeDriver: false,
         duration: 500,
       }).start(),
-      // Animated.spring(this.state.top_height, {
-      //   toValue: this.state.org_height,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.bottom_height, {
-      //   toValue: height / 6,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.top_pan, {
-      //   toValue: {
-      //     x: 0,
-      //     y: 0,
-      //   },
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.bottom_pan, {
-      //   toValue: {
-      //     x: 0,
-      //     y: 0,
-      //   },
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.spring(this.state.content_height, {
-      //   toValue: 0,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.content_opac, {
-      //   toValue: 0,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.button_opac, {
-      //   toValue: 0,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.back_opac, {
-      //   toValue: 0,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
-      // Animated.timing(this.state.plus, {
-      //   toValue: 1,
-      //   useNativeDriver: false,
-      //   duration: 500,
-      // }).start(),
     ]);
   };
   const calculateOffset = height => {
@@ -150,18 +76,9 @@ function UserDetail(props) {
       grow();
     }
   };
-  // var borderStyles = !this.state.pressed
-  //   ? {
-  //       borderRadius: px2dp(10),
-  //       borderBottomLeftRadius: 0,
-  //       borderBottomRightRadius: 0,
-  //     }
-  //   : {
-  //       borderTopRightRadius: px2dp(10),
-  //       borderTopLeftRadius: px2dp(10),
-  //     };
+
   const owener = props.route.params.owner;
-  // console.log('userdetai_owener', owener);
+
   const [spaceNotice, setSpaceNotice] = useState('');
   const [dataSource, setDataSource] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -174,6 +91,7 @@ function UserDetail(props) {
   };
   const getData = async () => {
     const result = await reqSpaceVideos(owener.mid);
+    console.log(owener.mid, result);
     const Soucedata = result.data.list.vlist;
     // console.log('Soucedata', Soucedata);
     // console.log(Soucedata, 'usedetaisoucedata');

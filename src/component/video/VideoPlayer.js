@@ -63,8 +63,8 @@ function VideoPlayer(props) {
     </View>
   );
   console.log('player', width, height);
-  console.log('videoplayer_url', props.video.url);
-  return props.video.url ? (
+  console.log('videoplayer_url', props.url);
+  return props.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
       <DrawerLayoutAndroid
@@ -114,10 +114,10 @@ function VideoPlayer(props) {
             allowsInlineMediaPlayback={true}
             mixedContentMode="always"
             source={{
-              uri: props.video.url,
+              uri: props.url,
               method: 'GET',
               headers: {
-                Referer: props.video.url,
+                Referer: props.url,
               },
 
               // html: `

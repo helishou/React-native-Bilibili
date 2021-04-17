@@ -15,13 +15,14 @@ import {
 let {width, height} = Dimensions.get('window');
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
-import px2dp from '../../util';
+import px2dp from '../../../util';
 import {
   setSearchHistory,
   getSearchHistory,
   cleanSearchHistory,
   toggleSearch,
-} from '../../redux/actions/search';
+} from '../../../redux/actions/search';
+import Item from '@ant-design/react-native/lib/list/ListItem';
 class SearchView extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,7 @@ class SearchView extends Component {
     console.log('seach view', this.props);
     const {searchHistory, toggleSearch} = this.props;
     let showHistory = [];
-    for (let i = 0; i < searchHistory.length; i++) {
+    for (let i = 0; (i < searchHistory.length) & (i < 99); i++) {
       showHistory[i] = searchHistory[searchHistory.length - 1 - i];
     }
     return (
@@ -55,7 +56,11 @@ class SearchView extends Component {
             showHistory.map((item, i) => {
               return (
                 <View key={i} style={{marginRight: 12, marginBottom: 12}}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.onSubmitEditing(item);
+                      this.props.setText(item);
+                    }}>
                     <Text style={styles.queryItem}>{item}</Text>
                   </TouchableOpacity>
                 </View>
@@ -88,7 +93,11 @@ class SearchView extends Component {
           ].map((item, i) => {
             return (
               <View key={i} style={{marginRight: 12, marginBottom: 12}}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.onSubmitEditing(item);
+                    this.props.setText(item);
+                  }}>
                   <Text style={styles.queryItem}>{item}</Text>
                 </TouchableOpacity>
               </View>
@@ -126,11 +135,13 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#fff',
+    overflow: 'hidden',
+    height: 182,
   },
   queryItem: {
-    flex: 1,
+    // flex: 1,
     fontSize: px2dp(13),
     color: '#666',
     borderWidth: 1,
