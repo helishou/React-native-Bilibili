@@ -1,4 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
+import px2dp from '../util';
 // 计算左侧的外边距，使其居中显示
 let {width, height} = Dimensions.get('window');
 
@@ -61,7 +62,14 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 5,
   },
-
+  face: {
+    marginTop: px2dp(10),
+    marginRight: px2dp(5),
+    width: height / 12,
+    height: height / 12,
+    resizeMode: 'cover',
+    borderRadius: height / 24,
+  },
   innerView: {
     backgroundColor: 'white',
     width: card_width,
