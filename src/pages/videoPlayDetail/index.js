@@ -331,7 +331,11 @@ class Video extends Component {
                 fontWeight: '500',
                 color: 'gray',
               }}>
-              {this.props.route.params.tname}
+              {this.props.route.params.tname
+                ? this.props.route.params.tname.length > 25
+                  ? this.props.route.params.tname.substr(0, 25) + '...'
+                  : this.props.route.params.tname
+                : ''}
             </Text>
           </View>
           {face}

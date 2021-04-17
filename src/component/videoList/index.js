@@ -15,6 +15,7 @@ import VideoPlayer from '../../component/video/VideoPlayer';
 import Orientation from 'react-native-orientation';
 import px2dp from '../../util';
 import {useNavigation} from '@react-navigation/native';
+import Bottom from '../bottom';
 function VideoList(props) {
   const navigation = useNavigation();
   const [scroll, setScroll] = useState(true);
@@ -138,17 +139,7 @@ function VideoList(props) {
         // contentContainerStyle={styles.ListViewStyle}
         refreshing={!props.isLoaded}
         onRefresh={() => onRefresh()}
-        ListFooterComponent={
-          <TouchableOpacity
-            onPress={() =>
-              listRef.current.scrollToIndex({
-                index: 1,
-                viewPosition: 0,
-              })
-            }>
-            <Text style={styles.bottomText}>已经到底了哦,点我返回顶部↑</Text>
-          </TouchableOpacity>
-        }
+        ListFooterComponent={<Bottom listRef={listRef}/>}
       />
     </View>
   );
@@ -171,13 +162,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     opacity: 0.7,
     elevation: 20,
-  },
-  bottomText: {
-    color: 'gray',
-    opacity: 0.7,
-    marginTop: 20,
-    marginBottom: 200,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
