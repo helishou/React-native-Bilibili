@@ -2,7 +2,6 @@ import React from 'react';
 import Carousel from 'react-native-banner-carousel';
 import {StyleSheet, Image, View, Dimensions, Text} from 'react-native';
 
-import {api} from '../config/11111';
 
 const BannerWidth = Dimensions.get('window').width - 10;
 const BannerHeight = 160;
@@ -28,7 +27,7 @@ export default class movement extends React.Component {
   };
 
   componentDidMount() {
-    this.fetchData();
+    // this.fetchData();
   }
 
   fetchData() {

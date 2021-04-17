@@ -1,172 +1,182 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+import CardModal from '../card-modal';
 import {
-  StyleSheet,
-  Text,
   View,
-  Image,
   FlatList,
+  Text,
+  StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-  Dimensions,
-  Button,
-  ScrollView
 } from 'react-native';
+import {connect} from 'react-redux';
+import {press, setFullscreen} from '../../redux/actions';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import VideoPlayer from '../../component/video/VideoPlayer';
+import Orientation from 'react-native-orientation';
+import px2dp from '../../util';
 import {useNavigation} from '@react-navigation/native';
-// import Orientation from 'react-native-orientation';
-import WebView from 'react-native-webview'
-// 计算左侧的外边距，使其居中显示
-const {width, height} = Dimensions.get('window');
-const cols = 2;
-const marginLeft = 8;
-
-const card_width = Number.parseInt((width - (cols + 1) * marginLeft) / cols);
-const card_height = 120;
-const hMargin = 10;
-
-function Live() {
+import {reqReply} from '../../config/api';
+function VideoList(props) {
+  useEffect(() => {
+    fetchData();
+    return () => {};
+  }, []);
   const navigation = useNavigation();
-  // useEffect(() => {
-  //   Orientation.lockToPortrait()
-  //   return () => {
-  //     Orientation.lockToPortrait()
-  //   }
-  // }, [])
-  // const navigationOptions = {
-  //   // title: '视频分类',
-  //   header: null,
-  // };
-  // const [dataSource, setDataSource] = useState(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // useEffect(() => {
-  //   fetchData();
-  //   return () => {};
-  // }, []);
-
-  const fetchData = () => {
-    fetch(api.live)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        let dataList = data.data.feeds;
-        setDataSource(
-          new FlatList.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2,
-          }).cloneWithRows(dataList),
-        );
-        setIsLoaded(true);
-      })
-      .catch(err => {
-        console.log(err);
-        setDataSource('null');
-        setIsLoaded(false);
-      })
-      .done();
+  const [scroll, setScroll] = useState(true);
+  const [loaded, setLoaded] = useState(false);
+  const [dataSource, setDataSource] = useState([]);
+  const [child, setChild] = useState({});
+  const listRef = useRef();
+  const onClick = () => {
+    try {
+      props.onClick();
+    } catch {
+      console.log('没有传入onClick');
+    }
+    setScroll(!scroll);
   };
-  // 注意TouchableOpacity和内层View容器的样式
-  const _renderRow = rowData => {
+  const fetchData = async () => {
+    const result = await reqReply(626229481, 0);
+    console.log(result);
+    // let preDataList = [];
+    // Object.keys(Soucedata).map((data, i) => {
+    //   if ((i == 4) | (i == 9) | (i == 1)) {
+    //     return;
+    //   }
+    //   //加上kye={i}，控制台就不会报错
+    //   // console.log(data, Soucedata[data]);
+    //   Object.keys(Soucedata[data]).map((v, i) => {
+    //     //加上kye={i}，控制台就不会报错
+    //     // console.log(v);
+    //     try {
+    //       if (Soucedata[data][v].videos) {
+    //         // console.log('push', Soucedata[data][v]);
+    //         return preDataList.push({
+    //           ...Soucedata[data][v],
+    //           key: Soucedata[data][v].aid,
+    //         });
+    //       }
+    //     } catch {
+    //       return;
+    //     }
+    //   });
+    // });
+    // this.setState({
+    //   dataSource: preDataList,
+    //   isLoaded: true,
+    // });
+    // console.log('error!!!', err);
+    // this.setState({
+    //   dataSource: null,
+    //   isLoaded: false,
+    // });
+  };
+  const onRefresh = () => {
+    fetchData();
+  };
+  const _renderRow = item => {
     return (
-      <TouchableOpacity
-        style={styles.wrapStyle}
-        activeOpacity={0.5}
-        onPress={() => pushTo('LivePlayOnWebview', rowData)}>
-        <View style={styles.innerView}>
-          <Image source={{uri: rowData.image}} style={styles.imgView} />
-          <Text style={styles.categoryTitle}>
-            {rowData.nickname
-              ? rowData.nickname.length > 15
-                ? rowData.nickname.substr(0, 15) + '...'
-                : rowData.nickname
-              : ''}
-          </Text>
-          <Text style={styles.categorySamllTitle}>{rowData.watches} 人</Text>
-        </View>
-      </TouchableOpacity>
+      <CardModal
+        navigation={navigation}
+        // compensation={props.compensation}
+        // pressedStyle={styles.container}
+        onRef={ref => {
+          // console.log('我被执行了',ref
+          //   )
+          setChild(ref);
+        }}
+        key={item.aid}
+        title={
+          item.title
+            ? item.title.length > 25
+              ? item.title.substr(0, 25) + '...'
+              : item.title
+            : ''
+        }
+        hideFace={props.hideFace}
+        touchable={props.pressed}
+        description={'UP主：' + item.owner.name}
+        image={item.pic}
+        up={item.owner.face}
+        color="#01BDC5"
+        content={item.desc}
+        onBack={() => backClick()}
+        onClick={() => onClick()}
+        // onClick2={() => this.disablePressed()}
+        due={
+          item.tname
+            ? item.tname.length > 20
+              ? item.tname.substr(0, 20) + '...'
+              : item.tname
+            : ''
+        }
+        video={item}
+        // videos={item.videos}
+        // aid={item.aid}
+        // cid={item.cid}
+      />
     );
   };
-
-  const pushTo = (view, data) => {
-    navigation.navigate(view, {
-      relateid: data.relateid,
-      title: data.title,
-    });
-  };
   return (
-    <View style={{flex: 1, backgroundColor: '#f4f4f4'}}>
-      {/* <Button
-        onPress={() => {
-          return navigation.navigate('Suggest');
-        }}
-        title="点我跳转推荐"></Button> */}
-          <WebView
-            source={{ uri: 'https://player.bilibili.com/player.html?aid=927382529&cid=244002362&page=1' }}
-            style={{marginBottom:20}}
-          />
-          <WebView
-            source={{ uri: 'https://player.bilibili.com/player.html?aid=417243313&cid=313087062&page=1' }}
-            style={{marginBottom:20}}
-          />
-          <WebView
-            source={{ uri: 'https://player.bilibili.com/player.html?aid=886812190&cid=302596812&page=1' }}
-            style={{marginBottom:20}}
-          />
-      {/* {isLoaded ? (
-        <FlatList
-          dataSource={dataSource}
-          renderRow={rowData => _renderRow(rowData)}
-          contentContainerStyle={styles.FlatListStyle}
-        />
-      ) : (
-        <View style={styles.indicatorStyle}>
-         
-          <ActivityIndicator size="large" color="#398DEE" />
-        </View>
-      )} */}
+    <View
+      style={{
+        backgroundColor: '#f4f4f4',
+        alignItem: 'center',
+        alignContent: 'center',
+      }}>
+      <FlatList
+        ref={listRef}
+        ListEmptyComponent={<View style={{height: 800}}></View>}
+        // style={{display: 'none'}}
+        onScroll={scroll}
+        initialListSize={6}
+        data={dataSource}
+        scrollEnabled={scroll}
+        // numColumns={1}
+        renderItem={({item}) => _renderRow(item)}
+        // contentContainerStyle={styles.ListViewStyle}
+        refreshing={loaded}
+        onRefresh={() => onRefresh()}
+        ListFooterComponent={
+          <TouchableOpacity
+            onPress={() =>
+              listRef.current.scrollToIndex({
+                index: 1,
+                viewPosition: 0,
+              })
+            }>
+            <Text style={styles.bottomText}>已经到底了哦,点我返回顶部↑</Text>
+          </TouchableOpacity>
+        }
+      />
     </View>
   );
 }
 
+export default connect(
+  state => ({pressed: state.pressed, fullscreen: state.fullscreen}),
+  {press, setFullscreen},
+)(VideoList);
 const styles = StyleSheet.create({
-  FlatListStyle: {
-    // 改变主轴的方向
-    flexDirection: 'row',
-    // 多行显示
-    flexWrap: 'wrap',
-    // 侧轴方向
-    backgroundColor: '#e7e1ea',
-    paddingBottom: 20,
+  backButton: {
+    position: 'absolute',
+    // backgroundColor: 'transparent',
+    top: 50,
+    left: 20,
+    zIndex: 20,
+    width: 35,
+    height: 35,
+    borderRadius: 35,
+    backgroundColor: 'black',
+    opacity: 0.7,
+    elevation: 20,
   },
-  wrapStyle: {
-    width: card_width,
-    height: card_height + 50,
-    marginLeft: marginLeft,
-    marginTop: hMargin,
-    backgroundColor: 'white',
-    borderRadius: 5,
-  },
-  innerView: {
-    width: card_width,
-    height: card_height + 5,
-  },
-  imgView: {
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    width: card_width,
-    height: card_height,
-  },
-  categoryTitle: {
-    fontSize: 13,
-    fontWeight: '600',
+  bottomText: {
+    color: 'gray',
+    opacity: 0.7,
+    marginTop: 20,
+    marginBottom: 200,
+    fontWeight: 'bold',
     textAlign: 'center',
-    padding: 5,
-    width: card_width,
-    color: '#2c2c2c',
-  },
-  categorySamllTitle: {
-    textAlign: 'left',
-    paddingLeft: 12,
-    width: card_width,
-    color: '#858585',
   },
 });
-
-export default Live;

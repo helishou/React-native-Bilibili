@@ -10,6 +10,11 @@ import {
   Platform,
   TextInput,
 } from 'react-native';
+import ScrollableTabView, {
+  DefaultTabBar,
+  ScrollableTabBar,
+} from 'react-native-scrollable-tab-view';
+
 import px2dp from '../../util';
 import {useState, useRef, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -25,6 +30,7 @@ import {
   cleanSearchHistory,
   toggleSearch,
 } from '../../redux/actions/search';
+const {height, width} = Dimensions.get('window');
 // import { styles } from '../../style/CommStyle';
 function Search(props) {
   const [text, setText] = useState('');
@@ -73,7 +79,7 @@ function Search(props) {
     // loadRef.current.set
     const result = await reqSeach(text);
     const Soucedata = result.data.result[8].data;
-    console.log( Soucedata,'SearchSoucedata');
+    console.log(Soucedata, 'SearchSoucedata');
     let preDataList = [];
     // let data = Soucedata['douga'];
     // Object.keys(data).map((v, i) => {
@@ -95,7 +101,7 @@ function Search(props) {
         owner: {
           name: data.author,
           face: null,
-          mid:data.mid,
+          mid: data.mid,
         },
         tname: data.tag,
       });
@@ -106,7 +112,7 @@ function Search(props) {
     setLoaded(false);
   };
   return (
-    <View>
+    <View style={{flex: 1}}>
       {/* <Nav
         title="搜索"
         onClick={() => {
@@ -143,14 +149,49 @@ function Search(props) {
         </LinearGradient>
       ) : null}
       {!onfocus ? (
-        <VideoList
-          compensation={px2dp(60)}
-          dataSource={dataSource}
-          isLoaded={!loaded}
-          fetchData={() => getData()}
-          onClick={() => onClick()}
-          backClick={() => backClick()}
-        />
+        <ScrollableTabView
+          // tabBarPosition={'overlayTop'}
+          locked={true}
+          style={[
+            styles.scrollContainer,
+            {
+              backgroundColor: 1 ? '#f4f4f4' : 'white',
+              transform: [{translateY: 1 < 2 ? 0 : -50}],
+            },
+          ]}
+          // renderTabBar={() => <DefaultTabBar />}
+          tabBarUnderlineStyle={{
+            width: width / 4,
+            height: 2,
+            backgroundColor: props.activeTheme,
+            marginLeft: width / 8,
+          }}
+          tabBarActiveTextColor={props.activeTheme}>
+          <VideoList
+            tabLabel="视频"
+            dataSource={dataSource}
+            isLoaded={!loaded}
+            fetchData={() => getData()}
+            onClick={() => onClick()}
+            backClick={() => backClick()}
+          />
+          <VideoList
+            tabLabel="用户"
+            dataSource={dataSource}
+            isLoaded={!loaded}
+            fetchData={() => getData()}
+            onClick={() => onClick()}
+            backClick={() => backClick()}
+          />
+          {/* <VideoList
+            tabLabel="直播"
+            dataSource={dataSource}
+            isLoaded={!loaded}
+            fetchData={() => getData()}
+            onClick={() => onClick()}
+            backClick={() => backClick()}
+          /> */}
+        </ScrollableTabView>
       ) : (
         <SeachView />
       )}
