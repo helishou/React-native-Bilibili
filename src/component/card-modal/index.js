@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import Ripple from 'react-native-material-ripple';
 import {connect} from 'react-redux';
 import {styles} from '../../style/CommStyle';
 import Ripple from 'react-native-material-ripple';
@@ -112,7 +113,7 @@ class CardModal extends Component {
   renderBottom() {
     var face = (
       <TouchableOpacity
-        style={{justifyContent: 'center', alignItems: 'center'}}
+        style={{justifyContent: 'center', alignItems: 'center', zIndex: 99}}
         onPress={() => this.pressFace()}>
         <Animated.View
           style={{
@@ -147,8 +148,6 @@ class CardModal extends Component {
           // elevation: 20,
           width: this.state.bottom_width,
           height: this.state.bottom_height,
-          borderTopLeftRadius: this.state.TopBorderRadius,
-          borderTopRightRadius: this.state.TopBorderRadius,
           borderBottomLeftRadius: this.state.BottomBorderRadius,
           borderBottomRightRadius: this.state.BottomBorderRadius,
         }}>

@@ -112,7 +112,6 @@ export const styles = StyleSheet.create({
     textAlign: 'right',
     alignItems: 'flex-end',
   },
-
   notIntrest: {
     textAlign: 'right',
     fontSize: fontSize * 1,
