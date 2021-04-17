@@ -14,8 +14,6 @@ import {
 import Ripple from 'react-native-material-ripple';
 import {connect} from 'react-redux';
 import {styles} from '../../style/CommStyle';
-import Ripple from 'react-native-material-ripple';
-
 import px2dp from '../../util/index';
 import {
   playVideo,

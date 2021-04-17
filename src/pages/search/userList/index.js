@@ -53,27 +53,23 @@ export default function UserList(props) {
   };
   const _renderRow = item => {
     return (
-      <View style={{paddingTop: 30}}>
-        <WingBlank size="lg">
-          <Card>
-            <Card.Header
-              title="This is title"
-              thumbStyle={{width: 30, height: 30}}
-              thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
-              extra={<Button title="666"></Button>}
-            />
-            <Card.Body>
-              <View style={{height: 42}}>
-                <Text style={{marginLeft: 16}}>Card Content</Text>
-              </View>
-            </Card.Body>
-            <Card.Footer
-              content="footer content"
-              extra="footer extra content"
-            />
-          </Card>
-        </WingBlank>
-        <WhiteSpace size="lg" />
+      <View style={{}}>
+        <Card full>
+          <Card.Header
+            title="This is title"
+            style={{height:70}}
+            thumbStyle={{width: 50, height: 50}}
+            thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
+            extra={<Button title="666"></Button>}
+          />
+          {/* <Card.Body>
+            <View style={{height: 42}}>
+              <Text style={{marginLeft: 16}}>Card Content</Text>
+            </View>
+          </Card.Body> */}
+          <Card.Footer content="footer content" extra="footer extra content" />
+        </Card>
+        {/* <WhiteSpace size="lg" /> */}
       </View>
     );
   };

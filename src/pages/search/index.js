@@ -30,6 +30,7 @@ import {
   cleanSearchHistory,
   toggleSearch,
 } from '../../redux/actions/search';
+import UserList from './userList';
 const {height, width} = Dimensions.get('window');
 // import { styles } from '../../style/CommStyle';
 function Search(props) {
@@ -175,13 +176,13 @@ function Search(props) {
             onClick={() => onClick()}
             backClick={() => backClick()}
           />
-          <VideoList
+          <UserList
             tabLabel="用户"
             dataSource={dataSource}
-            isLoaded={!loaded}
-            fetchData={() => getData()}
-            onClick={() => onClick()}
-            backClick={() => backClick()}
+            // isLoaded={!loaded}
+            // fetchData={() => getData()}
+            // onClick={() => onClick()}
+            // backClick={() => backClick()}
           />
           {/* <VideoList
             tabLabel="直播"
