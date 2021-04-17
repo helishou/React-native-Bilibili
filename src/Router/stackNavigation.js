@@ -56,10 +56,25 @@ function StackNavigator(props) {
       />
       <StackTab.Screen
         name="VideoPlayDetail"
+        mode="card"
+        // headerMode='float'
         component={VideoPlayDetail}
         options={{
-          title: 'VideoPlayDetail',
+          title: '',
           headerTransparent: 'true',
+          // gesturesEnabled:'false',
+          // headerMode: 'float',
+        }}></StackTab.Screen>
+      <StackTab.Screen
+        name="VideoUserPlayDetail"
+        mode="card"
+        // headerMode='float'
+        component={VideoPlayDetail}
+        options={{
+          title: '',
+          headerTransparent: 'true',
+          // gesturesEnabled:'false',
+          // headerMode: 'float',
         }}></StackTab.Screen>
     </StackTab.Navigator>
   );

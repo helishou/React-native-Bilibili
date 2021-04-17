@@ -6047,8 +6047,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
-prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -6245,8 +6244,6 @@ react-native-screens@^3.0.0:
   resolved "https://registry.npm.taobao.org/react-native-screens/download/react-native-screens-3.1.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-screens%2Fdownload%2Freact-native-screens-3.1.0.tgz#3b516528b54ab8108bf230197fa6e65c7c4a062a"
   integrity sha1-O1FlKLVKuBCL8jAZf6bmXHxKBio=
 
-<<<<<<< HEAD
-=======
 react-native-scrollable-tab-view@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/react-native-scrollable-tab-view/download/react-native-scrollable-tab-view-1.0.0.tgz?cache=0&sync_timestamp=1572266321942&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-scrollable-tab-view%2Fdownload%2Freact-native-scrollable-tab-view-1.0.0.tgz#87319896067f7bb643ecd7fba2cba4d6d8f9e18b"
@@ -6257,18 +6254,11 @@ react-native-scrollable-tab-view@^1.0.0:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
-react-native-slider@^0.11.0:
-  version "0.11.0"
-  resolved "git+https://github.com/abbasfreestyle/react-native-slider.git#c53b4965c5e4c3ec258479417898dece367e603e"
-  dependencies:
-    prop-types "^15.5.6"
-
 react-native-splash-screen@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npm.taobao.org/react-native-splash-screen/download/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
   integrity sha1-1H7IVXsbqYjuPqmNAUYwgbYP/0U=
 
->>>>>>> e6c4303e6a9dabb645aceacc29a2ebee9157d303
 react-native-swipeout@^2.3.6:
   version "2.3.6"
   resolved "https://registry.npm.taobao.org/react-native-swipeout/download/react-native-swipeout-2.3.6.tgz#47dac8a835825cf3f2eef9e495574a3d9ab6d3fa"

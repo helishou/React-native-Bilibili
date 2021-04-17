@@ -50,8 +50,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     // marginLeft: marginLeft,
-    marginBottom: hMargin * 0.75,
-    marginTop: hMargin * 0.75,
+    marginTop: 5,
+    marginBottom: 20,
     // backgroundColor: 'white',
     // borderRadius: radius,
     // overflow: 'hidden',
@@ -60,12 +60,6 @@ export const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.15,
     shadowRadius: 5,
-  },
-
-  top: {
-    marginBottom: 0,
-    backgroundColor: '#f4f4f4',
-    // elevation:20,
   },
 
   innerView: {

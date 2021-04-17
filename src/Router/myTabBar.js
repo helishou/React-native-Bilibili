@@ -20,7 +20,7 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
     <View
       style={[
         styles.topBar,
-        // {opacity:pressed?0:1}
+        // {opacity:pressed?0:1},
         {display: pressed ? 'none' : 'flex'},
       ]}>
       {state.routes.map((route, index) => {
@@ -106,7 +106,7 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
             </Animated.Text>
             <Animated.View
               style={[
-                {opacity: lineOpacity, left: 14 , width: width},
+                {opacity: lineOpacity, left: 14, width: width},
                 styles.underline,
               ]}></Animated.View>
           </TouchableOpacity>
@@ -133,11 +133,12 @@ const styles = StyleSheet.create({
   topBar: {
     flexDirection: 'row',
     marginLeft: marginLeft / 2,
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   touchDiv: {
     // flex: 1,
     height: 80,
-    // backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'rgba(0,0,0,0)',
     // opacity:0.7,
     alignItems: 'flex-start',
     justifyContent: 'center',

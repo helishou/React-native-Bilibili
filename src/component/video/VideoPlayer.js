@@ -79,7 +79,7 @@ function VideoPlayer(props) {
           onPress={() => drawRef.current.openDrawer()}
           style={styles.barIcon}
         />
-        {!props.fullscreen ? (
+        {1 ? (
           <TouchableOpacity
             style={{
               position: 'absolute',

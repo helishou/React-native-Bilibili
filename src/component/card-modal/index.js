@@ -4,23 +4,14 @@
 import React, {Component, createRef, useRef} from 'react';
 import {
   Animated,
-  ActivityIndicator,
   Dimensions,
-  Easing,
   View,
-  Image,
-  ScrollView,
   TouchableWithoutFeedback,
   TouchableOpacity,
   StyleSheet,
   Text,
-  Alert,
-  ImageBackground,
-  BackHandler,
 } from 'react-native';
-import WebView from 'react-native-webview';
 import {connect} from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../../style/CommStyle';
 const {width, height} = Dimensions.get('window');
 import px2dp from '../../util/index';
@@ -31,9 +22,6 @@ import {
   setPages,
   setFullscreen,
 } from '../../redux/actions';
-import {reqVideoDetail} from '../../config/api';
-import Orientation from 'react-native-orientation';
-import video from '../../pages/videoPlayDetail';
 class CardModal extends Component {
   constructor(props) {
     super(props);
@@ -70,115 +58,23 @@ class CardModal extends Component {
     };
     // console.log(props);
     this._onPress = this._onPress.bind(this);
-    this.calculateOffset = this.calculateOffset.bind(this);
-    this.activate = this.activate.bind(this);
   }
   _onPress() {
-    this.props.navigation.navigate('VideoPlayDetail')
-    // console.log(this.props.onRef)
-    // console.log('绑定')
-    // this.setState({pressed: !this.state.pressed, activated: '播放'});
-    // this.calculateOffset();
-  }
-  backClick = () => {
-    // console.log('back被点了', this);
-    Orientation.lockToPortrait();
-    if (this.props.fullscreen) {
-      this.props.setFullscreen(false);
-    } else {
-      this._onPress();
-      this.props.press(false);
-      try {
-        this.props.onBack();
-      } catch {}
-    }
-
-    BackHandler.removeEventListener('hardwareBackPress', this.backClick);
-  };
-  async getDetail() {
-    if (this.props.videos !== 1) {
-      const result = await reqVideoDetail(this.props.video.aid);
-      let predata = [];
-      // console.log(result);
-      for (let i = 0; i < result.data.pages.length; i++) {
-        predata.push(result.data.pages[i]);
-      }
-      // console.log('CardModal', predata);
-      this.props.setPages({cid: predata, videos: result.data.videos});
-    }
-  }
-  grow() {
-    this.setState({TopBorderRadius: px2dp(10)});
+    this.props.navigation.push('VideoPlayDetail', this.props.video);
+    this.playVideo();
   }
   pressFace = () => {
-    if (this.props.hideFace) {
-      if (this.state.pressed) {
-        console.log('this.state.press', this.state.press);
-        Alert.alert('禁止套娃');
-      }
-      return;
-    }
     this.props.navigation.navigate('userDetail', {
       owner: this.props.video.owner,
     });
     // this.calculateOffset();
     this.props.press(false);
-    BackHandler.removeEventListener('hardwareBackPress', this.backClick);
   };
-  shrink() {
-    this.setState({TopBorderRadius: px2dp(0)});
-  }
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener('hardwareBackPress', this.backClick);
-  // }
-  calculateOffset() {
-    // console.log(this.containerRef);duration:500,
-    if (this.state.pressed) {
-      this.playVideo();
-      this.grow();
-      this.props.press(true);
-      this.getDetail();
-      this.props.onClick();
-      // BackHandler.addEventListener('hardwareBackPress', this.backClick);
-    } else {
-      this.setState({
-        activate: (
-          <Text>
-            播放 <Icon name="check" />
-          </Text>
-        ),
-        activated: true,
-      });
-      this.props.resetVideo();
-    }
-  }
   playVideo(pg = 0, video = this.props.video) {
     // const {aid, cid, videos} = this.props;
     // const {video} = this.props;
     // console.log('carmodel_video', video);
     this.props.playVideo({...video, pg});
-    this.setState({
-      activate: (
-        <Text>
-          播放中 <Icon name="check" />
-        </Text>
-      ),
-      activated: true,
-    });
-  }
-  activate() {
-    this.setState({activate: 'loading'});
-
-    setTimeout(() => {
-      this.setState({
-        activate: (
-          <Text>
-            播放中 <Icon name="check" />
-          </Text>
-        ),
-        activated: true,
-      });
-    }, 1500);
   }
 
   renderTop() {
@@ -218,33 +114,6 @@ class CardModal extends Component {
   }
 
   renderBottom() {
-    var loading =
-      this.state.activate == 'loading' ? (
-        <ActivityIndicator animating={true} color="white" />
-      ) : (
-        <Text style={{color: 'white', fontWeight: '800', fontSize: 18}}>
-          {this.state.activate}
-        </Text>
-      );
-
-    var button = this.state.pressed ? (
-      <TouchableOpacity onPress={this.activate}>
-        <Animated.View
-          style={{
-            opacity: this.state.button_opac,
-            backgroundColor: this.props.color,
-            marginTop: 10,
-            borderRadius: 10,
-            width: width - 64,
-            height: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          {loading}
-        </Animated.View>
-      </TouchableOpacity>
-    ) : null;
-
     var face = (
       <TouchableOpacity
         style={{justifyContent: 'center', alignItems: 'center'}}
@@ -320,39 +189,6 @@ class CardModal extends Component {
           </View>
           {face}
         </View>
-        {button}
-      </Animated.View>
-    );
-  }
-
-  renderContent() {
-    if (!this.state.pressed) {
-      return;
-    }
-    return (
-      <Animated.View
-        style={{
-          opacity: this.state.content_opac,
-          marginTop: 40,
-          width: width,
-          height: this.state.content_height,
-          zIndex: -1,
-          backgroundColor: '#f4f4f4',
-        }}>
-        <ScrollView
-          style={{
-            backgroundColor: '#f4f4f4',
-            flex: 1,
-            margin: 16,
-            padding: 16,
-          }}>
-          <Text style={{fontSize: 24, fontWeight: '700', color: 'black'}}>
-            简介
-          </Text>
-          <Text style={{color: 'gray', paddingTop: 10}}>
-            {this.props.content ? this.props.content : '这视频没有简介哦~'}
-          </Text>
-        </ScrollView>
       </Animated.View>
     );
   }
@@ -361,13 +197,12 @@ class CardModal extends Component {
     return (
       <View style={[styles.container, this.state.pressedStyle]}>
         <TouchableWithoutFeedback
-          onPress={!this.props.pressed ? this._onPress : null}>
+          onPress={!this.state.pressed ? this._onPress : null}>
           <View
             ref={this.containerRef}
             style={[{alignItems: 'center', elevation: 20}]}>
             {this.renderTop()}
             {this.renderBottom()}
-            {this.renderContent()}
           </View>
         </TouchableWithoutFeedback>
       </View>

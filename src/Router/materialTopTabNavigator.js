@@ -4,7 +4,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Suggest from '../pages/suggest/Suggest';
 import Live from '../component/live/Live';
 import Communion from '../component/communion/Communion';
-
+import Header from '../component/header/Header';
 import Category from '../component/category/Category';
 
 import MyTabBar from './myTabBar';
@@ -15,11 +15,22 @@ function MaterialTopTabNavigator(props) {
   return (
     <MaterialTopTab.Navigator
       // headerShown={false}
+      // style={{backgroundColor:'rgba(0,0,0,0)'}}
       swipeEnabled={props.pressed ? false : true}
       initialRouteName="Suggest"
       lazy="true"
-      backBehavior="none"
-      tabBar={props => <MyTabBar {...props} />}>
+      backBehavior
+      tabBar={props => <MyTabBar {...props} />}
+      // tabBarOptions={{
+      //   activeTintColor: '#e91e63',
+      //   labelStyle: {
+      //     fontSize: 12,
+      //   },
+      //   style: {
+      //     backgroundColor: 'blue',
+      //   },
+      // }}
+    >
       <MaterialTopTab.Screen
         name="Live"
         component={Live}
@@ -31,7 +42,7 @@ function MaterialTopTabNavigator(props) {
       <MaterialTopTab.Screen
         name="Suggest"
         component={Suggest}
-        options={{title: '推荐'}}
+        options={{title: '推荐',headerRight:<Header/>}}
       />
       <MaterialTopTab.Screen
         name="Category"
