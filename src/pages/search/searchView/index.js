@@ -2,15 +2,11 @@ import React, {Component} from 'react';
 import {
   Text,
   View,
-  Animated,
   Platform,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  Image,
 } from 'react-native';
 let {width, height} = Dimensions.get('window');
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,7 +18,6 @@ import {
   cleanSearchHistory,
   toggleSearch,
 } from '../../../redux/actions/search';
-import Item from '@ant-design/react-native/lib/list/ListItem';
 class SearchView extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +30,7 @@ class SearchView extends Component {
     console.log('seach view', this.props);
     const {searchHistory, toggleSearch} = this.props;
     let showHistory = [];
-    for (let i = 0; (i < searchHistory.length) & (i < 99); i++) {
+    for (let i = 0; (i < searchHistory.length) & (i < 9); i++) {
       showHistory[i] = searchHistory[searchHistory.length - 1 - i];
     }
     return (
@@ -138,7 +133,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     backgroundColor: '#fff',
     overflow: 'hidden',
-    height: 182,
+    // height: 182,
   },
   queryItem: {
     // flex: 1,
