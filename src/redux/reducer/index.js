@@ -34,7 +34,8 @@ function video(state = initVideo, action) {
       };
 
     case ACTIONTYPES.SWICH_VIDEO:
-      console.log(state, ACTIONTYPES.SWICH_VIDEO);
+      console.log(state.cid[0], ACTIONTYPES.SWICH_VIDEO);
+      console.log(action.data, 'action.data');
       url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${
         state.cid[action.data].cid
       }&high_quality=1&autoplay=true&platform=html5`;

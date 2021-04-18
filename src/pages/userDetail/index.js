@@ -15,11 +15,7 @@ import {marginLeft} from '../../style/CommStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import VideoList from '../../component/videoList';
 import px2dp from '../../util/';
-import ScrollableTabView, {
-  DefaultTabBar,
-  ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
-import {set} from 'react-native-reanimated';
+import ScrollableTabView from '../../component/ScrollTabView';
 
 const {height, width} = Dimensions.get('window');
 const orignHeight = 245;
@@ -189,26 +185,14 @@ function UserDetail(props) {
         </Animated.View>
       </LinearGradient>
       <ScrollableTabView
-        // tabBarPosition={'overlayTop'}
-        locked={true}
         style={[
-          styles.scrollContainer,
           {
             backgroundColor: zt ? '#f4f4f4' : 'white',
-            transform: [{translateY: zt < 2 ? 0 : -50}],
           },
-        ]}
-        // renderTabBar={() => <DefaultTabBar />}
-        tabBarUnderlineStyle={{
-          width: width / 4,
-          height: 2,
-          backgroundColor: props.activeTheme,
-          marginLeft: width / 8,
-        }}
-        tabBarActiveTextColor={props.activeTheme}>
+        ]}>
         <VideoList
-          setContentOffsetY={calculateOffset}
           tabLabel="视频"
+          setContentOffsetY={calculateOffset}
           compensation={zt ? px2dp(300) : px2dp(50)}
           dataSource={dataSource}
           isLoaded={loaded}

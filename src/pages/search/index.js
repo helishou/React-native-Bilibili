@@ -32,14 +32,6 @@ function Search(props) {
   const [dataSource, setDataSource] = useState([]);
   const [show, setShow] = useState(true);
   const textInputRef = useRef();
-  const loadRef = useRef();
-  // useEffect(() => {
-  //   console.log('useeffect');
-  //   textInputRef.current.focus();
-  //   return () => {
-  //     textInputRef.current.focus();
-  //   };
-  // });
   console.log('Searchshow', show);
   console.log('Searchfirst', first);
   const onChangeText = text => {
@@ -65,7 +57,6 @@ function Search(props) {
     }
   };
   const getData = async (sText = text) => {
-    // loadRef.current.set
     const result = await reqSeach(sText);
     const Soucedata = result.data.result[8].data;
     console.log(Soucedata, 'SearchSoucedata');
@@ -75,7 +66,6 @@ function Search(props) {
       let newtitle = data.title.replace(/<em class="keyword">/g, '');
       newtitle = newtitle.replace(/<em class=\"keyword\">/g, '');
       newtitle = newtitle.replace(/<\/em>/g, '');
-      // newtitle = newtitle.replace(`</em>`, '');
       return preDataList.push({
         ...data,
         pic: 'http:' + data.pic,
@@ -89,20 +79,10 @@ function Search(props) {
       });
     });
     setDataSource(preDataList);
-    // console.log(preDataList);
-
     setLoaded(false);
   };
   return (
     <View style={{flex: 1}}>
-      {/* <Nav
-        title="搜索"
-        onClick={() => {
-          console.log('search里的Nav返回被调用了');
-          setFirst(true);
-          setText('');
-        }}
-        style={{display: props.pressed ? 'none' : 'flex'}}></Nav> */}
       {show ? (
         <LinearGradient
           start={{x: 0, y: 0}}
@@ -165,14 +145,6 @@ function Search(props) {
             // onClick={() => onClick()}
             // backClick={() => backClick()}
           />
-          {/* <VideoList
-            tabLabel="直播"
-            dataSource={dataSource}
-            isLoaded={!loaded}
-            fetchData={() => getData()}
-            onClick={() => onClick()}
-            backClick={() => backClick()}
-          /> */}
         </ScrollableTabView>
       ) : (
         <SeachView

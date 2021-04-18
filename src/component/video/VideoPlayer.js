@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import WebView from 'react-native-webview';
 import {BlurView} from '@react-native-community/blur';
 import {
@@ -26,8 +26,17 @@ function VideoPlayer(props) {
   if (!props.show) {
     return null;
   }
-  const drawRef = useRef();
+  const [pg, setPg] = useState(0);
 
+  const drawRef = useRef();
+  //切p的函数
+  const switchVideo = pg => {
+    console.log('object', props.video);
+    setPg(pg);
+    props.setUrl(
+      `https://player.bilibili.com/player.html?aid=${props.video.aid}&cid=${props.video.cid[pg].cid}&high_quality=1&autoplay=true&platform=html5`,
+    );
+  };
   //播放器的侧边栏
   const buttons = [];
   for (let i = 0; i < props.video.videos; i++) {
@@ -36,11 +45,11 @@ function VideoPlayer(props) {
   const renderItem = ({item}) => {
     // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
     return (
-      <TouchableOpacity onPress={() => props.switchVideo(item.id)}>
+      <TouchableOpacity onPress={() => switchVideo(item.id)}>
         <Text
           style={[
             styles.Button,
-            props.video.pg == item.id ? {borderColor: props.activeTheme} : {},
+            pg == item.id ? {borderColor: props.activeTheme} : {},
           ]}>
           {item.id + 1}
         </Text>
@@ -51,7 +60,6 @@ function VideoPlayer(props) {
     <View style={styles.navigationContainer}>
       <Text style={[styles.sliderTitle]}>选集（{props.video.videos}）</Text>
       <FlatList
-        //   columnWrapperStyle={{borderWidth: 2, backgroundColor: 'yellow'}}
         numColumns={4}
         horizontal={false}
         style={styles.scrollView}
@@ -76,7 +84,9 @@ function VideoPlayer(props) {
         <Icon
           name="bars"
           size={px2dp(23)}
-          onPress={() => drawRef.current.openDrawer()}
+          onPress={() =>
+            props.fullscreen ? drawRef.current.openDrawer() : null
+          }
           style={styles.barIcon}
         />
         {1 ? (
@@ -88,7 +98,6 @@ function VideoPlayer(props) {
               zIndex: 10,
               height: px2dp(25),
               width: px2dp(25),
-              // backgroundColor: 'white',
               opacity: 1,
             }}
             onPress={() => {
@@ -137,17 +146,6 @@ function VideoPlayer(props) {
             }}
           />
         </View>
-        {/* <BlurView
-        blurType="dark"
-        blurAmount={10}
-        reducedTransparencyFallbackColor="black"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-        }}></BlurView> */}
       </DrawerLayoutAndroid>
     </View>
   ) : null;
@@ -159,7 +157,7 @@ export default connect(
     fullscreen: state.fullscreen,
     activeTheme: state.common.activeTheme,
   }),
-  {setFullscreen, switchVideo},
+  {setFullscreen},
 )(VideoPlayer);
 
 const styles = StyleSheet.create({
@@ -178,15 +176,12 @@ const styles = StyleSheet.create({
     left: 0,
     height: parseInt(height * 0.34, 10),
     width: width,
-    // backgroundColor: 'gray',
-    // alignItems:'center',
     zIndex: 9,
   },
   fullscreen: {
     position: 'absolute',
     top: 0,
     right: 0,
-    // transform:[{rotate:'90deg'},{scale:height/width}],
     height: width,
     width: height,
     zIndex: 9,
@@ -209,39 +204,24 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   navigationContainer: {
-    // flexDirection: 'column',
-    // flexWrap: 'wrap',
-    // flex: 1,
     width: sliderWidth,
-    // justifyContent: 'flex-start',
     backgroundColor: 'rgba(0,0,0,0.7)',
-    // opacity: 0.9,
   },
   scrollView: {
-    // backgroundColor: 'red',
     width: sliderWidth,
     padding: 8,
     paddingLeft: px2dp(12),
-    // borderWidth: 2,
-    // borderColor: '#222',
     flexDirection: 'row',
     flexWrap: 'wrap',
     height: width,
-    // marginTop: 40,
-    // flex: 1,
-    // flexDirection: 'column',
-    // flexWrap: 'wrap',
-    // width: sliderWidth,
   },
   sliderTitle: {
-    // position: 'absolute',
     paddingTop: px2dp(27),
     paddingLeft: px2dp(15),
     color: '#888',
     fontSize: px2dp(22),
   },
   Button: {
-    // flex: 1,
     width: sliderWidth * 0.2,
     height: sliderWidth / 7,
     margin: 5,
@@ -253,8 +233,6 @@ const styles = StyleSheet.create({
     color: '#EEE',
     borderWidth: 2,
     borderColor: '#222',
-    // paddingHorizontal: 3,
-    // paddingVertical: 3,
     borderRadius: 5,
   },
 });

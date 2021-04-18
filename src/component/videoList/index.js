@@ -5,13 +5,9 @@ import {
   FlatList,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {press, setFullscreen} from '../../redux/actions';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import VideoPlayer from '../../component/video/VideoPlayer';
 import Orientation from 'react-native-orientation';
 import px2dp from '../../util';
 import {useNavigation} from '@react-navigation/native';
@@ -57,11 +53,7 @@ function VideoList(props) {
     return (
       <CardModal
         navigation={navigation}
-        // compensation={props.compensation}
-        // pressedStyle={styles.container}
         onRef={ref => {
-          // console.log('我被执行了',ref
-          //   )
           setChild(ref);
         }}
         key={item.aid}
@@ -81,7 +73,6 @@ function VideoList(props) {
         content={item.desc}
         onBack={() => backClick()}
         onClick={() => onClick()}
-        // onClick2={() => this.disablePressed()}
         due={
           item.tname
             ? item.tname.length > 20
@@ -90,9 +81,6 @@ function VideoList(props) {
             : ''
         }
         video={item}
-        // videos={item.videos}
-        // aid={item.aid}
-        // cid={item.cid}
       />
     );
   };
@@ -103,28 +91,6 @@ function VideoList(props) {
         alignItem: 'center',
         alignContent: 'center',
       }}>
-      {/* <VideoPlayer show={!scroll} /> */}
-      {/* {props.pressed ? (
-        <TouchableOpacity
-          style={[styles.backButton]}
-          onPress={() => backClick()}>
-          <View
-            style={[
-              {
-                opacity: 1,
-                flex: 1,
-                left: px2dp(6),
-                // top: px2dp(5),
-                justifyContent: 'center',
-                // alignItems:'center'
-              },
-            ]}>
-            <Icon size={23} color="white" name="chevron-left" />
-          </View>
-        </TouchableOpacity>
-      ) : (
-        <View />
-      )} */}
       <FlatList
         ref={listRef}
         ListEmptyComponent={<View style={{height: 800}}></View>}

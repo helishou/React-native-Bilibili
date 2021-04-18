@@ -69,6 +69,7 @@ class Video extends Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.backClick);
     this.playVideo();
+    this.getDetail();
   }
   // componentDidUpdate() {
   //   this.playVideo();
@@ -147,6 +148,7 @@ class Video extends Component {
       }).start(),
     ]);
   }
+  //获取视频详情,每p对应的cid
   async getDetail() {
     if (this.props.route.params.video.videos !== 1) {
       const result = await reqVideoDetail(this.props.route.params.video.aid);
@@ -155,10 +157,11 @@ class Video extends Component {
       for (let i = 0; i < result.data.pages.length; i++) {
         predata.push(result.data.pages[i]);
       }
-      // console.log('CardModal', predata);
+      console.log('VideoplayDetail', predata);
       this.props.setPages({cid: predata, videos: result.data.videos});
     }
   }
+  //点击头像
   pressFace = () => {
     if (this.props.route.params.hideFace) {
       console.log('this.state.press', this.state.press);
@@ -169,11 +172,8 @@ class Video extends Component {
       owner: this.props.route.params.video.owner,
     });
   };
-
+  //播放视频
   playVideo(pg = 0, video = this.props.route.params.video) {
-    // const {aid, cid, videos} = this.props;
-    // const {video} = this.props;
-    // console.log('carmodel_video', video);
     this.setState({
       url: `https://player.bilibili.com/player.html?aid=${video.aid}&cid=${video.cid}&high_quality=1&autoplay=true&platform=html5`,
     });
@@ -195,7 +195,10 @@ class Video extends Component {
       activated: false,
     });
   }
-
+  //这个函数传给子组件用
+  setUrl = url => {
+    this.setState({url: url});
+  };
   renderTop() {
     return (
       <View
@@ -385,16 +388,18 @@ class Video extends Component {
 
   render() {
     return (
-      <View style={[styles2.container]}>
+      <View>
         <View style={{top: this.props.fullscreen ? 0 : 35}}>
-          <VideoPlayer show={1} url={this.state.url} />
+          <VideoPlayer show={1} url={this.state.url} setUrl={this.setUrl} />
         </View>
-        <View
-          // ref={this.containerRef}
-          style={[{alignItems: 'center'}]}>
-          {this.props.fullscreen ? null : this.renderTop()}
-          {this.props.fullscreen ? null : this.renderBottom()}
-          {this.props.fullscreen ? null : this.renderContent()}
+        <View style={[styles2.container]}>
+          <View
+            // ref={this.containerRef}
+            style={[{alignItems: 'center'}]}>
+            {this.props.fullscreen ? null : this.renderTop()}
+            {this.props.fullscreen ? null : this.renderBottom()}
+            {this.props.fullscreen ? null : this.renderContent()}
+          </View>
         </View>
       </View>
     );

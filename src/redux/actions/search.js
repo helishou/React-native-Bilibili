@@ -13,6 +13,14 @@ import {setItem, getRawItem, removeItem} from '../../util/Storage';
  */
 
 export const setSearchHistory = (list, value) => {
+  //避免重复
+  var i = list.length;
+  while (i--) {
+    if (list[i] === value) {
+      list.splice(i, 1);
+      break;
+    }
+  }
   let newList = list.concat([value]);
   return async function (dispatch, getState) {
     await setItem('history', newList.join(','));
