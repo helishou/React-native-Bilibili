@@ -48,9 +48,9 @@ class CardModal extends Component {
       activated: false,
 
       offset: 0,
-
       pressed: false,
       url: '',
+      touchActivate: false,
     };
     // console.log(props);
     this._onPress = this._onPress.bind(this);
@@ -193,8 +193,19 @@ class CardModal extends Component {
       <View style={[styles.container]}>
         <Ripple
           rippleSize={2 * width}
-          // rippleCentered={true}}
-          onPress={this._onPress}>
+          // 与scrollView有bug,设置定时器解决
+          onPressIn={() => {
+            console.log('inininin');
+            this.setState({touchActivate: true}, () => {
+              setTimeout(() => this.setState({touchActivate: false}), 70);
+            });
+          }}
+          onPress={() => {
+            if (this.state.touchActivate) {
+              // console.log('6666')
+              this._onPress();
+            }
+          }}>
           <View ref={this.containerRef} style={[{alignItems: 'center'}]}>
             {this.renderTop()}
             {this.renderBottom()}

@@ -44,6 +44,13 @@ export const reqReply = (oid, sort) => {
     },
   );
 };
+
+export const reqVideo = (avid, cid) => {
+  return ajax('https://bilipi.sigure.xyz/api/v0/acg_video/playurl', {avid, cid});
+};
+export const reqDanmuku = cid => {
+  return ajax('https://bilipi.sigure.xyz/api/v0/danmaku/dplayer', {cid});
+};
 // /* jsonp请求的接口请求函数 */
 // export const reqWeather = (city) => {
 //   return new Promise((resolve, reject) => {
