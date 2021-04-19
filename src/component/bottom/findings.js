@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import VideoPlayer from 'react-native-video-controls';
+// import VideoPlayer from 'react-native-video-controls';
 import Orientation from 'react-native-orientation';
 import {reqDanmuku, reqVideo} from '../../config/api';
+import VideoPlayer from 'react-native-rn-videoplayer';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -33,15 +34,9 @@ export default function VideoExample() {
     <View style={{height: 400}}>
       <VideoPlayer
         source={{uri: url}}
-        onEnterFullscreen={() => {
-          Orientation.lockToLandscape();
-        }}
-        onExitFullscreen={() => {
-          Orientation.lockToPortrait();
-        }}
         playInBackground={false}
         rate={2}
-        poster="https://baconmockup.com/300/200/"
+        // poster="https://baconmockup.com/300/200/"
         seekColor="red"
         disableBack={true}
         tapAnywhereToPause={true}
