@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import SystemSetting from 'react-native-system-setting';
 import {AppRegistry, StyleSheet, Text, View} from 'react-native';
 export default class testp extends Component {
   constructor(props) {

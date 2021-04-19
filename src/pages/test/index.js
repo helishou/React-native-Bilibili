@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Testp from './testp';
 const {height, width} = Dimensions.get('window');
+
 export default function Test() {
   return (
     <View

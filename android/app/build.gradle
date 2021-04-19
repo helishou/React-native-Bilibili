@@ -203,12 +203,7 @@ android {
 
 dependencies {
     //rn video 
-    implementation project(':react-native-svg')
-    implementation project(':react-native-linear-gradient')
-    implementation project(':react-native-orientation-locker')
-    implementation project(':react-native-system-setting')
-    implementation project(':react-native-video')
-
+    compile project(':react-native-system-setting')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
