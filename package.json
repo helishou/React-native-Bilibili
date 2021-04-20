@@ -25,6 +25,7 @@
     "@react-navigation/material-top-tabs": "^5.3.14",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
+    "react-native-rn-videoplayer": "https://github.com/helishou/react-native-rn-videoplayer.git",
     "axios": "^0.21.1",
     "jsonp": "^0.2.1",
     "react": "17.0.1",

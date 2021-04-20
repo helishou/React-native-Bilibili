@@ -92,6 +92,16 @@
     browserslist "^4.14.5"
     semver "^6.3.0"
 
+"react-native-rn-videoplayer@https://github.com/helishou/react-native-rn-videoplayer.git":
+  version "2.2.10"
+  resolved "https://github.com/helishou/react-native-rn-videoplayer.git#8f84ace9e632e6e1122ff13889e87777b6a8b657"
+  dependencies:
+    react-native-linear-gradient "^2.5.6"
+    react-native-orientation "^3.1.3"
+    react-native-svg "^9.5.1"
+    react-native-system-setting "^1.7.6"
+    react-native-video "^5.1.1"
+    
 "@babel/helper-create-class-features-plugin@^7.13.0":
   version "7.13.11"
   resolved "https://registry.npm.taobao.org/@babel/helper-create-class-features-plugin/download/@babel/helper-create-class-features-plugin-7.13.11.tgz#30d30a005bca2c953f5653fc25091a492177f4f6"

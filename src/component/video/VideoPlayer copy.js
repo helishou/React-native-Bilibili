@@ -16,20 +16,13 @@ import Orientation from 'react-native-orientation';
 import {setFullscreen, switchVideo} from '../../redux/actions';
 import px2dp from '../../util';
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import VideoPlayer from 'react-native-video-controls';
-import {reqDanmuku, reqVideo} from '../../config/api';
-import VideoPlayer from 'react-native-rn-videoplayer';
-import Danmuku from './danmuku';
-
 let {width, height} = Dimensions.get('window');
 
 const sliderWidth = 370;
 //封装播放器
-function VideoPlayerWrapper(props) {
+function VideoPlayer(props) {
   console.log('videoplayershow', props.show);
   console.log('props.video.videos', props.video.videos);
-  // const aid = 417602724;
-  // const cid = 325144487;
   if (!props.show) {
     return null;
   }
@@ -125,16 +118,33 @@ function VideoPlayerWrapper(props) {
           style={[
             props.fullscreen ? styles.fullscreen : styles.webViewContainer,
           ]}>
-        <Danmuku style={styles.danmuku} danmuku={danmuku}></Danmuku>
-        <VideoPlayer
-          source={{uri: url}}
-          playInBackground={false}
-          rate={2}
-          // poster="https://baconmockup.com/300/200/"
-          // seekColor="red"
-          disableBack={true}
-          tapAnywhereToPause={true}
-        />
+          <WebView
+            mediaPlaybackRequiresUserAction={false}
+            allowsInlineMediaPlayback={true}
+            mixedContentMode="always"
+            source={{
+              uri: props.url,
+              method: 'GET',
+              headers: {
+                Referer: props.url,
+              },
+
+              // html: `
+              // <iframe src='${props.video.url}'
+              // style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
+              // frameborder="no" scrolling="no"
+              // data-dom="iframe"
+              // target="_self"
+              // about:blank
+
+              //  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+              // `,
+            }}
+            style={{
+              backgroundColor: 'black',
+            }}
+          />
         </View>
       </DrawerLayoutAndroid>
     </View>
@@ -148,18 +158,9 @@ export default connect(
     activeTheme: state.common.activeTheme,
   }),
   {setFullscreen},
-)(VideoPlayerWrapper);
+)(VideoPlayer);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  danmuku: {
-    position: 'absolute',
-    top: 200,
-    elevation: 20,
-  },
   webView: {
     position: 'absolute',
     top: 0,
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    height: parseInt(height * 0.4, 10),
+    height: parseInt(height * 0.34, 10),
     width: width,
     zIndex: 9,
   },

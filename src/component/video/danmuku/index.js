@@ -17,23 +17,7 @@ export default class Danmuku extends Component {
       data: [],
     };
     this.id = 0;
-    this.data = [
-      '哈喽～～～，大家好',
-      '今天天气不错',
-      '要好好学习天天向上啊',
-      '我是一只来自北方的狼',
-      '程序员牛逼',
-      '阅读是人类进步的阶梯',
-      '从哪里摔倒就从哪里爬起来',
-      '吼吼',
-      '常用链接',
-      '6666',
-      '走你',
-      'iPhone真香',
-      '这波操作我给666',
-      '要开心啊',
-      '机智如我',
-    ];
+    this.data = this.props.danmuku;
   }
 
   componentDidMount() {
@@ -48,25 +32,22 @@ export default class Danmuku extends Component {
   addBarrageWithInterval = () => {
     this.interval = setInterval(() => {
       this.id = this.id + 1;
-      // if (this.id > 500) {
-      //   clearInterval(this.interval);
-      //   this.interval1 = setInterval(() => {
-      //     this.id = this.id + 1;
-      //     const text = this.getText();
-      //     const newData = [{ title: text, id: this.id }];
-      //     this.setState({ data: newData });
-      //   }, 3000);
-      // }
       const text = this.getText();
       // console.log('text',text)
       // const newData = [{title: text, id: this.id}];
-      if (this.props.danmuku[this.id] == undefined) {
+      if (this.data[this.id] == undefined) {
         return;
       }
       // console.log('this.props.danmuku[this.id]', this.props.danmuku[this.id][1]);
-      const newData = [{title: this.props.danmuku[this.id][1], id: this.id,color:this.props.danmuku[this.id][0]}];
+      const newData = [
+        {
+          title: this.data[this.id][1],
+          id: this.id,
+          color: this.data[this.id][0],
+        },
+      ];
       this.setState({data: newData});
-    }, 100);
+    }, 1000);
   };
 
   onButtonPress = text => {
