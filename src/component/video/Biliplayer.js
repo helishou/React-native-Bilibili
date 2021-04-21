@@ -20,7 +20,7 @@ let {width, height} = Dimensions.get('window');
 
 const sliderWidth = 370;
 //封装播放器
-function VideoPlayer(props) {
+function Biliplayer(props) {
   console.log('videoplayershow', props.show);
   console.log('props.video.videos', props.video.videos);
   if (!props.show) {
@@ -158,7 +158,7 @@ export default connect(
     activeTheme: state.common.activeTheme,
   }),
   {setFullscreen},
-)(VideoPlayer);
+)(Biliplayer);
 
 const styles = StyleSheet.create({
   webView: {

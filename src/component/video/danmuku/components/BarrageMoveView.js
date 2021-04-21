@@ -42,9 +42,13 @@ export default class BarrageMoveView extends Component {
     this.startMove();
   }
 
-  componentWillReceiveProps(props) {
-    const {newMessages} = props;
-    this.addBarrageMessage(newMessages);
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.newMessages &&
+      this.props.newMessages !== prevProps.newMessages
+    ) {
+      this.addBarrageMessage(this.props.newMessages);
+    }
   }
 
   componentWillUnmount() {
@@ -170,6 +174,7 @@ export default class BarrageMoveView extends Component {
     for (let index = 0; index < list.length; index += 1) {
       const barrragesOfLine = list[index];
       barrragesOfLine.forEach((b, innerIndex) => {
+        console.log('b', b.id);
         const barrageItem = (
           <BarrageItem
             ref={a => this.setRefs(a, index, innerIndex)}

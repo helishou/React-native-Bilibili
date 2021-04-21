@@ -36,8 +36,21 @@ function VideoList(props) {
     setScroll(!scroll);
   };
   const fetchData = async () => {
-    const result = await reqReply(626229481, 0);
-    console.log(result);
+    fetch(
+      'http://api.bilibili.com/x/v2/reply?type=1&oid=626229481&sort=1&ps=5&pn=1',
+      {
+        method: 'get',
+        headers: {
+          cookie: 'bfe_id=5db70a86bd1cbe8a88817507134f7bb5',
+          'Bili-Trace-Id': '6bf1129179607fe7',
+          'Bili-Status-Code': 0,
+        },
+      },
+    )
+      .then(resp => resp.json())
+      .then(resp => console.log('resp', resp))
+      .catch();
+    // console.log(result);
     // let preDataList = [];
     // Object.keys(Soucedata).map((data, i) => {
     //   if ((i == 4) | (i == 9) | (i == 1)) {

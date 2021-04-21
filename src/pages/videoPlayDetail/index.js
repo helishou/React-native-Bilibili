@@ -15,9 +15,7 @@ import {
   StyleSheet,
   Text,
   Alert,
-  ImageBackground,
   BackHandler,
-  useFocusEffect,
 } from 'react-native';
 import WebView from 'react-native-webview';
 import {connect} from 'react-redux';
@@ -32,9 +30,10 @@ import {
   setPages,
   setFullscreen,
 } from '../../redux/actions';
-import {reqVideoDetail} from '../../config/api';
+import {reqVideoDetail, reqVideo, reqDanmuku} from '../../config/api';
 import Orientation from 'react-native-orientation';
 import VideoPlayer from '../../component/video/VideoPlayer';
+import Biliplayer from '../../component/video/Biliplayer';
 import {tapGreen} from '../../style/CommStyle';
 class Video extends Component {
   constructor(props) {
@@ -60,6 +59,7 @@ class Video extends Component {
       opacityAnimate: new Animated.Value(1),
       opacityReverseAnimate: new Animated.Value(0),
       url: '',
+      danmuku: '',
     };
     // console.log(props);
     // console.log('this.props.route.params---------------', this.props.route.params);
@@ -71,15 +71,11 @@ class Video extends Component {
     this.playVideo();
     this.getDetail();
   }
-  // componentDidUpdate() {
-  //   this.playVideo();
-  // }
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.backClick);
   }
-
+  //返回键
   backClick = () => {
-    // console.log('back被点了', this);
     Orientation.lockToPortrait();
     if (this.props.fullscreen) {
       this.props.setFullscreen(false);
@@ -90,6 +86,7 @@ class Video extends Component {
     }
     return false;
   };
+  //评论区的动画
   grow() {
     Animated.parallel([
       Animated.timing(this.state.scaleXAnimate, {
@@ -150,14 +147,28 @@ class Video extends Component {
   }
   //获取视频详情,每p对应的cid
   async getDetail() {
+    console.log(
+      'getdetail正在去取',
+      this.props.route.params.video.aid,
+      '的视频信息',
+    );
+    const result = await reqVideoDetail(this.props.route.params.video.aid);
+    const cid = result.data.pages[0].cid;
+    console.log('getDetail取到了cid', cid);
+    if (this.props.playerType) {
+      //mp4播放器,请求第三方的视频
+
+      this.getVideo(this.props.route.params.video.aid, cid);
+      this.getDanmuku(cid);
+      this.props.playVideo({...this.props.route.params.video, pg: 0});
+    }
     if (this.props.route.params.video.videos !== 1) {
-      const result = await reqVideoDetail(this.props.route.params.video.aid);
       let predata = [];
       // console.log(result);
       for (let i = 0; i < result.data.pages.length; i++) {
         predata.push(result.data.pages[i]);
       }
-      console.log('VideoplayDetail', predata);
+      // console.log('VideoplayDetail', predata);
       this.props.setPages({cid: predata, videos: result.data.videos});
     }
   }
@@ -174,11 +185,33 @@ class Video extends Component {
   };
   //播放视频
   playVideo(pg = 0, video = this.props.route.params.video) {
-    this.setState({
-      url: `https://player.bilibili.com/player.html?aid=${video.aid}&cid=${video.cid}&high_quality=1&autoplay=true&platform=html5`,
-    });
-    this.props.playVideo({...video, pg});
+    // (bilibili接口)
+    if (!this.props.playerType) {
+      this.setState({
+        url: `https://player.bilibili.com/player.html?aid=${video.aid}&cid=${video.cid}&high_quality=1&autoplay=true&platform=html5`,
+      });
+      this.props.playVideo({...video, pg});
+    }
   }
+  //请求第三方的视频
+  getVideo = async (aid, cid) => {
+    console.log('我去取第三方的视频和弹幕了', aid, cid);
+    const result = await reqVideo(aid, cid);
+
+    console.debug('getVideo_disanfang_url', result.data.durl[0].url);
+    this.setState({url: result.data.durl[0].url});
+  };
+  //获取弹幕
+  getDanmuku = async cid => {
+    const result = await reqDanmuku(cid);
+    const predata = [];
+    for (let i = 0; i < result.data.length; i++) {
+      // console.log(parseInt(result.data[i][0]))
+      predata[parseInt(result.data[i][0] * 10)] = result.data[i].slice(3);
+      // console.log(result.data[i].slice(3))
+    }
+    this.setState({danmuku: predata});
+  };
   activate() {
     console.log('act');
     this.grow();
@@ -198,6 +231,10 @@ class Video extends Component {
   //这个函数传给子组件用
   setUrl = url => {
     this.setState({url: url});
+  };
+  //这个函数传给子组件用
+  setDanmu = danmuku => {
+    this.setState({danmuku: danmuku});
   };
   renderTop() {
     return (
@@ -390,7 +427,17 @@ class Video extends Component {
     return (
       <View>
         <View style={{top: this.props.fullscreen ? 0 : 35}}>
-          <VideoPlayer show={1} url={this.state.url} setUrl={this.setUrl} />
+          {this.props.playerType ? (
+            <VideoPlayer
+              show={1}
+              danmuku={this.state.danmuku}
+              url={this.state.url}
+              setUrl={this.setUrl}
+              setDanmu={this.setDanmu}
+            />
+          ) : (
+            <Biliplayer show={1} url={this.state.url} setUrl={this.setUrl} />
+          )}
         </View>
         <View style={[styles2.container]}>
           <View
@@ -410,6 +457,7 @@ export default connect(
     pressed: state.pressed,
     videos: state.video.videos,
     fullscreen: state.fullscreen,
+    playerType: state.video.type,
   }),
   {
     playVideo,

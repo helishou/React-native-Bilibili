@@ -8,7 +8,6 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import BarrageMoveView from './components/BarrageMoveView';
 import BarrageInputView from './components/BarrageInputView';
-import UI from './UI';
 import VideoPlayer from 'react-native-rn-videoplayer';
 export default class Danmuku extends Component {
   constructor(props) {
@@ -32,13 +31,17 @@ export default class Danmuku extends Component {
   addBarrageWithInterval = () => {
     this.interval = setInterval(() => {
       this.id = this.id + 1;
-      const text = this.getText();
+      // console.log('object', this.id);
+      // const text = this.getText();
       // console.log('text',text)
       // const newData = [{title: text, id: this.id}];
       if (this.data[this.id] == undefined) {
         return;
       }
-      // console.log('this.props.danmuku[this.id]', this.props.danmuku[this.id][1]);
+      console.log(
+        'this.props.danmuku[this.id]',
+        this.props.danmuku[this.id][1],
+      );
       const newData = [
         {
           title: this.data[this.id][1],
@@ -47,7 +50,7 @@ export default class Danmuku extends Component {
         },
       ];
       this.setState({data: newData});
-    }, 1000);
+    }, 100);
   };
 
   onButtonPress = text => {
@@ -88,14 +91,13 @@ const styles = StyleSheet.create({
     top: 20,
     width: 400,
     height: 200,
-    paddingTop: UI.IS_IPHONE_X ? 34 : 24,
+    paddingTop: 24,
+    // backgroundColor: 'rgba(0,0,0,0)',
     backgroundColor: 'rgba(0,0,0,0)',
-    paddingBottom: UI.IS_IPHONE_X ? 44 : 0,
+    paddingBottom: 0,
     elevation: 20,
   },
   barrageView: {
     flex: 1,
-    // height: UI.size.screenHeight / 2,
-    // borderWidth: 1,
   },
 });

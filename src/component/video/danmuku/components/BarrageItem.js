@@ -46,9 +46,9 @@ export default class BarrageItem extends Component {
     const {data} = this.props;
     const {title} = data;
     let {color} = data;
-    // console.log('1111')
-    color = (Array(8).join(0) + color).slice(-8);
-    console.log(color);
+    for (let i = 0; i < 8 - color.length; i++) {
+      color = '0' + color;
+    }
     this.width = UI.fontSize.regular * title.length;
     const top = this.getTop();
     return (

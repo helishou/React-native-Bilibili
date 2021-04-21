@@ -13,20 +13,19 @@ function headNavagator(state = initHeadNavigator, action) {
   }
 }
 
-const initVideo = false;
+const initVideo = {type: 1};
 function video(state = initVideo, action) {
   let url;
   switch (action.type) {
     case ACTIONTYPES.PLAY_VIDEO:
       console.log(ACTIONTYPES.PLAY_VIDEO, action);
       url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&high_quality=1&autoplay=true&platform=html5`;
-      // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${action.data.aid}&cid=${action.data.cid}&page=${action.data.pg}&high_quality=1&autoplay=true`;
       return {
+        type: state.type,
         url: url,
         ...action.data,
       };
     case ACTIONTYPES.SET_PAGES:
-      console.log('SET_PAGES', action.data);
       return {
         ...state,
         cid: action.data.cid,
@@ -42,7 +41,9 @@ function video(state = initVideo, action) {
       // url = `https://www.bilibili.com/blackboard/html5mobileplayer.html?aid=${state.aid}&cid=${state.cid}&page=${action.data}&autoplay=true`;
       return {...state, url: url, pg: action.data};
     case ACTIONTYPES.RESET_VIDEO:
-      return {};
+      return {type: state.type};
+    case ACTIONTYPES.CHANGE_VIDEO_TYPE:
+      return {type: action.data};
     default:
       return state;
   }

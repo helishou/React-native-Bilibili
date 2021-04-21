@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import Orientation from 'react-native-orientation';
-import {setFullscreen, switchVideo} from '../../redux/actions';
+import {setFullscreen} from '../../redux/actions';
 import px2dp from '../../util';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import VideoPlayer from 'react-native-video-controls';
@@ -34,15 +34,31 @@ function VideoPlayerWrapper(props) {
     return null;
   }
   const [pg, setPg] = useState(0);
-
+  //请求第三方的视频
+  const getVideo = async (aid, cid) => {
+    const result = await reqVideo(aid, cid);
+    console.log('url', result.data.durl[0].url);
+    props.setUrl(result.data.durl[0].url);
+  };
+  //获取弹幕
+  const getDanmuku = async cid => {
+    const result = await reqDanmuku(cid);
+    const predata = [];
+    for (let i = 0; i < result.data.length; i++) {
+      // console.log(parseInt(result.data[i][0]))
+      predata[parseInt(result.data[i][0] * 10)] = result.data[i].slice(3);
+      // console.log(result.data[i].slice(3))
+    }
+    props.setDanmuku(predata);
+    // console.log('danmu', predata);
+  };
   const drawRef = useRef();
   //切p的函数
   const switchVideo = pg => {
     console.log('object', props.video);
     setPg(pg);
-    props.setUrl(
-      `https://player.bilibili.com/player.html?aid=${props.video.aid}&cid=${props.video.cid[pg].cid}&high_quality=1&autoplay=true&platform=html5`,
-    );
+    getVideo(props.video.aid, props.video.cid[pg].cid);
+    getDanmuku(props.video.cid[pg].cid);
   };
   //播放器的侧边栏
   const buttons = [];
@@ -77,8 +93,19 @@ function VideoPlayerWrapper(props) {
       />
     </View>
   );
+  const onWindowChange = () => {
+    if (props.fullscreen) {
+      // Orientation.lockToPortrait();
+      props.setFullscreen(false);
+    } else {
+      console.log('全屏', props);
+      // Orientation.lockToLandscape();
+      props.setFullscreen(true);
+    }
+  };
   console.log('player', width, height);
   console.log('videoplayer_url', props.url);
+  console.debug(props.danmuku, 'woshi vdeio player');
   return props.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
@@ -96,45 +123,22 @@ function VideoPlayerWrapper(props) {
           }
           style={styles.barIcon}
         />
-        {1 ? (
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              bottom: px2dp(3),
-              right: px2dp(3),
-              zIndex: 10,
-              height: px2dp(25),
-              width: px2dp(25),
-              opacity: 1,
-            }}
-            onPress={() => {
-              if (props.fullscreen) {
-                Orientation.lockToPortrait();
-                props.setFullscreen(false);
-              } else {
-                console.log('全屏', props);
-                Orientation.lockToLandscape();
-                props.setFullscreen(true);
-              }
-            }}>
-            <Icon name="arrows-alt" color="white" size={px2dp(18)}></Icon>
-          </TouchableOpacity>
-        ) : null}
-
         <View
           style={[
             props.fullscreen ? styles.fullscreen : styles.webViewContainer,
           ]}>
-        <Danmuku style={styles.danmuku} danmuku={danmuku}></Danmuku>
-        <VideoPlayer
-          source={{uri: url}}
-          playInBackground={false}
-          rate={2}
-          // poster="https://baconmockup.com/300/200/"
-          // seekColor="red"
-          disableBack={true}
-          tapAnywhereToPause={true}
-        />
+          <Danmuku danmuku={props.danmuku} />
+          <VideoPlayer
+            source={{uri: props.url}}
+            playInBackground={false}
+            // rate={2}
+            onWindowChange={() => onWindowChange()}
+            continuous={props.video.videos}
+            // poster="https://baconmockup.com/300/200/"
+            // seekColor="red"
+            disableBack={true}
+            tapAnywhereToPause={true}
+          />
         </View>
       </DrawerLayoutAndroid>
     </View>
@@ -154,11 +158,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-  },
-  danmuku: {
-    position: 'absolute',
-    top: 200,
-    elevation: 20,
   },
   webView: {
     position: 'absolute',

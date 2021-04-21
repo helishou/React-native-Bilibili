@@ -7,6 +7,10 @@ export const setPages = pages => ({
   data: pages,
 });
 export const resetVideo = () => ({type: ACTIONTYPES.RESET_VIDEO, data: null});
+export const changeVideo = type => ({
+  type: ACTIONTYPES.CHANGE_VIDEO_TYPE,
+  data: type,
+});
 export const changeHeadNavigation = state => ({
   type: ACTIONTYPES.SET_HEAD_NAVIGATOR,
   data: state,

@@ -46,7 +46,7 @@ export const reqReply = (oid, sort) => {
 };
 
 export const reqVideo = (avid, cid) => {
-  return ajax('https://bilipi.sigure.xyz/api/v0/acg_video/playurl', {avid, cid});
+  return ajax('https://api.bilibili.com/x/player/playurl?type=mp4&platform=html5&high_quality=1', {avid, cid});
 };
 export const reqDanmuku = cid => {
   return ajax('https://bilipi.sigure.xyz/api/v0/danmaku/dplayer', {cid});
