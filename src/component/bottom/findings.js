@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View,Button} from 'react-native';
 // import VideoPlayer from 'react-native-video-controls';
 import Orientation from 'react-native-orientation';
 import {reqDanmuku, reqVideo} from '../../config/api';
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function VideoExample() {
+export default function VideoExample(props) {
   const aid = 417602724;
   const cid = 325144487;
   //获取视频
@@ -62,6 +62,7 @@ export default function VideoExample() {
         // }}
         // navigator={this.props.navigator}
       />
+      <Button title='测试页' onPress={()=>props.navigation.navigate('Findings2')}></Button>
     </View>
   );
 }

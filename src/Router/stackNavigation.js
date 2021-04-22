@@ -5,6 +5,7 @@ import Search from '../pages/search';
 import {connect} from 'react-redux';
 import UserDetail from '../pages/userDetail';
 import VideoPlayDetail from '../pages/videoPlayDetail';
+import Findings from '../component/bottom/findings';
 import MaterialTopTabNavigator from './materialTopTabNavigator';
 import {Easing} from 'react-native';
 const StackTab = createStackNavigator();
@@ -62,14 +63,15 @@ function StackNavigator(props) {
         options={{
           title: '',
           headerTransparent: 'true',
+          headerShown: false,
           // gesturesEnabled:'false',
           // headerMode: 'float',
         }}></StackTab.Screen>
       <StackTab.Screen
-        name="VideoUserPlayDetail"
+        name="Findings2"
         mode="card"
         // headerMode='float'
-        component={VideoPlayDetail}
+        component={Findings}
         options={{
           title: '',
           headerTransparent: 'true',

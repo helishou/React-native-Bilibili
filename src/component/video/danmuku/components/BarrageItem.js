@@ -8,13 +8,15 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import UI from '../UI';
+import {connect} from 'react-redux';
 
 const imageWidth = 20;
 
 export default class BarrageItem extends Component {
   constructor(props) {
     super(props);
-    this.position = UI.size.screenWidth;
+    this.position = 1500;
+    this.fullPosition = UI.size.screenHeight;
     this.isFreeState = false; // 是否空闲
     this.width = 0; // 弹幕本身的宽度
   }
@@ -53,7 +55,7 @@ export default class BarrageItem extends Component {
     const top = this.getTop();
     return (
       <View
-        style={[styles.view, {top, width: this.width, left: this.position}]}
+        style={[styles.view, {top, width: this.width, right: 0}]}
         removeClippedSubviews={true}
         ref={a => (this.view = a)}>
         <Text style={{color: '#' + color}}>{title}</Text>
@@ -68,10 +70,7 @@ export default class BarrageItem extends Component {
     const top = this.getTop();
     return (
       <View
-        style={[
-          styles.imageView,
-          {top, width: this.width, left: this.position},
-        ]}
+        style={[styles.imageView, {top, width: this.width, right: 0}]}
         removeClippedSubviews={true}
         ref={a => (this.view = a)}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>

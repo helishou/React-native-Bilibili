@@ -67,25 +67,25 @@ class Video extends Component {
     this.inactivate = this.inactivate.bind(this);
   }
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.backClick);
+    // BackHandler.addEventListener('hardwareBackPress', this.backClick);
     this.playVideo();
     this.getDetail();
   }
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.backClick);
+    // BackHandler.removeEventListener('hardwareBackPress', this.backClick);
   }
   //返回键
-  backClick = () => {
-    Orientation.lockToPortrait();
-    if (this.props.fullscreen) {
-      this.props.setFullscreen(false);
-      // } else {
-      //   console.log(this.props.navigation);
-      //   this.props.navigation.goBack();
-      return true;
-    }
-    return false;
-  };
+  // backClick = () => {
+  //   Orientation.lockToPortrait();
+  //   if (this.props.fullscreen) {
+  //     this.props.setFullscreen(false);
+  //     // } else {
+  //     //   console.log(this.props.navigation);
+  //     //   this.props.navigation.goBack();
+  //     return true;
+  //   }
+  //   return false;
+  // };
   //评论区的动画
   grow() {
     Animated.parallel([
@@ -426,7 +426,7 @@ class Video extends Component {
   render() {
     return (
       <View>
-        <View style={{top: this.props.fullscreen ? 0 : 35}}>
+        <View >
           {this.props.playerType ? (
             <VideoPlayer
               show={1}
@@ -439,15 +439,17 @@ class Video extends Component {
             <Biliplayer show={1} url={this.state.url} setUrl={this.setUrl} />
           )}
         </View>
-        <View style={[styles2.container]}>
-          <View
-            // ref={this.containerRef}
-            style={[{alignItems: 'center'}]}>
-            {this.props.fullscreen ? null : this.renderTop()}
-            {this.props.fullscreen ? null : this.renderBottom()}
-            {this.props.fullscreen ? null : this.renderContent()}
+        {!this.props.fullscreen ? (
+          <View style={[styles2.container]}>
+            <View
+              // ref={this.containerRef}
+              style={[{alignItems: 'center'}]}>
+              {this.props.fullscreen ? null : this.renderTop()}
+              {this.props.fullscreen ? null : this.renderBottom()}
+              {this.props.fullscreen ? null : this.renderContent()}
+            </View>
           </View>
-        </View>
+        ) : null}
       </View>
     );
   }

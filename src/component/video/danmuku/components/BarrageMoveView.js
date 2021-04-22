@@ -9,8 +9,9 @@ import {StyleSheet, View, DeviceEventEmitter} from 'react-native';
 import PropTypes from 'prop-types';
 import BarrageItem from './BarrageItem';
 import UI from '../UI';
+import {connect} from 'react-redux';
 
-export default class BarrageMoveView extends Component {
+class BarrageMoveView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,24 +80,28 @@ export default class BarrageMoveView extends Component {
         const barrragesOfLine = this.barrages[index];
         for (let i = 0; i < barrragesOfLine.length; i += 1) {
           // console.log('barrragesOfLine',barrragesOfLine)
+          //全屏补偿
+          // const c = this.props.fullscreen ? 500 : 0;
           const b = barrragesOfLine[i];
-          b.position.left -= speed;
-          const newLeft = b.position.left;
-          if (
-            newLeft <
-            UI.size.screenWidth - b.ref.width - UI.fontSize.regular * 2
-          ) {
+          b.position.right += speed;
+          console.log(b.position);
+          const newRight = b.position.right;
+          // console.log(b.ref.width)
+          if (newRight > b.ref.width + 10 + UI.fontSize.regular * 2) {
             if (!b.isFree) {
               b.isFree = true;
             }
           }
-          if (newLeft < -b.ref.width) {
+          console.log('b.ref.width', UI.size.screenWidth);
+          console.log('newLeft', newRight);
+          console.log(b.ref.width);
+          if (newRight > 800) {
             DeviceEventEmitter.emit('onStateToOutsideScreen1', b);
             continue;
           }
           b.ref.view.setNativeProps({
             style: {
-              left: newLeft,
+              right: newRight,
             },
           });
         }
@@ -116,7 +121,7 @@ export default class BarrageMoveView extends Component {
         ...message,
         indexOfLine: indexOfNewBarrrage,
         isFree: false,
-        position: {left: UI.size.screenWidth},
+        position: {right: 0},
       };
       if (!this.barrages[indexOfNewBarrrage]) {
         this.barrages[indexOfNewBarrrage] = [];
@@ -174,7 +179,6 @@ export default class BarrageMoveView extends Component {
     for (let index = 0; index < list.length; index += 1) {
       const barrragesOfLine = list[index];
       barrragesOfLine.forEach((b, innerIndex) => {
-        console.log('b', b.id);
         const barrageItem = (
           <BarrageItem
             ref={a => this.setRefs(a, index, innerIndex)}
@@ -184,6 +188,7 @@ export default class BarrageMoveView extends Component {
             speed={2}
             type={1}
             heightOfLine={25}
+            fullscreen={this.props.fullscreen}
           />
         );
         views.push(barrageItem);
@@ -199,14 +204,20 @@ export default class BarrageMoveView extends Component {
   }
 }
 
+export default connect(
+  state => ({fullscreen: state.fullscreen}),
+  {},
+)(BarrageMoveView);
 const styles = StyleSheet.create({
   container: {
+    //弹幕区域
     overflow: 'hidden',
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: -80,
     right: 0,
     bottom: 0,
+    // backgroundColor: 'blue',
     // borderWidth: 1,
   },
   barrageLine: {

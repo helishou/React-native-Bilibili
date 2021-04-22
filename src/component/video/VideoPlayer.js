@@ -20,12 +20,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {reqDanmuku, reqVideo} from '../../config/api';
 import VideoPlayer from 'react-native-rn-videoplayer';
 import Danmuku from './danmuku';
-
+import {useNavigation} from '@react-navigation/native';
 let {width, height} = Dimensions.get('window');
 
 const sliderWidth = 370;
 //封装播放器
 function VideoPlayerWrapper(props) {
+  const navigation = useNavigation();
   console.log('videoplayershow', props.show);
   console.log('props.video.videos', props.video.videos);
   // const aid = 417602724;
@@ -106,6 +107,7 @@ function VideoPlayerWrapper(props) {
   console.log('player', width, height);
   console.log('videoplayer_url', props.url);
   console.debug(props.danmuku, 'woshi vdeio player');
+  console.log(navigation);
   return props.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
@@ -115,14 +117,6 @@ function VideoPlayerWrapper(props) {
         drawerPosition={'right'}
         renderNavigationView={() => navigationView}
         drawerBackgroundColor="rgba(0,0,0,0)">
-        <Icon
-          name="bars"
-          size={px2dp(23)}
-          onPress={() =>
-            props.fullscreen ? drawRef.current.openDrawer() : null
-          }
-          style={styles.barIcon}
-        />
         <View
           style={[
             props.fullscreen ? styles.fullscreen : styles.webViewContainer,
@@ -131,13 +125,17 @@ function VideoPlayerWrapper(props) {
           <VideoPlayer
             source={{uri: props.url}}
             playInBackground={false}
+            renderAllSeenList={() => {
+              console.log('drawRef.current.openDrawer()被调用');
+              return drawRef.current.openDrawer();
+            }}
+            onSmallBack={() => navigation.pop()}
             // rate={2}
             onWindowChange={() => onWindowChange()}
             continuous={props.video.videos}
             // poster="https://baconmockup.com/300/200/"
             // seekColor="red"
             disableBack={true}
-            tapAnywhereToPause={true}
           />
         </View>
       </DrawerLayoutAndroid>
@@ -170,7 +168,7 @@ const styles = StyleSheet.create({
   },
   webViewContainer: {
     position: 'absolute',
-    top: 0,
+    top: 20,
     left: 0,
     height: parseInt(height * 0.4, 10),
     width: width,
@@ -181,7 +179,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     height: width,
-    width: height,
+    width: height + 44,
     zIndex: 9,
   },
   barIcon: {
