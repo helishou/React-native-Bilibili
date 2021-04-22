@@ -1,15 +1,18 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import BarrageMoveView from './components/BarrageMoveView';
 import BarrageInputView from './components/BarrageInputView';
 import UI from './UI';
-import VideoPlayer from 'react-native-rn-videoplayer';
+import VideoPlayer from 'react-native-rn-videoplayer'; //#endregion
+/*  1.BarrageMoveView + BarrageItem （推荐）
+
+view内负责接收新的弹幕消息，负责分配弹幕弹道位置，负责移动弹幕，当弹幕移动到距离右边界一定距离时，设置为当前弹道可以添加下一个弹幕，当移动到屏幕外时，删除对应的数据。
+  
+  item负责显示单个弹幕的内容。 所有的逻辑都在view内，item可以视为一个普通的view。
+  
+  所有的移动效果，通过一个定时器实现，所有弹幕移动起来的效果更整齐。视觉效果好。
+
+ */
 export default class Danmuku extends Component {
   constructor(props) {
     super(props);
