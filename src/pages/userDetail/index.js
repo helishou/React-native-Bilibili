@@ -73,21 +73,20 @@ function UserDetail(props) {
     }
   };
 
-  const owener = props.route.params.owner;
-
+  const {mid, name, face} = props.route.params;
   const [spaceNotice, setSpaceNotice] = useState('');
   const [dataSource, setDataSource] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const getSpaceNotice = async () => {
-    console.log(owener.mid);
-    const result = await reqSpaceNotice(owener.mid);
+    console.log('mid', mid);
+    const result = await reqSpaceNotice(mid);
     // const result = await reqSpaceNotice(540564177);
     setSpaceNotice(result.data);
     getData();
   };
   const getData = async () => {
-    const result = await reqSpaceVideos(owener.mid);
-    console.log(owener.mid, result);
+    const result = await reqSpaceVideos(mid);
+    console.log(mid, result);
     const Soucedata = result.data.list.vlist;
     // console.log('Soucedata', Soucedata);
     // console.log(Soucedata, 'usedetaisoucedata');
@@ -99,7 +98,7 @@ function UserDetail(props) {
       return preDataList.push({
         ...data,
         pic: data.pic,
-        owner: owener,
+        owner: {mid, name, face},
         tname: data.length,
       });
     });
@@ -131,7 +130,7 @@ function UserDetail(props) {
             style={{flexDirection: 'row', flexWrap: 'nowrap', marginLeft: 20}}>
             <View class="user_img">
               <Image
-                source={{uri: owener.face}}
+                source={{uri: face}}
                 style={{
                   height: 100,
                   width: 100,
@@ -174,7 +173,7 @@ function UserDetail(props) {
                 paddingBottom: 6,
                 fontSize: 17,
               }}>
-              {owener.name}
+              {name}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.spaceNotice}>

@@ -16,8 +16,8 @@ class Danmuku extends Component {
     this.state = {
       data: [],
     };
-    this.id = 0;
-    this.data = this.props.danmuku;
+    this.id = parseInt(props.currentTime*10);
+    console.log('parseInt(props.currentTime)', this.props.currentTime*10);
   }
 
   componentDidMount() {
@@ -39,10 +39,10 @@ class Danmuku extends Component {
       if (this.props.danmuku[this.id] == undefined) {
         return;
       }
-      console.log(
-        'this.props.danmuku[this.id]',
-        this.props.danmuku[this.id][1],
-      );
+      // console.log(
+      //   'this.props.danmuku[this.id]',
+      //   this.props.danmuku[this.id][1],
+      // );
       const newData = [
         {
           title: this.props.danmuku[this.id][1],
@@ -60,10 +60,10 @@ class Danmuku extends Component {
     this.setState({data: newData});
   };
 
-  getText = () => {
-    const number = this.getRundomNumber(this.data.length - 1);
-    return this.data[number];
-  };
+  // getText = () => {
+  //   const number = this.getRundomNumber(this.props.danmuku.length - 1);
+  //   return this.props.danmuku[number];
+  // };
 
   getRundomNumber = max => {
     return Math.floor(Math.random() * (max + 1));
@@ -71,8 +71,6 @@ class Danmuku extends Component {
 
   render() {
     // console.debug('APP');
-    console.log(this.state.data);
-    console.log(width, height);
     return (
       <View
         style={
@@ -89,7 +87,13 @@ class Danmuku extends Component {
     );
   }
 }
-export default connect(state => ({fullscreen: state.fullscreen}), {})(Danmuku);
+export default connect(
+  state => ({
+    fullscreen: state.fullscreen,
+    currentTime: state.video.currentTime,
+  }),
+  {},
+)(Danmuku);
 
 const styles = StyleSheet.create({
   fullscreenContainer: {
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     width: width,
-    height: width / 2,
+    height: width * 0.5,
     paddingTop: 24,
     // backgroundColor: 'rgba(0,0,0,0)',
     backgroundColor: 'rgba(0,0,0,0)',

@@ -1,6 +1,10 @@
 import ACTIONTYPES from '../types/index.js';
 
 export const playVideo = video => ({type: ACTIONTYPES.PLAY_VIDEO, data: video});
+export const updateVideo = video => ({
+  type: ACTIONTYPES.UPDATE_VIDEO,
+  data: video,
+});
 export const switchVideo = pg => ({type: ACTIONTYPES.SWICH_VIDEO, data: pg});
 export const setPages = pages => ({
   type: ACTIONTYPES.SET_PAGES,

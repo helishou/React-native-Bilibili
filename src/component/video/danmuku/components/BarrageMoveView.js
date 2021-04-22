@@ -84,17 +84,16 @@ class BarrageMoveView extends Component {
           // const c = this.props.fullscreen ? 500 : 0;
           const b = barrragesOfLine[i];
           b.position.right += speed;
-          console.log(b.position);
           const newRight = b.position.right;
           // console.log(b.ref.width)
-          if (newRight > b.ref.width + 10 + UI.fontSize.regular * 2) {
+          if (newRight > 2*b.ref.width + 30 + UI.fontSize.regular * 2) {
             if (!b.isFree) {
               b.isFree = true;
             }
           }
-          console.log('b.ref.width', UI.size.screenWidth);
-          console.log('newLeft', newRight);
-          console.log(b.ref.width);
+          // console.log('b.ref.width', UI.size.screenWidth);
+          // console.log('newLeft', newRight);
+          // console.log(b.ref.width);
           if (newRight > 800) {
             DeviceEventEmitter.emit('onStateToOutsideScreen1', b);
             continue;

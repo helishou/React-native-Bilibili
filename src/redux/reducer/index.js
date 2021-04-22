@@ -13,7 +13,7 @@ function headNavagator(state = initHeadNavigator, action) {
   }
 }
 
-const initVideo = {type: 1};
+const initVideo = {type: 1, currentTime: 0};
 function video(state = initVideo, action) {
   let url;
   switch (action.type) {
@@ -21,7 +21,7 @@ function video(state = initVideo, action) {
       console.log(ACTIONTYPES.PLAY_VIDEO, action);
       url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&high_quality=1&autoplay=true&platform=html5`;
       return {
-        type: state.type,
+        ...state,
         url: url,
         ...action.data,
       };
@@ -44,6 +44,10 @@ function video(state = initVideo, action) {
       return {type: state.type};
     case ACTIONTYPES.CHANGE_VIDEO_TYPE:
       return {type: action.data};
+    case ACTIONTYPES.UPDATE_VIDEO:
+      console.log('更新了', action.data);
+      console.log('更新了', {...state, ...action.data});
+      return {...state, ...action.data};
     default:
       return state;
   }

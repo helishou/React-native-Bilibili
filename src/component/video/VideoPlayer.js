@@ -21,11 +21,13 @@ import {reqDanmuku, reqVideo} from '../../config/api';
 import VideoPlayer from 'react-native-rn-videoplayer';
 import Danmuku from './danmuku';
 import {useNavigation} from '@react-navigation/native';
+import {updateVideo} from '../../redux/actions';
 let {width, height} = Dimensions.get('window');
 
 const sliderWidth = 370;
 //封装播放器
 function VideoPlayerWrapper(props) {
+  const [clear, setClear] = useState(1);
   const navigation = useNavigation();
   console.log('videoplayershow', props.show);
   console.log('props.video.videos', props.video.videos);
@@ -43,23 +45,30 @@ function VideoPlayerWrapper(props) {
   };
   //获取弹幕
   const getDanmuku = async cid => {
+    console.log('请求弹幕');
     const result = await reqDanmuku(cid);
+    console.log('请求弹幕成功');
     const predata = [];
     for (let i = 0; i < result.data.length; i++) {
       // console.log(parseInt(result.data[i][0]))
       predata[parseInt(result.data[i][0] * 10)] = result.data[i].slice(3);
       // console.log(result.data[i].slice(3))
     }
+    console.log('设置弹幕');
     props.setDanmuku(predata);
     // console.log('danmu', predata);
   };
   const drawRef = useRef();
   //切p的函数
   const switchVideo = pg => {
-    console.log('object', props.video);
+    console.log('我切换了!!!!!object', props.video);
+    setClear(true);
     setPg(pg);
     getVideo(props.video.aid, props.video.cid[pg].cid);
     getDanmuku(props.video.cid[pg].cid);
+  };
+  const nextBtnFun = () => {
+    switchVideo(pg + 1);
   };
   //播放器的侧边栏
   const buttons = [];
@@ -94,20 +103,27 @@ function VideoPlayerWrapper(props) {
       />
     </View>
   );
+  //切换全屏的函数
   const onWindowChange = () => {
     if (props.fullscreen) {
-      // Orientation.lockToPortrait();
       props.setFullscreen(false);
     } else {
-      console.log('全屏', props);
-      // Orientation.lockToLandscape();
       props.setFullscreen(true);
     }
   };
+  const changeDanmuku = state => {
+    console.log('我被调用了,现在clear', state);
+    if (state.clear !== undefined) {
+      setClear(state.clear);
+    }
+    state.currentTime !== undefined &&
+      props.updateVideo({currentTime: state.currentTime});
+  };
   console.log('player', width, height);
   console.log('videoplayer_url', props.url);
-  console.debug(props.danmuku, 'woshi vdeio player');
-  console.log(navigation);
+  console.log(pg);
+  console.log(pg == props.video.videos - 1);
+  // console.debug(props.danmuku, 'woshi vdeio player');
   return props.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
@@ -121,7 +137,8 @@ function VideoPlayerWrapper(props) {
           style={[
             props.fullscreen ? styles.fullscreen : styles.webViewContainer,
           ]}>
-          <Danmuku danmuku={props.danmuku} />
+          {/* 设置一个clear,用于开启关闭弹幕 */}
+          {clear ? null : <Danmuku danmuku={props.danmuku} />}
           <VideoPlayer
             source={{uri: props.url}}
             playInBackground={false}
@@ -133,9 +150,18 @@ function VideoPlayerWrapper(props) {
             // rate={2}
             onWindowChange={() => onWindowChange()}
             continuous={props.video.videos}
-            // poster="https://baconmockup.com/300/200/"
+            poster={props.poster}
             // seekColor="red"
             disableBack={true}
+            changeDanmuku={state => changeDanmuku(state)}
+            clear={clear}
+            nextBtnFun={
+              pg !== props.video.videos - 1 ? () => nextBtnFun() : null
+            }
+            color={props.activeTheme}
+            speedColor={props.activeTheme}
+            dotColor={props.activeTheme}
+            bottomSpeedColor={props.activeTheme}
           />
         </View>
       </DrawerLayoutAndroid>
@@ -149,7 +175,7 @@ export default connect(
     fullscreen: state.fullscreen,
     activeTheme: state.common.activeTheme,
   }),
-  {setFullscreen},
+  {setFullscreen, updateVideo},
 )(VideoPlayerWrapper);
 
 const styles = StyleSheet.create({
@@ -191,14 +217,14 @@ const styles = StyleSheet.create({
     zIndex: 10,
     opacity: 0.5,
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 50,
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
+  // container: {
+  //   flex: 1,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   paddingTop: 50,
+  //   backgroundColor: '#ecf0f1',
+  //   padding: 8,
+  // },
   navigationContainer: {
     width: sliderWidth,
     backgroundColor: 'rgba(0,0,0,0.7)',

@@ -105,7 +105,7 @@ function Biliplayer(props) {
                 Orientation.lockToPortrait();
                 props.setFullscreen(false);
               } else {
-                console.log('全屏', props);
+                // console.log('全屏', props);
                 Orientation.lockToLandscape();
                 props.setFullscreen(true);
               }

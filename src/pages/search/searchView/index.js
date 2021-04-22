@@ -85,6 +85,7 @@ class SearchView extends Component {
             'JAVA',
             'C++',
             'VUE',
+            '林俊杰',
           ].map((item, i) => {
             return (
               <View key={i} style={{marginRight: 12, marginBottom: 12}}>
