@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import BarrageMoveView from './components/BarrageMoveView';
 import BarrageInputView from './components/BarrageInputView';
+<<<<<<< HEAD
 import UI from './UI';
 import VideoPlayer from 'react-native-rn-videoplayer'; //#endregion
 /*  1.BarrageMoveView + BarrageItem （推荐）
@@ -13,6 +14,9 @@ view内负责接收新的弹幕消息，负责分配弹幕弹道位置，负责�
   所有的移动效果，通过一个定时器实现，所有弹幕移动起来的效果更整齐。视觉效果好。
 
  */
+=======
+import VideoPlayer from 'react-native-rn-videoplayer';
+>>>>>>> 7fb4f9a2b6c59df6b4060fdbaa7ef9f5724111c2
 export default class Danmuku extends Component {
   constructor(props) {
     super(props);
@@ -35,13 +39,17 @@ export default class Danmuku extends Component {
   addBarrageWithInterval = () => {
     this.interval = setInterval(() => {
       this.id = this.id + 1;
-      const text = this.getText();
+      // console.log('object', this.id);
+      // const text = this.getText();
       // console.log('text',text)
       // const newData = [{title: text, id: this.id}];
       if (this.data[this.id] == undefined) {
         return;
       }
-      // console.log('this.props.danmuku[this.id]', this.props.danmuku[this.id][1]);
+      console.log(
+        'this.props.danmuku[this.id]',
+        this.props.danmuku[this.id][1],
+      );
       const newData = [
         {
           title: this.data[this.id][1],
@@ -50,7 +58,7 @@ export default class Danmuku extends Component {
         },
       ];
       this.setState({data: newData});
-    }, 1000);
+    }, 100);
   };
 
   onButtonPress = text => {
@@ -91,14 +99,13 @@ const styles = StyleSheet.create({
     top: 20,
     width: 400,
     height: 200,
-    paddingTop: UI.IS_IPHONE_X ? 34 : 24,
+    paddingTop: 24,
+    // backgroundColor: 'rgba(0,0,0,0)',
     backgroundColor: 'rgba(0,0,0,0)',
-    paddingBottom: UI.IS_IPHONE_X ? 44 : 0,
+    paddingBottom: 0,
     elevation: 20,
   },
   barrageView: {
     flex: 1,
-    // height: UI.size.screenHeight / 2,
-    // borderWidth: 1,
   },
 });

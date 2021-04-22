@@ -49,7 +49,7 @@ export default function VideoExample() {
     <View style={{height: 400}}>
       <Danmuku style={styles.danmuku} danmuku={danmuku}></Danmuku>
       <VideoPlayer
-        source={{uri: url}}
+        source={{uri: 'url'}}
         playInBackground={false}
         rate={2}
         // poster="https://baconmockup.com/300/200/"

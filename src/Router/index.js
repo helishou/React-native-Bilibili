@@ -167,11 +167,12 @@ function RootNavigation() {
 }
 
 function AppInner(props) {
+  console.log(props.fullscreen)
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
         // backgroundColor={themeColor}
-        backgroundColor={0 ? 'black' : 'rgba(0, 0, 0, 0)'}
+        backgroundColor={props.fullscreen ? 'black' : 'rgba(0, 0, 0, 0)'}
         translucent={true}
         barStyle={props.video.url ? 'light-content' : 'dark-content'}
         animated={true}
@@ -185,5 +186,5 @@ function AppInner(props) {
   );
 }
 
-export default connect(state => ({video: state.video}), {})(AppInner);
+export default connect(state => ({video: state.video,fullscreen:state.fullscreen}), {})(AppInner);
 // export default AppInner

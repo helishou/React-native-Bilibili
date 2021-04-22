@@ -5,9 +5,10 @@ export default class testp extends Component {
   constructor(props) {
     super(props);
     this.state = {bg: 'white', count: 0};
+    this._gestureHandlers = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._gestureHandlers = {
       onStartShouldSetResponder: () => true,
       onMoveShouldSetResponder: () => true,
