@@ -9,7 +9,7 @@ import ScrollableTabView, {
 import px2dp from '../../util';
 import {useState, useRef, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {reqSeach} from '../../config/api';
+import {reqSeach, reqFuzzySeach} from '../../config/api';
 import VideoList from '../../component/videoList';
 import LinearGradient from 'react-native-linear-gradient';
 import Nav from '../../component/Nav';
@@ -30,6 +30,7 @@ function Search(props) {
   const [loaded, setLoaded] = useState(true);
   const [onfocus, setOnFocus] = useState(true);
   const [dataSource, setDataSource] = useState([]);
+  const [userDataSource, setUserDataSource] = useState([]);
   const [show, setShow] = useState(true);
   const textInputRef = useRef();
   console.log('Searchshow', show);
@@ -56,30 +57,71 @@ function Search(props) {
       alert('输入不能为空');
     }
   };
-  const getData = async (sText = text) => {
-    const result = await reqSeach(sText);
-    const Soucedata = result.data.result[8].data;
-    console.log(Soucedata, 'SearchSoucedata');
+  const getSearch = async (type = 'video', sText, pg = 1) => {
+    const resultV = await reqSeach(type, sText, pg);
+    const {numPages, numResults} = resultV.data;
+    // console.log('搜索结果', resultV.data.result, '搜索结果');
     let preDataList = [];
-    Soucedata.map((data, i) => {
-      data.key = data.aid;
-      let newtitle = data.title.replace(/<em class="keyword">/g, '');
-      newtitle = newtitle.replace(/<em class=\"keyword\">/g, '');
-      newtitle = newtitle.replace(/<\/em>/g, '');
-      return preDataList.push({
-        ...data,
-        pic: 'http:' + data.pic,
-        title: newtitle,
-        owner: {
-          name: data.author,
-          face: null,
-          mid: data.mid,
-        },
-        tname: data.tag,
-      });
-    });
-    setDataSource(preDataList);
+    let data = {};
+    console.log(resultV.data.result.length);
+    if (type == 'video') {
+      for (let i = 0; i < resultV.data.result.length; i++) {
+        data = resultV.data.result[i];
+        let newtitle = data.title.replace(/<em class="keyword">/g, '');
+        newtitle = newtitle.replace(/<em class=\"keyword\">/g, '');
+        newtitle = newtitle.replace(/<\/em>/g, '');
+        preDataList.push({
+          ...data,
+          key: data.aid,
+          pic: 'http:' + data.pic,
+          title: newtitle,
+          owner: {
+            name: data.author,
+            face: null,
+            mid: data.mid,
+          },
+          tname: data.tag,
+        });
+      }
+    } else {
+      for (let i = 0; i < resultV.data.result.length; i++) {
+        data = resultV.data.result[i];
+        // console.log(data);
+        preDataList.push({
+          ...data,
+          key: data.mid,
+        });
+      }
+    }
+    console.log(preDataList);
+    return {preDataList, numPages};
+  };
+  const getData = async (sText = text) => {
+    setLoaded(true);
+    //偷懒,直接展示前100条
+    let preVideoList = [];
+    let numVideoPages = 1;
+    let {preDataList, numPages} = await getSearch('video', sText, 1);
+    preVideoList = preVideoList.concat(preDataList);
+    numVideoPages = numPages > 5 ? 5 : numPages;
+    // console.log(preVideoList);
+    setDataSource(preVideoList);
     setLoaded(false);
+    let preUserList, numUserPages;
+    let resultU = await getSearch('bili_user', sText, 1);
+    preUserList = resultU.preDataList;
+    numUserPages = resultU.numPages > 5 ? 5 : resultU.numPages;
+    setUserDataSource(preUserList);
+    for (let i = 2; i < numVideoPages; i++) {
+      let {preDataList} = await getSearch('video', sText, i);
+      preVideoList = preVideoList.concat(preDataList);
+      setDataSource(preVideoList);
+    }
+    for (let i = 2; i < numUserPages; i++) {
+      let {preDataList} = await getSearch('bili_user', sText, i);
+      preUserList = preUserList.concat(preDataList);
+      setUserDataSource(preUserList);
+    }
   };
   return (
     <View style={{flex: 1}}>
@@ -113,12 +155,12 @@ function Search(props) {
       {!onfocus ? (
         <ScrollableTabView
           // tabBarPosition={'overlayTop'}
-          locked={true}
+          // locked={true}
           style={[
             styles.scrollContainer,
             {
               backgroundColor: 1 ? '#f4f4f4' : 'white',
-              transform: [{translateY: 1 < 2 ? 0 : -50}],
+              // transform: [{translateY: 1 < 2 ? 0 : -50}],
             },
           ]}
           // renderTabBar={() => <DefaultTabBar />}
@@ -139,8 +181,9 @@ function Search(props) {
           />
           <UserList
             tabLabel="用户"
-            dataSource={dataSource}
-            // isLoaded={!loaded}
+            dataSource={userDataSource}
+            isLoaded={!loaded}
+            color={props.activeTheme}
             // fetchData={() => getData()}
             // onClick={() => onClick()}
             // backClick={() => backClick()}
@@ -159,6 +202,7 @@ export default connect(
   state => ({
     pressed: state.pressed,
     searchHistory: state.search.searchHistory,
+    activeTheme: state.common.activeTheme,
   }),
   {
     setSearchHistory,

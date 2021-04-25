@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,Text,StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 export default function CustomDrawerContent(props) {
   // console.log('自定义侧边',props)
@@ -13,22 +13,20 @@ export default function CustomDrawerContent(props) {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    margin:100,
-    flex:1,
+  container: {
+    margin: 100,
+    flex: 1,
     backgroundColor: 'red',
-    justifyContent:'center',
-    alignItems:'center',
-    alignContent:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
     // height:800,
     // width:200,
   },
-  test:{
+  test: {
     backgroundColor: 'red',
-    height:800,
-    width:200,
+    height: 800,
+    width: 200,
   },
-  text:{
-
-  },
-})
+  text: {},
+});

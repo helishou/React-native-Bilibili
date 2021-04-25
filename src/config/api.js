@@ -9,10 +9,14 @@ import jsonp from 'jsonp';
 
 //登陆
 
-export const reqSeach = keyword =>
+export const reqFuzzySeach = keyword =>
   ajax(
     `http://api.bilibili.com/x/web-interface/search/all/v2?keyword=${keyword}`,
     'POST',
+  );
+export const reqSeach = (search_type, keyword, page) =>
+  ajax(
+    `http://api.bilibili.com/x/web-interface/search/type?search_type=${search_type}&keyword=${keyword}&page=${page}`,
   );
 
 export const reqSpaceNotice = mid =>
@@ -29,24 +33,14 @@ export const reqReply = (oid, sort) => {
   return ajax(
     `http://api.bilibili.com/x/v2/reply?type=1&oid=${oid}&sort=${sort}&ps=5&pn=1`,
     {},
-    {
-      'allowed-methods': '*',
-      'allow-credentials': 'true',
-      'allowed-headers': '*',
-      Cookie:
-        'bfe_id=61a513175dc1ae8854a560f6b82b37af; Path=/; Max-Age=600; Expires=Sat, 17-Apr-21 11:35:07 GMT',
-      'Bili-Trace-Id': '4352899323607ac5',
-      'Bili-Status-Code': '0',
-      ' X-Cache-Webcdn': 'BYPASS from ks-bj-webcdn-09',
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36',
-      Idc: 'shjd',
-    },
   );
 };
 
 export const reqVideo = (avid, cid) => {
-  return ajax('https://api.bilibili.com/x/player/playurl?type=mp4&platform=html5&high_quality=1', {avid, cid});
+  return ajax(
+    'https://api.bilibili.com/x/player/playurl?type=mp4&platform=html5&high_quality=1',
+    {avid, cid},
+  );
 };
 export const reqDanmuku = cid => {
   return ajax('https://bilipi.sigure.xyz/api/v0/danmaku/dplayer', {cid});

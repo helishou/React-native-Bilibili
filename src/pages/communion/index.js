@@ -24,7 +24,7 @@ class MV extends React.Component {
           source={require('../../static/images/communion.jpg')}
         />
         <Button
-          title="开启社区之门"
+          title="作者的博客"
           onPress={() => this.props.navigation.navigate('CommunionDetail')}
         />
       </View>

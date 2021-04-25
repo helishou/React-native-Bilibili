@@ -1,31 +1,8 @@
 import React, {Component} from 'react';
-import {WebView, BackHandler} from 'react-native';
-
-import {config} from '../../config/defaultMsgConfig';
-import {api} from '../../config/11111';
+import {BackHandler} from 'react-native';
+import {WebView} from 'react-native-webview';
 
 export default class CommunionDetail extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    let header;
-    let tabBarVisible = true;
-    if (navigation.state.index > 0) {
-      tabBarVisible = false;
-    }
-    return {
-      tabBarVisible,
-      header,
-      // title: navigation.getParam('title', '获取title失败'),
-      title: config.communionDetailTitle,
-      headerStyle: {
-        backgroundColor: '#3496f0',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    };
-  };
-
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
@@ -54,7 +31,7 @@ export default class CommunionDetail extends React.Component {
     return (
       <WebView
         ref="webView"
-        source={{uri: api.communion}}
+        source={{uri: 'https://helishou.github.io/'}}
         onNavigationStateChange={this._onNavigationStateChange}
         mediaPlaybackRequiresUserAction={false}
         startInLoadingState={true}

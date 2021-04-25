@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import UserDetail from '../pages/userDetail';
 import VideoPlayDetail from '../pages/videoPlayDetail';
 import Findings from '../component/bottom/findings';
+import CommunionDetail from '../pages/communionDetail';
 import MaterialTopTabNavigator from './materialTopTabNavigator';
 import {Easing} from 'react-native';
 const StackTab = createStackNavigator();
@@ -51,6 +52,20 @@ function StackNavigator(props) {
             title: '',
             // title: params ? params.owner.name : '出错了',
             headerShown: !props.pressed,
+            // headerTransparent:'true'
+          };
+        }}
+      />
+      <StackTab.Screen
+        name="CommunionDetail"
+        component={CommunionDetail}
+        options={({navigation, route}) => {
+          console.log(route);
+          const {params} = route;
+          return {
+            title: 'biubiubiu',
+            // title: params ? params.owner.name : '出错了',
+            // headerShown: false,
             // headerTransparent:'true'
           };
         }}

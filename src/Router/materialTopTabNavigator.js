@@ -3,8 +3,8 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 
 import Suggest from '../pages/suggest/Suggest';
 import Live from '../component/live/Live';
-import Communion from '../component/communion/Communion';
-import Header from '../component/header/Header';
+import Communion from '../pages/communion';
+import Header from './header';
 import Category from '../component/category/Category';
 
 import MyTabBar from './myTabBar';
@@ -20,35 +20,25 @@ function MaterialTopTabNavigator(props) {
       initialRouteName="Suggest"
       lazy="true"
       backBehavior
-      tabBar={props => <MyTabBar {...props} />}
-      // tabBarOptions={{
-      //   activeTintColor: '#e91e63',
-      //   labelStyle: {
-      //     fontSize: 12,
-      //   },
-      //   style: {
-      //     backgroundColor: 'blue',
-      //   },
-      // }}
-    >
-      <MaterialTopTab.Screen
+      tabBar={props => <MyTabBar {...props} />}>
+      {/* <MaterialTopTab.Screen
         name="Live"
         component={Live}
         options={{
           title: '直播',
           // tabBarIcon: <Ionicons name="home" />
         }}
-      />
+      /> */}
       <MaterialTopTab.Screen
         name="Suggest"
         component={Suggest}
-        options={{title: '推荐',headerRight:<Header/>}}
+        options={{title: '推荐', headerRight: <Header />}}
       />
-      <MaterialTopTab.Screen
+      {/* <MaterialTopTab.Screen
         name="Category"
         component={Category}
         options={{title: '分区'}}
-      />
+      /> */}
       <MaterialTopTab.Screen
         name="Communion"
         component={Communion}

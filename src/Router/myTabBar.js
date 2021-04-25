@@ -11,7 +11,7 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from 'react-native';
-import Header from '../component/header/Header';
+import Header from './header';
 import Animated, {color} from 'react-native-reanimated';
 import {tapGreen, marginLeft} from '../style/CommStyle';
 import px2dp from '../util';

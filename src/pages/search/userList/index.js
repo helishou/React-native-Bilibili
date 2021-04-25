@@ -16,60 +16,60 @@ import {useNavigation} from '@react-navigation/native';
 import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native';
 export default function UserList(props) {
   const navigation = useNavigation();
-  const [scroll, setScroll] = useState(true);
-  const [child, setChild] = useState({});
+  console.log(props.dataSource, '用户们');
   const listRef = useRef();
-  const backClick = () => {
-    Orientation.lockToPortrait();
-    if (props.fullscreen) {
-      props.setFullscreen(false);
-    } else {
-      try {
-        props.backClick();
-      } catch {}
-      child._onPress();
-      props.press(false);
-      setScroll(true);
-    }
-    // setScroll(true);
-  };
   const _onScroll = event => {
     // console.log(event.nativeEvent.contentOffset.y);
     try {
       props.setContentOffsetY(event.nativeEvent.contentOffset.y);
     } catch {}
   };
-  const onClick = () => {
-    try {
-      props.onClick();
-    } catch {
-      console.log('没有传入onClick');
-    }
-    setScroll(!scroll);
-  };
+  // const onClick = () => {
+  //   navigation.navigate('userDetail', {
+  //     mid: this.props.route.params.video.owner.mid,
+  //     name: this.props.route.params.video.owner.name,
+  //     face: this.state.face,
+  //   });
+  // };
   const onRefresh = () => {
-    props.press(false);
     props.fetchData();
   };
   const _renderRow = item => {
     return (
-      <View style={{}}>
-        <Card full>
-          <Card.Header
-            title="This is title"
-            style={{height:70}}
-            thumbStyle={{width: 50, height: 50}}
-            thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
-            extra={<Button title="666"></Button>}
-          />
-          {/* <Card.Body>
-            <View style={{height: 42}}>
-              <Text style={{marginLeft: 16}}>Card Content</Text>
-            </View>
-          </Card.Body> */}
-          <Card.Footer content="footer content" extra="footer extra content" />
-        </Card>
-        {/* <WhiteSpace size="lg" /> */}
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            console.log('我被按了6666');
+            return navigation.navigate('userDetail', {
+              mid: item.mid,
+              name: item.uname,
+              face: 'https:' + item.upic,
+            });
+          }}>
+          <Card
+            full
+            style={{backgroundColor: '#f4f4f4', borderColor: '#bbbbbb'}}>
+            <Card.Header
+              title={item.uname}
+              style={{height: 70}}
+              thumbStyle={{width: 50, height: 50, borderRadius: 10}}
+              thumb={'https:' + item.upic}
+              // extra={<Button title="关注" color={props.color}></Button>}
+            />
+            <Card.Body>
+              <View style={{height: 42}}>
+                <Text style={{marginLeft: 16}}>
+                  {item.usign ? item.usign : '该用户很懒,没有简介'}
+                </Text>
+              </View>
+            </Card.Body>
+            <Card.Footer
+              content={'粉丝:' + item.fans + '关注'}
+              extra={'视频:' + item.videos}
+            />
+          </Card>
+          {/* <WhiteSpace size="lg" /> */}
+        </TouchableOpacity>
       </View>
     );
   };
@@ -80,22 +80,28 @@ export default function UserList(props) {
         alignItem: 'center',
         alignContent: 'center',
       }}>
-      <FlatList
-        ref={listRef}
-        ListEmptyComponent={<View style={{height: 800}}></View>}
-        // style={{display: 'none'}}
-        onScroll={_onScroll}
-        initialListSize={6}
-        data={props.dataSource}
-        scrollEnabled={scroll}
-        onTouchStart={() => console.log('我被按了')}
-        // numColumns={1}
-        renderItem={({item}) => _renderRow(item)}
-        // contentContainerStyle={styles.ListViewStyle}
-        refreshing={!props.isLoaded}
-        onRefresh={() => onRefresh()}
-        ListFooterComponent={<Bottom listRef={listRef}></Bottom>}
-      />
+      {!props.dataSource.length ? (
+        <Text style={{textAlign: 'center', marginTop: 100, fontSize: 20}}>
+          没有搜索到用户
+        </Text>
+      ) : (
+        <FlatList
+          ref={listRef}
+          ListEmptyComponent={<View style={{height: 800}}></View>}
+          // style={{display: 'none'}}
+          // onScroll={_onScroll}
+          initialListSize={6}
+          data={props.dataSource}
+          // scrollEnabled={scroll}
+          onTouchStart={() => console.log('我被按了')}
+          // numColumns={1}
+          renderItem={({item}) => _renderRow(item)}
+          // contentContainerStyle={styles.ListViewStyle}
+          refreshing={!props.isLoaded}
+          // onRefresh={() => onRefresh()}
+          ListFooterComponent={<Bottom listRef={listRef}></Bottom>}
+        />
+      )}
     </View>
   );
 }

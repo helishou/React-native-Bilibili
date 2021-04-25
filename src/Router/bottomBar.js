@@ -43,7 +43,7 @@ function TabNavigator(props) {
         inactiveTintColor: '#999',
       }}
       initialRouteName="test">
-      <Tab.Screen name="test" component={Test} options={{title: '测试页面'}} />
+      {/* <Tab.Screen name="test" component={Test} options={{title: '测试页面'}} /> */}
       <Tab.Screen
         name="home"
         component={MaterialTopTabNavigator}
