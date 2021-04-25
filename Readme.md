@@ -6,7 +6,7 @@
 **## [apk 下载体验](https://github.com/helishou/React-native-Bilibili/releases/download/1.00/app-release.apk)**
 
 ***\*页面展示\****
-:<img src="F:\ReactNative\jymapp\example\1F5ABB188D105DF772ABB2482A98BD8E.jpg" alt="1F5ABB188D105DF772ABB2482A98BD8E" style="zoom:25%;" /><img src="F:\ReactNative\jymapp\example\16D184253E1ED452E111681C59130E71.jpg" alt="16D184253E1ED452E111681C59130E71" style="zoom:25%;" /><img src="F:\ReactNative\jymapp\example\956B0F20F30D8E4D3A4AB523559CA0A8.jpg" alt="956B0F20F30D8E4D3A4AB523559CA0A8" style="zoom:25%;" /><img src="F:\ReactNative\jymapp\example\64507A52511F760A31D794C1F1942E54.jpg" alt="64507A52511F760A31D794C1F1942E54" style="zoom:25%;" />
+:<img src=".\example\1F5ABB188D105DF772ABB2482A98BD8E.jpg" alt="1F5ABB188D105DF772ABB2482A98BD8E" style="zoom:25%;" /><img src=".\example\16D184253E1ED452E111681C59130E71.jpg" alt="16D184253E1ED452E111681C59130E71" style="zoom:25%;" /><img src=".\example\956B0F20F30D8E4D3A4AB523559CA0A8.jpg" alt="956B0F20F30D8E4D3A4AB523559CA0A8" style="zoom:25%;" /><img src=".\example\64507A52511F760A31D794C1F1942E54.jpg" alt="64507A52511F760A31D794C1F1942E54" style="zoom:25%;" />
 
 ***\*项目介绍\****
 
