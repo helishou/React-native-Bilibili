@@ -36,58 +36,45 @@ import Orientation from 'react-native-orientation';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Biliplayer from '../../component/video/Biliplayer';
 import {tapGreen} from '../../style/CommStyle';
+import {transform} from '@babel/core';
 class Video extends Component {
   constructor(props) {
     super(props);
     this.state = {
       top_width: width,
       top_height: height / 2 - 30,
-      bottom_width: width - 32,
+      bottom_width: 0.91 * width,
       bottom_height: height / 6 + 50,
       content_height: height / 2,
       content_opac: 1,
       button_opac: 1,
       back_opac: 1,
       plus: 1,
-      TopBorderRadius: px2dp(10),
-      BottomBorderRadius: px2dp(10),
+      TopBorderRadius: new Animated.Value(px2dp(10)),
+      BottomBorderRadius: new Animated.Value(px2dp(10)),
       activate: '评论区',
       activated: false,
       pressed: true,
+      //评论区动画
       scaleXAnimate: new Animated.Value(1),
       scaleYAnimate: new Animated.Value(1),
       translateYAnimate: new Animated.Value(1),
       opacityAnimate: new Animated.Value(1),
       opacityReverseAnimate: new Animated.Value(0),
+      // imageIranslateY: new Animated.Value(0),
+      bottomScaleY: new Animated.Value(1),
       url: '',
       danmuku: '',
       face: this.props.route.params.video.owner.face,
     };
-    // console.log(props);
-    // console.log('this.props.route.params---------------', this.props.route.params);
     this.activate = this.activate.bind(this);
     this.inactivate = this.inactivate.bind(this);
   }
   componentDidMount() {
-    // BackHandler.addEventListener('hardwareBackPress', this.backClick);
+    this.shrinkImage();
     this.playVideo();
     this.getDetail();
   }
-  componentWillUnmount() {
-    // BackHandler.removeEventListener('hardwareBackPress', this.backClick);
-  }
-  //返回键
-  // backClick = () => {
-  //   Orientation.lockToPortrait();
-  //   if (this.props.fullscreen) {
-  //     this.props.setFullscreen(false);
-  //     // } else {
-  //     //   console.log(this.props.navigation);
-  //     //   this.props.navigation.goBack();
-  //     return true;
-  //   }
-  //   return false;
-  // };
   //评论区的动画
   grow() {
     Animated.parallel([
@@ -95,26 +82,31 @@ class Video extends Component {
         toValue: 1.1,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.scaleYAnimate, {
         toValue: 13,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.translateYAnimate, {
         toValue: 13,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.opacityAnimate, {
         toValue: 0,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.opacityReverseAnimate, {
         toValue: 1,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
     ]);
   }
@@ -124,26 +116,52 @@ class Video extends Component {
         toValue: 1,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.scaleYAnimate, {
         toValue: 1,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.translateYAnimate, {
         toValue: 1,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.opacityAnimate, {
         toValue: 1,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
       }).start(),
       Animated.timing(this.state.opacityReverseAnimate, {
         toValue: 0,
         useNativeDriver: true,
         duration: 500,
+        easing: Easing.in,
+      }).start(),
+    ]);
+  }
+  //遮挡封面图用的动画
+  shrinkImage() {
+    Animated.parallel([
+      Animated.timing(this.state.bottomScaleY, {
+        toValue: 1.1,
+        useNativeDriver: true,
+        duration: 1000,
+        easing: Easing.in,
+      }).start(),
+      Animated.timing(this.state.TopBorderRadius, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 1000,
+      }).start(),
+      Animated.timing(this.state.BottomBorderRadius, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 1000,
       }).start(),
     ]);
   }
@@ -354,6 +372,7 @@ class Video extends Component {
           elevation: 20,
           width: this.state.bottom_width,
           height: this.state.bottom_height,
+          transform: [{scaleX: this.state.bottomScaleY}],
           //change to
           // height: this.state.bottom_height * 3,
           borderTopLeftRadius: this.state.TopBorderRadius,
@@ -482,20 +501,6 @@ export default connect(
   },
 )(Video);
 const styles2 = StyleSheet.create({
-  container: {
-    // width: card_width,
-    // height: card_height + 5,
-    // marginLeft: marginLeft,
-    // marginBottom: 20,
-    // backgroundColor: 'white',
-    // borderRadius: radius,
-    // overflow: 'hidden',
-    // elevation: 20, // 适配android的
-    // shadowOffset: {width: 0, height: 3.5}, // 以下4项适配ios
-    // shadowColor: 'black',
-    // shadowOpacity: 0.15,
-    // shadowRadius: 5,
-  },
   title: {
     textAlign: 'left',
     textAlignVertical: 'center',
@@ -503,8 +508,6 @@ const styles2 = StyleSheet.create({
     color: 'black',
     fontSize: px2dp(20),
     fontWeight: 'bold',
-    // flexWrap:2,
-    // marginBottom:px2dp(3),
     lineHeight: parseInt(height / 28),
     height: parseInt(height / 10),
     width: parseInt(width * 0.67),
@@ -514,12 +517,6 @@ const styles2 = StyleSheet.create({
     backgroundColor: '#f4f4f4',
     // elevation:20,
   },
-  // backButton: {
-  //   position: 'absolute',
-  //   backgroundColor: 'transparent',
-  //   top: 32,
-  //   left: 10,
-  // },
   playbutton: {
     opacity: 1,
     backgroundColor: tapGreen,
@@ -534,7 +531,6 @@ const styles2 = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    // backgroundColor: 'transparent',
     top: 50,
     left: 20,
     zIndex: 20,
