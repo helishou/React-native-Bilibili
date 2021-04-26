@@ -119,11 +119,6 @@ function VideoPlayerWrapper(props) {
     state.currentTime !== undefined &&
       props.updateVideo({currentTime: state.currentTime});
   };
-  console.log('player', width, height);
-  console.log('videoplayer_url', props.url);
-  console.log(pg);
-  console.log(pg == props.video.videos - 1);
-  // console.debug(props.danmuku, 'woshi vdeio player');
   return props.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>

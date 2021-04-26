@@ -199,6 +199,8 @@ function UserDetail(props) {
           onClick={() => onClick()}
           backClick={() => backClick()}
           hideFace={true}
+          lockControl={true}
+          
         />
         <Text style={styles.textStyle} tabLabel="动态">
           动态施工中
