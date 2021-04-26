@@ -4,7 +4,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Suggest from '../pages/suggest/Suggest';
 import Live from '../component/live/Live';
 import Communion from '../pages/communion';
-import Header from './header';
+import Header from '../component/header';
 import Category from '../component/category/Category';
 
 import MyTabBar from './myTabBar';

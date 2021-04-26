@@ -33,23 +33,18 @@ function Search(props) {
   const [userDataSource, setUserDataSource] = useState([]);
   const [show, setShow] = useState(true);
   const textInputRef = useRef();
-  console.log('Searchshow', show);
-  console.log('Searchfirst', first);
   const onChangeText = text => {
     setText(text);
   };
   const onClick = () => {
     setShow(false);
     setFirst(false);
-    console.log('我被调用');
   };
   const backClick = () => {
     setShow(true);
-    console.log('我被调用2');
   };
   const onSubmitEditing = (sText = text) => {
     setOnFocus(false);
-    console.log('搜索', sText);
     if (sText) {
       props.setSearchHistory(props.searchHistory, sText);
       getData(sText);
@@ -138,7 +133,7 @@ function Search(props) {
             <TextInput
               ref={textInputRef}
               onFocus={() => {
-                console.log('文字选中');
+                setText('');
                 setOnFocus(true);
               }}
               autoFocus={first}

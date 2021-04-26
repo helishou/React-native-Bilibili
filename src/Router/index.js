@@ -4,10 +4,11 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Setting from '../component/Setting';
+import History from '../pages/history'
+import Setting from '../pages/settings';
 import Search from '../pages/search';
 import {connect} from 'react-redux';
-// import TabNavigator from './bottomBar.js';
+import TabNavigator from './bottomBar.js';
 import StackNavigator from './stackNavigation';
 import CustomDrawerContent from './customDrawerContent';
 
@@ -20,44 +21,15 @@ function RootNavigation() {
     <RootStack.Navigator
       initialRouteName="首页"
       overlayColor="transparent"
-      drawerContent={props => (
-        <CustomDrawerContent {...props}></CustomDrawerContent>
-      )}
+      // drawerContent={props => (
+      //   <CustomDrawerContent {...props}></CustomDrawerContent>
+      // )}
       drawerType={isLargeScreen ? 'permanent' : 'front'}
       // drawerPosition='right'//定义侧边栏位置右边，默认left左边
-      // screenOptions={
-      //   ({router}) => {}
-      //   // {
-      //   //   // drawerWidth:200,            //侧边栏的宽度
-      //   //   // contentComponent:CustomDrawer,            //自定义侧边栏组件
-      //   //   drawerBackgroundColor: '#fff4f7', //侧边栏背景色
-      //   //   drawerContentOptions: {
-      //   //     //对侧边栏中的标签详细设置如下↓
-      //   //     activeTintColor: '#3496f0', //标签激活时的前景色
-      //   //     activeBackgroundColor: '#e7e1ea', //标签激活时的背景色
-      //   //     inactiveTintColor: '#3c3c3c', //标签未激活时的前景色
-      //   //     // inactiveBackgroundColor:'#c1e1ff',         //标签未激活时的背景色
-      //   //     // itemsContainerStyle:{                      //侧边栏整体样式
-      //   //     //     borderTopWidth:2,borderTopColor:'#5153ff'
-      //   //     // },
-      //   //     itemStyle: {
-      //   //       //单个标签样式
-      //   //       borderBottomWidth: 2,
-      //   //       borderBottomColor: '#000',
-      //   //     },
-      //   //     labelStyle: {
-      //   //       //标签文字样式
-      //   //       fontSize: 16,
-      //   //       inactiveTintColor: '#3c3c3c',
-      //   //       activeTintColor: '#3496f0',
-      //   //     },
-      //   //     // iconContainerStyle:styles.icon,            //标签icon样式
-      //   //   },}
-      // }
     >
       <RootStack.Screen
         name="首页"
-        component={TabNavigator}
+        component={StackNavigator}
         options={{
           drawerIcon: ({tintColor}) => (
             <Icon name="home" size={26} color={tintColor} />
@@ -130,7 +102,7 @@ function RootNavigation() {
       />
       <RootStack.Screen
         name="历史记录"
-        component={Setting}
+        component={History}
         options={{
           drawerIcon: ({tintColor}) => (
             <Icon name="history" size={26} color={tintColor} />
@@ -167,24 +139,27 @@ function RootNavigation() {
 }
 
 function AppInner(props) {
-  console.log(props.fullscreen)
+  console.log(props.fullscreen);
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
         // backgroundColor={themeColor}
         backgroundColor={props.fullscreen ? 'black' : 'rgba(0, 0, 0, 0)'}
         translucent={true}
-        barStyle={props.video.url ? 'light-content' : 'dark-content'}
+        barStyle={0 ? 'light-content' : 'dark-content'}
         animated={true}
       />
       {/* <View></View> */}
-      {/* <NavigationContainer>{RootNavigation()}</NavigationContainer> */}
-      <NavigationContainer>
+      <NavigationContainer>{RootNavigation()}</NavigationContainer>
+      {/* <NavigationContainer>
         <StackNavigator />
-      </NavigationContainer>
+      </NavigationContainer> */}
     </SafeAreaView>
   );
 }
 
-export default connect(state => ({video: state.video,fullscreen:state.fullscreen}), {})(AppInner);
+export default connect(
+  state => ({video: state.video, fullscreen: state.fullscreen}),
+  {},
+)(AppInner);
 // export default AppInner

@@ -11,7 +11,7 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from 'react-native';
-import Header from './header';
+import Header from '../component/header';
 import Animated, {color} from 'react-native-reanimated';
 import {tapGreen, marginLeft} from '../style/CommStyle';
 import px2dp from '../util';
@@ -113,7 +113,7 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
         );
       })}
 
-      <Header navigation={navigation} />
+      <Header navigation={navigation} search="视频" />
     </View>
   );
 }

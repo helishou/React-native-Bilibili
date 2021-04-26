@@ -33,7 +33,8 @@ function StackNavigator(props) {
       }}>
       <StackTab.Screen
         name="Bilibili"
-        component={TabNavigator}
+        // component={TabNavigator}
+        component={MaterialTopTabNavigator}
         options={{title: '哔哩哔哩', headerShown: false}}></StackTab.Screen>
       <StackTab.Screen
         name="Search"

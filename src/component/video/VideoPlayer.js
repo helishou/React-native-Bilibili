@@ -61,7 +61,6 @@ function VideoPlayerWrapper(props) {
   const drawRef = useRef();
   //切p的函数
   const switchVideo = pg => {
-    console.log('我切换了!!!!!object', props.video);
     setClear(true);
     setPg(pg);
     getVideo(props.video.aid, props.video.cid[pg].cid);
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
   },
   webViewContainer: {
     position: 'absolute',
-    top: 20,
+    top: 0,
     left: 0,
     height: parseInt(height * 0.4, 10),
     width: width,

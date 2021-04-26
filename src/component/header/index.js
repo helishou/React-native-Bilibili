@@ -13,17 +13,33 @@ import {config} from '../../config/defaultMsgConfig';
 import {DrawerActions} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 
-export default function Header() {
+export default function Header(props) {
   const navigation = useNavigation();
+  console.log('props.search', props.search);
   // console.log('navigation',navigation)
   // console.log(navigation.openDrawer());
   return (
     <View style={styles.header}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          console.log('我被点了');
-          return navigation.navigate('Search');
-        }}>
+      {props.search ? (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            return navigation.navigate('Search', props.search);
+          }}>
+          <View
+            style={{
+              posion: 'abosulute',
+              right: 10,
+              width: 50,
+              height: 50,
+              top: 40,
+              // backgroundColor: 'red',
+            }}>
+            <View style={styles.circle}>
+              <Icon name="search" size={20} style={styles.search} />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      ) : (
         <View
           style={{
             posion: 'abosulute',
@@ -32,23 +48,11 @@ export default function Header() {
             height: 50,
             top: 40,
             // backgroundColor: 'red',
-          }}>
-          <View style={styles.circle}>
-            <Icon
-              name="search"
-              size={20}
-              style={styles.search}
-              // onPress={() => {
-              //   console.log('我被点了')
-              //   return navigation.navigate('Live');
-              // }}
-            />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+          }}></View>
+      )}
       <TouchableWithoutFeedback
         onPress={() => {
-          // return navigation.openDrawer();
+          return navigation.openDrawer();
         }}>
         <View
           style={{
@@ -103,6 +107,6 @@ const styles = StyleSheet.create({
     width: 100,
     // flex:2,
     // alignItems: 'center',
-    backgroundColor: '#f4f4f4',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
 });
