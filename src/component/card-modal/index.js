@@ -6,7 +6,6 @@ import {
   Animated,
   Dimensions,
   View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   StyleSheet,
   Text,
@@ -52,11 +51,9 @@ class CardModal extends Component {
       url: '',
       touchActivate: false,
     };
-    // console.log(props);
     this._onPress = this._onPress.bind(this);
   }
   _onPress() {
-    console.log('this.props.hideFace', this.props.hideFace);
     this.props.navigation.push('VideoPlayDetail', {
       video: this.props.video,
       hideFace: this.props.hideFace,
@@ -105,7 +102,8 @@ class CardModal extends Component {
               width: this.state.top_width,
               height: this.state.top_height,
             },
-          ]}></Animated.Image>
+          ]}
+        />
       </View>
     );
   }
@@ -133,7 +131,8 @@ class CardModal extends Component {
               //   height: this.state.top_height,
               //   transform: this.state.top_pan.getTranslateTransform(),
               // },
-            ]}></Animated.Image>
+            ]}
+          />
         </Animated.View>
       </TouchableOpacity>
     );
@@ -194,17 +193,9 @@ class CardModal extends Component {
         <Ripple
           rippleSize={2 * width}
           // 与scrollView有bug,设置定时器解决
-          onPressIn={() => {
-            console.log('inininin');
-            this.setState({touchActivate: true}, () => {
-              setTimeout(() => this.setState({touchActivate: false}), 70);
-            });
-          }}
+          onPressIn={() => {}}
           onPress={() => {
-            if (this.state.touchActivate) {
-              // console.log('6666')
-              this._onPress();
-            }
+            this._onPress();
           }}>
           <View ref={this.containerRef} style={[{alignItems: 'center'}]}>
             {this.renderTop()}

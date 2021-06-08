@@ -1,21 +1,27 @@
-import React, {useRef, useState, useEffect} from 'react';
-import WebView from 'react-native-webview';
-import {BlurView} from '@react-native-community/blur';
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-26 21:39:43
+ * @LastEditTime : 2021-06-07 22:36:57
+ * @LastEditors  : helishou
+ * @Description  : 播放器
+ * @FilePath     : \src\component\video\VideoPlayer.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
-  TouchableHighlight,
   TouchableOpacity,
   FlatList,
   DrawerLayoutAndroid,
 } from 'react-native';
 import {connect} from 'react-redux';
-import Orientation from 'react-native-orientation';
+// import Orientation from 'react-native-orientation';
 import {setFullscreen} from '../../redux/actions';
 import px2dp from '../../util';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 // import VideoPlayer from 'react-native-video-controls';
 import {reqDanmuku, reqVideo} from '../../config/api';
 import VideoPlayer from 'react-native-rn-videoplayer';
@@ -29,32 +35,27 @@ const sliderWidth = 370;
 function VideoPlayerWrapper(props) {
   const [clear, setClear] = useState(1);
   const navigation = useNavigation();
-  console.log('videoplayershow', props.show);
-  console.log('props.video.videos', props.video.videos);
   // const aid = 417602724;
   // const cid = 325144487;
   if (!props.show) {
     return null;
   }
   const [pg, setPg] = useState(0);
+
   //请求第三方的视频
   const getVideo = async (aid, cid) => {
     const result = await reqVideo(aid, cid);
-    console.log('url', result.data.durl[0].url);
     props.setUrl(result.data.durl[0].url);
   };
   //获取弹幕
   const getDanmuku = async cid => {
-    console.log('请求弹幕');
     const result = await reqDanmuku(cid);
-    console.log('请求弹幕成功');
     const predata = [];
     for (let i = 0; i < result.data.length; i++) {
       // console.log(parseInt(result.data[i][0]))
       predata[parseInt(result.data[i][0] * 10)] = result.data[i].slice(3);
       // console.log(result.data[i].slice(3))
     }
-    console.log('设置弹幕');
     props.setDanmuku(predata);
     // console.log('danmu', predata);
   };
@@ -111,7 +112,6 @@ function VideoPlayerWrapper(props) {
     }
   };
   const changeDanmuku = state => {
-    console.log('我被调用了,现在clear', state);
     if (state.clear !== undefined) {
       setClear(state.clear);
     }
@@ -137,7 +137,6 @@ function VideoPlayerWrapper(props) {
             source={{uri: props.url}}
             playInBackground={false}
             renderAllSeenList={() => {
-              console.log('drawRef.current.openDrawer()被调用');
               return drawRef.current.openDrawer();
             }}
             onSmallBack={() => navigation.pop()}

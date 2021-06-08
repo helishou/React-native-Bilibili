@@ -1,23 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Image,
-  StyleSheet,
-  Animated,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, StyleSheet, Animated} from 'react-native';
 import {connect} from 'react-redux';
 import {reqSpaceNotice, reqSpaceVideos} from '../../config/api';
-import {marginLeft} from '../../style/CommStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import VideoList from '../../component/videoList';
 import px2dp from '../../util/';
 import ScrollableTabView from '../../component/ScrollTabView';
 
-const {height, width} = Dimensions.get('window');
 const orignHeight = 245;
 function UserDetail(props) {
   useEffect(() => {
@@ -29,19 +18,15 @@ function UserDetail(props) {
   // console.log('UserDetail.props.navigation', props);
   // const [topHeight, setTopHeight] = useState(new Animated.Value(250));
   const topHeight = useRef(new Animated.Value(orignHeight)).current;
-  console.log(topHeight, zt);
   const onClick = () => {
-    console.log('usedetai_shirik');
     setZt(zt + 2);
     shrink();
   };
   const backClick = () => {
-    console.log('usedetai_grow');
     setZt(zt - 2);
     grow();
   };
   const grow = (height = orignHeight) => {
-    console.log(grow, zt);
     if (zt === 2) {
       return;
     }
@@ -78,7 +63,6 @@ function UserDetail(props) {
   const [dataSource, setDataSource] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const getSpaceNotice = async () => {
-    console.log('mid', mid);
     const result = await reqSpaceNotice(mid);
     // const result = await reqSpaceNotice(540564177);
     setSpaceNotice(result.data);
@@ -86,15 +70,10 @@ function UserDetail(props) {
   };
   const getData = async () => {
     const result = await reqSpaceVideos(mid);
-    console.log(mid, result);
     const Soucedata = result.data.list.vlist;
-    // console.log('Soucedata', Soucedata);
-    // console.log(Soucedata, 'usedetaisoucedata');
     let preDataList = [];
     Soucedata.map((data, i) => {
       data.key = data.aid;
-      // let newtitle = data.title.replace(`<em class="keyword">`, '');
-      // newtitle = newtitle.replace(`</em>`, '');
       return preDataList.push({
         ...data,
         pic: data.pic,
@@ -125,7 +104,8 @@ function UserDetail(props) {
               height: 80,
               // borderBottomWidth: 1,
               // borderColor: 'rgba(0,0,0,0.5)',
-            }}></LinearGradient>
+            }}
+          />
           <View
             style={{flexDirection: 'row', flexWrap: 'nowrap', marginLeft: 20}}>
             <View class="user_img">
@@ -138,7 +118,8 @@ function UserDetail(props) {
                   position: 'relative',
                   top: -40,
                   backgroundColor: 'black',
-                }}></Image>
+                }}
+              />
             </View>
             <View
               style={{
@@ -200,7 +181,6 @@ function UserDetail(props) {
           backClick={() => backClick()}
           hideFace={true}
           lockControl={true}
-          
         />
         <Text style={styles.textStyle} tabLabel="动态">
           动态施工中

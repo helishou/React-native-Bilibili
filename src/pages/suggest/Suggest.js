@@ -1,6 +1,14 @@
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-12 09:06:06
+ * @LastEditTime : 2021-06-08 10:23:41
+ * @LastEditors  : helishou
+ * @Description  : 推荐页面
+ * @FilePath     : \src\pages\suggest\Suggest.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {connect} from 'react-redux';
 import VideoList from '../../component/videoList';
 import px2dp from '../../util/index';
 
@@ -41,7 +49,6 @@ class Suggest extends Component {
             return;
           }
           //加上kye={i}，控制台就不会报错
-          // console.log(data, Soucedata[data]);
           Object.keys(Soucedata[data]).map((v, i) => {
             //加上kye={i}，控制台就不会报错
             // console.log(v);
@@ -59,9 +66,6 @@ class Suggest extends Component {
           });
         });
         var randomNumber = function () {
-          // randomNumber(a,b) 返回的值大于 0 ，则 b 在 a 的前边；
-          // randomNumber(a,b) 返回的值等于 0 ，则a 、b 位置保持不变；
-          // randomNumber(a,b) 返回的值小于 0 ，则 a 在 b 的前边。
           return 0.5 - Math.random();
         };
         preDataList.sort(randomNumber);
@@ -70,29 +74,9 @@ class Suggest extends Component {
           dataSource: preDataList,
           isLoaded: true,
         });
-        // for (let i = 0; i < data.itemList.length; i++) {
-        //   if (data.itemList[i].type === 'video') {
-        //     if (data.itemList[i].data.title === '') {
-        //       data.itemList[i].data.title = data.itemList[i].data.description;
-        //     }
-
-        //     preDataList.push(data.itemList[i]);
-        //   }
-        // }
-
-        // //数组合并
-        // let dataList = preDataList.concat(dataHotList);
-        // console.log(dataList);
-        // console.log('-----');
-        // this.setState({
-        //   dataSource: new FlatList.DataSource({
-        //     rowHasChanged: (r1, r2) => r1 !== r2,
-        //   }).cloneWithRows(dataList),
-        //   isLoaded: true,
-        // });
       })
       .catch(err => {
-        console.log('error!!!', err);
+        alert('出错了', err);
         this.setState({
           dataSource: null,
           isLoaded: false,
@@ -105,28 +89,18 @@ class Suggest extends Component {
     const navigation = this.props.navigation;
     return (
       <View style={{backgroundColor: '#f4f4f4'}}>
-        {/* <Button
-          onPress={() => {
-            return navigation.navigate('Live');
-          }}
-          title="点我跳转直播"></Button> */}
-        {/* <View
-        // style={{display: 'none'}}
-        >
-          <VideoPlayer />
-        </View> */}
-
         <VideoList
           dataSource={this.state.dataSource}
           compensation={px2dp(20)}
           // scrollEnabled={this.state.scroll}
           isLoaded={this.state.isLoaded}
           // onRefresh={this._onRefresh}
-          fetchData={() => this.fetchData()}></VideoList>
+          fetchData={() => this.fetchData()}
+        />
       </View>
     );
   }
 }
 
-export default connect(state => ({pressed: state.pressed}), {})(Suggest);
+export default Suggest;
 // export default connect(state=>({video:state.video}),{})(Suggest);

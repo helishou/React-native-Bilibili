@@ -1,22 +1,20 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import History from '../pages/history'
+import History from '../pages/history';
 import Setting from '../pages/settings';
 import Search from '../pages/search';
 import {connect} from 'react-redux';
-import TabNavigator from './bottomBar.js';
+// import TabNavigator from './bottomBar.js';
 import StackNavigator from './stackNavigation';
-import CustomDrawerContent from './customDrawerContent';
+// import CustomDrawerContent from './customDrawerContent';
 
 const RootStack = createDrawerNavigator();
 function RootNavigation() {
   const isLargeScreen = false;
-
-  // console.log('props',props)
   return (
     <RootStack.Navigator
       initialRouteName="首页"
@@ -139,7 +137,6 @@ function RootNavigation() {
 }
 
 function AppInner(props) {
-  console.log(props.fullscreen);
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar

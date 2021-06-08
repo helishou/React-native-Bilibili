@@ -1,14 +1,21 @@
-import React, {Component} from 'react';
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-26 21:39:43
+ * @LastEditTime : 2021-06-08 10:21:01
+ * @LastEditors  : helishou
+ * @Description  : 栈导航
+ * @FilePath     : \src\router\stackNavigation.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import TabNavigator from './bottomBar';
 import Search from '../pages/search';
 import {connect} from 'react-redux';
 import UserDetail from '../pages/userDetail';
 import VideoPlayDetail from '../pages/videoPlayDetail';
-import Findings from '../component/bottom/findings';
-import CommunionDetail from '../pages/communionDetail';
+// import Findings from '../component/bottom/findings';
+import CommunionDetail from '../pages/communion/communionDetail';
 import MaterialTopTabNavigator from './materialTopTabNavigator';
-import {Easing} from 'react-native';
 const StackTab = createStackNavigator();
 function StackNavigator(props) {
   return (
@@ -35,19 +42,20 @@ function StackNavigator(props) {
         name="Bilibili"
         // component={TabNavigator}
         component={MaterialTopTabNavigator}
-        options={{title: '哔哩哔哩', headerShown: false}}></StackTab.Screen>
+        options={{title: '哔哩哔哩', headerShown: false}}
+      />
       <StackTab.Screen
         name="Search"
         component={Search}
         options={{
           title: '搜索',
           headerShown: !props.pressed,
-        }}></StackTab.Screen>
+        }}
+      />
       <StackTab.Screen
         name="userDetail"
         component={UserDetail}
         options={({navigation, route}) => {
-          console.log(route);
           const {params} = route;
           return {
             title: '',
@@ -61,10 +69,9 @@ function StackNavigator(props) {
         name="CommunionDetail"
         component={CommunionDetail}
         options={({navigation, route}) => {
-          console.log(route);
           const {params} = route;
           return {
-            title: 'biubiubiu',
+            title: '包子铺',
             // title: params ? params.owner.name : '出错了',
             // headerShown: false,
             // headerTransparent:'true'
@@ -82,8 +89,9 @@ function StackNavigator(props) {
           headerShown: false,
           // gesturesEnabled:'false',
           // headerMode: 'float',
-        }}></StackTab.Screen>
-      <StackTab.Screen
+        }}
+      />
+      {/* <StackTab.Screen
         name="Findings2"
         mode="card"
         // headerMode='float'
@@ -93,7 +101,7 @@ function StackNavigator(props) {
           headerTransparent: 'true',
           // gesturesEnabled:'false',
           // headerMode: 'float',
-        }}></StackTab.Screen>
+        }}></StackTab.Screen> */}
     </StackTab.Navigator>
   );
 }

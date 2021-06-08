@@ -27,7 +27,6 @@ class SearchView extends Component {
     this.props.cleanSearchHistory();
   };
   render() {
-    console.log('seach view', this.props);
     const {searchHistory, toggleSearch} = this.props;
     let showHistory = [];
     for (let i = 0; (i < searchHistory.length) & (i < 9); i++) {

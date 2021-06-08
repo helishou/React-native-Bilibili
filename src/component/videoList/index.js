@@ -1,15 +1,10 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import CardModal from '../card-modal';
-import {
-  View,
-  FlatList,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {press, setFullscreen} from '../../redux/actions';
 import Orientation from 'react-native-orientation';
-import px2dp from '../../util';
+// import px2dp from '../../util';
 import {useNavigation} from '@react-navigation/native';
 import Bottom from '../bottom';
 function VideoList(props) {
@@ -41,7 +36,7 @@ function VideoList(props) {
     try {
       props.onClick();
     } catch {
-      console.log('没有传入onClick');
+      // console.log('没有传入onClick');
     }
     setScroll(!scroll);
   };
@@ -93,19 +88,19 @@ function VideoList(props) {
       }}>
       <FlatList
         ref={listRef}
-        ListEmptyComponent={<View style={{height: 800}}></View>}
+        ListEmptyComponent={<View style={{height: 800}} />}
         // style={{display: 'none'}}
         onScroll={_onScroll}
         initialListSize={6}
         data={props.dataSource}
         scrollEnabled={scroll}
-        onTouchStart={() => console.log('我被按了')}
+        // onTouchStart={() => console.log('我被按了')}
         // numColumns={1}
         renderItem={({item}) => _renderRow(item)}
         // contentContainerStyle={styles.ListViewStyle}
         refreshing={!props.isLoaded}
         onRefresh={() => onRefresh()}
-        ListFooterComponent={<Bottom listRef={listRef}/>}
+        ListFooterComponent={<Bottom listRef={listRef} />}
       />
     </View>
   );

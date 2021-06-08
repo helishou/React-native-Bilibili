@@ -1,5 +1,14 @@
-// 能发送异步ajax请求的函数模块
-// 封装axios
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-19 09:27:57
+ * @LastEditTime : 2021-06-07 21:44:37
+ * @LastEditors  : helishou
+ * @Description  : 能发送异步ajax请求的函数模块
+ * 封装axios
+ * @FilePath     : \src\config\ajax.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
+
 import axios from 'axios';
 
 //优化:统一处理请求异常
@@ -30,7 +39,7 @@ export default function ajax(url, data = {}, type = 'GET') {
       })
       .catch(error => {
         //reject(error)
-        console.log('请求失败', error.message);
+        // console.log('请求失败', error.message);
       });
   });
 }

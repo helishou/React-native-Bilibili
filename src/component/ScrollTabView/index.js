@@ -1,17 +1,22 @@
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-19 09:27:57
+ * @LastEditTime : 2021-06-08 09:19:35
+ * @LastEditors  : helishou
+ * @Description  : 二次封装滚动页面
+ * @FilePath     : \src\component\ScrollTabView\index.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
 import React from 'react';
 import {connect} from 'react-redux';
-import STV, {
-  DefaultTabBar,
-  ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
+import STV from 'react-native-scrollable-tab-view';
 import {StyleSheet, Dimensions} from 'react-native';
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 function ScrollableTabView(props) {
-  console.log(props.activeTheme);
   return (
     <STV
       // tabBarPosition={'overlayTop'}
-      //   locked={true}
+      locked={true}
       style={[
         styles.scrollContainer,
         {
@@ -26,7 +31,8 @@ function ScrollableTabView(props) {
         marginLeft: width / 8,
       }}
       tabBarActiveTextColor={props.activeTheme}
-      {...props}></STV>
+      {...props}
+    />
   );
 }
 

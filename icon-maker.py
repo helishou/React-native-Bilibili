@@ -1,3 +1,13 @@
+'''
+Author       : helishou
+Date         : 2021-04-19 09:27:57
+LastEditTime : 2021-06-08 09:25:10
+LastEditors  : helishou
+Description  : 做图标用
+FilePath     : \icon-maker.py
+你用你的指尖,阻止我说再见,在bug完全失去之前
+'''
+
 #coding=utf-8
 import tkinter as tk
 import threading

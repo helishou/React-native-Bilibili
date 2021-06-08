@@ -5,8 +5,6 @@ let {width, height} = Dimensions.get('window');
 
 let devWidth = 540;
 let devHeight = 1260;
-console.log(width, 'width');
-console.log(height, 'heighth');
 let cols = 1;
 export let coles = cols; //行数
 if (height < width) {

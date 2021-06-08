@@ -1,20 +1,13 @@
 import React from 'react';
 import SeachView from './searchView';
 import {View, StyleSheet, Dimensions, TextInput} from 'react-native';
-import ScrollableTabView, {
-  DefaultTabBar,
-  ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
-
-import px2dp from '../../util';
-import {useState, useRef, useEffect} from 'react';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import {useState, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {reqSeach, reqFuzzySeach} from '../../config/api';
+import {reqSeach} from '../../config/api';
 import VideoList from '../../component/videoList';
 import LinearGradient from 'react-native-linear-gradient';
-import Nav from '../../component/Nav';
 import {connect} from 'react-redux';
-import {set} from 'react-native-reanimated';
 import {
   setSearchHistory,
   getSearchHistory,
@@ -58,7 +51,7 @@ function Search(props) {
     // console.log('搜索结果', resultV.data.result, '搜索结果');
     let preDataList = [];
     let data = {};
-    console.log(resultV.data.result.length);
+    // console.log(resultV.data.result.length);
     if (type == 'video') {
       for (let i = 0; i < resultV.data.result.length; i++) {
         data = resultV.data.result[i];
@@ -88,7 +81,7 @@ function Search(props) {
         });
       }
     }
-    console.log(preDataList);
+    // console.log(preDataList);
     return {preDataList, numPages};
   };
   const getData = async (sText = text) => {
@@ -128,7 +121,7 @@ function Search(props) {
           colors={['white', '#f4f4f4']}
           style={styles.container}>
           <View style={styles.searchBox}>
-            <Icon name="search" size={18} style={styles.searchIcon}></Icon>
+            <Icon name="search" size={18} style={styles.searchIcon} />
 
             <TextInput
               ref={textInputRef}

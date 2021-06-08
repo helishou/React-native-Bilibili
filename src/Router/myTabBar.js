@@ -1,18 +1,8 @@
 import {connect} from 'react-redux';
-import React, {Component} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  useWindowDimensions,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Header from '../component/header';
-import Animated, {color} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {tapGreen, marginLeft} from '../style/CommStyle';
 import px2dp from '../util';
 function MyTabBar({state, descriptors, navigation, position, pressed}) {
@@ -77,10 +67,10 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
             i === index ? px2dp(30) : px2dp(19),
           ),
         });
-        const fontWeight = Animated.interpolateNode(position, {
-          inputRange,
-          outputRange: inputRange.map(i => (i === index ? 9 : 5)),
-        });
+        // const fontWeight = Animated.interpolateNode(position, {
+        //   inputRange,
+        //   outputRange: inputRange.map(i => (i === index ? 9 : 5)),
+        // });
         return (
           <TouchableOpacity
             key={route.key}
@@ -96,7 +86,7 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
               style={[
                 {
                   opacity,
-                  fontWeight: toString(parseInt(fontWeight) * 100),
+                  fontWeight: 'bold',
                   fontSize,
                   color: isFocused ? '#01BDC5' : 'black',
                   textAlign: 'left',
@@ -108,7 +98,8 @@ function MyTabBar({state, descriptors, navigation, position, pressed}) {
               style={[
                 {opacity: lineOpacity, left: 14, width: width},
                 styles.underline,
-              ]}></Animated.View>
+              ]}
+            />
           </TouchableOpacity>
         );
       })}

@@ -8,7 +8,6 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import UI from '../UI';
-import {connect} from 'react-redux';
 
 const imageWidth = 20;
 

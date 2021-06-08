@@ -1,23 +1,10 @@
-import React, {Component, useRef} from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Alert,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Image, TouchableWithoutFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {showErrorMsg, navigatePushTo} from '../../util/function';
-import {config} from '../../config/defaultMsgConfig';
-import {DrawerActions} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 
 export default function Header(props) {
   const navigation = useNavigation();
-  console.log('props.search', props.search);
-  // console.log('navigation',navigation)
-  // console.log(navigation.openDrawer());
   return (
     <View style={styles.header}>
       {props.search ? (
@@ -48,7 +35,8 @@ export default function Header(props) {
             height: 50,
             top: 40,
             // backgroundColor: 'red',
-          }}></View>
+          }}
+        />
       )}
       <TouchableWithoutFeedback
         onPress={() => {

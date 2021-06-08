@@ -1,12 +1,10 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 import WebView from 'react-native-webview';
-import {BlurView} from '@react-native-community/blur';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
-  TouchableHighlight,
   TouchableOpacity,
   FlatList,
   DrawerLayoutAndroid,
@@ -21,8 +19,6 @@ let {width, height} = Dimensions.get('window');
 const sliderWidth = 370;
 //封装播放器
 function Biliplayer(props) {
-  console.log('videoplayershow', props.show);
-  console.log('props.video.videos', props.video.videos);
   if (!props.show) {
     return null;
   }
@@ -31,7 +27,6 @@ function Biliplayer(props) {
   const drawRef = useRef();
   //切p的函数
   const switchVideo = pg => {
-    console.log('object', props.video);
     setPg(pg);
     props.setUrl(
       `https://player.bilibili.com/player.html?aid=${props.video.aid}&cid=${props.video.cid[pg].cid}&high_quality=1&autoplay=true&platform=html5`,
@@ -70,8 +65,6 @@ function Biliplayer(props) {
       />
     </View>
   );
-  console.log('player', width, height);
-  console.log('videoplayer_url', props.url);
   return props.url ? (
     <View
       style={[props.fullscreen ? styles.fullscreen : styles.webViewContainer]}>
@@ -110,7 +103,7 @@ function Biliplayer(props) {
                 props.setFullscreen(true);
               }
             }}>
-            <Icon name="arrows-alt" color="white" size={px2dp(18)}></Icon>
+            <Icon name="arrows-alt" color="white" size={px2dp(18)} />
           </TouchableOpacity>
         ) : null}
 

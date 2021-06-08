@@ -1,3 +1,12 @@
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-22 13:49:45
+ * @LastEditTime : 2021-06-07 22:05:32
+ * @LastEditors  : helishou
+ * @Description  :
+ * @FilePath     : \src\redux\reducer\index.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
 import {combineReducers} from 'redux';
 import ACTIONTYPES from '../types';
 import search from './search';
@@ -18,7 +27,6 @@ function video(state = initVideo, action) {
   let url;
   switch (action.type) {
     case ACTIONTYPES.PLAY_VIDEO:
-      console.log(ACTIONTYPES.PLAY_VIDEO, action);
       url = `https://player.bilibili.com/player.html?aid=${action.data.aid}&cid=${action.data.cid}&high_quality=1&autoplay=true&platform=html5`;
       return {
         ...state,
@@ -33,8 +41,6 @@ function video(state = initVideo, action) {
       };
 
     case ACTIONTYPES.SWICH_VIDEO:
-      console.log(state.cid[0], ACTIONTYPES.SWICH_VIDEO);
-      console.log(action.data, 'action.data');
       url = `https://player.bilibili.com/player.html?aid=${state.aid}&cid=${
         state.cid[action.data].cid
       }&high_quality=1&autoplay=true&platform=html5`;
@@ -45,8 +51,6 @@ function video(state = initVideo, action) {
     case ACTIONTYPES.CHANGE_VIDEO_TYPE:
       return {type: action.data};
     case ACTIONTYPES.UPDATE_VIDEO:
-      console.log('更新了', action.data);
-      console.log('更新了', {...state, ...action.data});
       return {...state, ...action.data};
     default:
       return state;

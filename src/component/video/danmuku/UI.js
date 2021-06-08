@@ -1,4 +1,13 @@
-import {Dimensions, Platform} from 'react-native';
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-20 20:24:55
+ * @LastEditTime : 2021-06-08 09:19:08
+ * @LastEditors  : helishou
+ * @Description  : 弹幕的适配
+ * @FilePath     : \src\component\video\danmuku\UI.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
+import {Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 

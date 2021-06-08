@@ -1,22 +1,11 @@
 import Bottom from '../../../component/bottom';
-import React, {useState, useRef, useEffect} from 'react';
-import {
-  View,
-  FlatList,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-  Button,
-} from 'react-native';
-import {connect} from 'react-redux';
-import Orientation from 'react-native-orientation';
-import px2dp from '../../../util';
+import React, {useRef} from 'react';
+import {View, FlatList, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native';
+import {Card} from '@ant-design/react-native';
 export default function UserList(props) {
   const navigation = useNavigation();
-  console.log(props.dataSource, '用户们');
+  // console.log(props.dataSource, '用户们');
   const listRef = useRef();
   const _onScroll = event => {
     // console.log(event.nativeEvent.contentOffset.y);
@@ -31,15 +20,14 @@ export default function UserList(props) {
   //     face: this.state.face,
   //   });
   // };
-  const onRefresh = () => {
-    props.fetchData();
-  };
+  // const onRefresh = () => {
+  //   props.fetchData();
+  // };
   const _renderRow = item => {
     return (
       <View>
         <TouchableOpacity
           onPress={() => {
-            console.log('我被按了6666');
             return navigation.navigate('userDetail', {
               mid: item.mid,
               name: item.uname,
@@ -87,19 +75,17 @@ export default function UserList(props) {
       ) : (
         <FlatList
           ref={listRef}
-          ListEmptyComponent={<View style={{height: 800}}></View>}
+          ListEmptyComponent={<View style={{height: 800}} />}
           // style={{display: 'none'}}
           // onScroll={_onScroll}
           initialListSize={6}
           data={props.dataSource}
           // scrollEnabled={scroll}
-          onTouchStart={() => console.log('我被按了')}
+          // onTouchStart={() => console.log('我被按了')}
           // numColumns={1}
           renderItem={({item}) => _renderRow(item)}
-          // contentContainerStyle={styles.ListViewStyle}
           refreshing={!props.isLoaded}
-          // onRefresh={() => onRefresh()}
-          ListFooterComponent={<Bottom listRef={listRef}></Bottom>}
+          ListFooterComponent={<Bottom listRef={listRef} />}
         />
       )}
     </View>

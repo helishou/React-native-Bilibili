@@ -1,23 +1,19 @@
 /**
  * Created by ggoma on 2016. 11. 22..
  */
-import React, {Component, createRef, useRef} from 'react';
+import React, {Component} from 'react';
 import {
   Animated,
-  ActivityIndicator,
   Dimensions,
   Easing,
   View,
-  Image,
   ScrollView,
   TouchableWithoutFeedback,
   TouchableOpacity,
   StyleSheet,
   Text,
   Alert,
-  BackHandler,
 } from 'react-native';
-import WebView from 'react-native-webview';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from '../../style/CommStyle';
@@ -32,11 +28,9 @@ import {
   updateVideo,
 } from '../../redux/actions';
 import {reqVideoDetail, reqVideo, reqDanmuku} from '../../config/api';
-import Orientation from 'react-native-orientation';
 import VideoPlayer from '../../component/video/VideoPlayer';
 import Biliplayer from '../../component/video/Biliplayer';
 import {tapGreen} from '../../style/CommStyle';
-import {transform} from '@babel/core';
 class Video extends Component {
   constructor(props) {
     super(props);
@@ -167,20 +161,10 @@ class Video extends Component {
   }
   //获取视频详情,每p对应的cid
   async getDetail() {
-    console.log(
-      'getdetail正在去取',
-      this.props.route.params.video.aid,
-      '的视频信息',
-    );
     const result = await reqVideoDetail(this.props.route.params.video.aid);
     const cid = result.data.pages[0].cid;
     this.setState({face: result.data.owner.face});
-    console.log('目前的video', this.props.video);
-    // props.updateVideo({})
-    console.log('getDetail取到了cid', cid);
     if (this.props.playerType) {
-      //mp4播放器,请求第三方的视频
-
       this.getVideo(this.props.route.params.video.aid, cid);
       this.getDanmuku(cid);
       this.props.playVideo({...this.props.route.params.video, pg: 0});
@@ -198,7 +182,6 @@ class Video extends Component {
   //点击头像
   pressFace = () => {
     if (this.props.route.params.hideFace) {
-      console.log('this.state.press', this.state.press);
       Alert.alert('禁止套娃');
       return;
     }
@@ -220,7 +203,6 @@ class Video extends Component {
   }
   //请求第三方的视频
   getVideo = async (aid, cid) => {
-    console.log('我去取第三方的视频和弹幕了', aid, cid);
     const result = await reqVideo(aid, cid);
 
     console.debug('getVideo_disanfang_url', result.data.durl[0].url);
@@ -238,17 +220,13 @@ class Video extends Component {
     this.setState({danmuku: predata});
   };
   activate() {
-    console.log('act');
     this.grow();
-
     this.setState({
       activated: true,
     });
   }
   inactivate() {
-    console.log('inact');
     this.shrink();
-
     this.setState({
       activated: false,
     });
@@ -280,7 +258,8 @@ class Video extends Component {
               width: this.state.top_width,
               height: this.state.top_height,
             },
-          ]}></Animated.Image>
+          ]}
+        />
       </View>
     );
   }
@@ -357,7 +336,8 @@ class Video extends Component {
               //   height: this.state.top_height,
               //   transform: this.state.top_pan.getTranslateTransform(),
               // },
-            ]}></Animated.Image>
+            ]}
+          />
         </Animated.View>
       </TouchableOpacity>
     );

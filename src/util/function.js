@@ -1,3 +1,12 @@
+/*
+ * @Author       : helishou
+ * @Date         : 2021-04-01 09:37:53
+ * @LastEditTime : 2021-06-08 09:24:04
+ * @LastEditors  : helishou
+ * @Description  :
+ * @FilePath     : \src\util\function.js
+ * 你用你的指尖,阻止我说再见,在bug完全失去之前
+ */
 import {Alert} from 'react-native';
 
 function getLocalTime(timestamp) {
@@ -41,5 +50,18 @@ function navigatePushTo(view, parm1, parm2, parm3, parm4, parm5, parm6) {
     parm6: parm6,
   });
 }
+
+//lodash function
+export const fromPairs = pairs => {
+  var index = -1,
+    length = pairs ? pairs.length : 0,
+    result = {};
+
+  while (++index < length) {
+    var pair = pairs[index];
+    result[pair[0]] = pair[1];
+  }
+  return result;
+};
 
 export {getLocalTime, getVideoViewsRandomNum, showErrorMsg, navigatePushTo};
